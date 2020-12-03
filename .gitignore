@@ -1,0 +1,19 @@
+.idea #pycharm files
+*.log #ignore all logs
+
+#compiled codes
+.o
+.pyc
+.class
+
+#hidden system file
+.DS_Store
+Thumbs.db
+.Rproj.user
+
+#file copies 
+._*
+
+#large files 
+mtspectrogram_monitor
+multitaper_spectrogram_mex/archived_code

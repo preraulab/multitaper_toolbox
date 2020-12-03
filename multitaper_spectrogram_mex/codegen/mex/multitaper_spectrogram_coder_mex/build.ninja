@@ -1,0 +1,65 @@
+# CompilerName=gcc
+# Mode=optim
+ninja_required_version = 1.3
+
+# Basic folders
+root = .
+builddir = $root/build/glnxa64
+matlabdir = /apps/source/matlab/2019b
+startdir = /data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex
+
+# Toolchain information
+cc = /usr/bin/gcc
+cxx = g++
+linker = /usr/bin/gcc
+linkerxx = g++
+
+cflags =  -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I "$root" -I "$startdir" -I "$root/interface" -I "$matlabdir/extern/include" -I "$matlabdir/simulink/include" -I "$matlabdir/rtw/c/src" -I "$matlabdir/rtw/c/src/ext_mode/common" -I "$matlabdir/rtw/c/ert" -I "." -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -DHAVESTDIO -DUSE_RTMODEL -DUNIX -c -fopenmp -DOMPLIBNAME="$matlabdir/sys/os/glnxa64/libiomp5.so" 
+
+cxxflags =  -fexceptions -fPIC -fno-omit-frame-pointer -pthread -std=c++11 -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c++11 -I "$root" -I "$startdir" -I "$root/interface" -I "$matlabdir/extern/include" -I "$matlabdir/simulink/include" -I "$matlabdir/rtw/c/src" -I "$matlabdir/rtw/c/src/ext_mode/common" -I "$matlabdir/rtw/c/ert" -I "." -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -DHAVESTDIO -DUSE_RTMODEL -DUNIX -c -fopenmp -DOMPLIBNAME="$matlabdir/sys/os/glnxa64/libiomp5.so" 
+
+ldflags =  -pthread -Wl,--no-undefined -Wl,-rpath-link,$matlabdir/bin/glnxa64 -shared  -L"$matlabdir/bin/glnxa64" -lmx -lmex -lmat -lm -lstdc++  -o multitaper_spectrogram_coder_mex.mexa64 -L"$matlabdir/bin/glnxa64" -lmwlapack -lmwblas -lemlrt -lcovrt -lut -lmwmathutil -fPIC -L"$matlabdir/sys/os/glnxa64" -liomp5 -Wl,--version-script,multitaper_spectrogram_coder_mex.map
+
+# Build Rules
+rule cc
+    command = $cc $cflags $in -o $out
+
+rule cxx
+    command = $cxx $cxxflags $in -o $out
+
+rule link
+    command = $linker $in $ldflags
+
+rule linkxx
+    command = $linkerxx $in $ldflags
+
+# Build
+build $builddir/rt_nonfinite.o : cc $root/rt_nonfinite.c
+build $builddir/multitaper_spectrogram_coder_mex_mexutil.o : cc $root/multitaper_spectrogram_coder_mex_mexutil.c
+build $builddir/multitaper_spectrogram_coder_mex_data.o : cc $root/multitaper_spectrogram_coder_mex_data.c
+build $builddir/multitaper_spectrogram_coder_mex_initialize.o : cc $root/multitaper_spectrogram_coder_mex_initialize.c
+build $builddir/multitaper_spectrogram_coder_mex_terminate.o : cc $root/multitaper_spectrogram_coder_mex_terminate.c
+build $builddir/multitaper_spectrogram_coder_mex.o : cc $root/multitaper_spectrogram_coder_mex.c
+build $builddir/colon.o : cc $root/colon.c
+build $builddir/eml_int_forloop_overflow_check.o : cc $root/eml_int_forloop_overflow_check.c
+build $builddir/nextpow2.o : cc $root/nextpow2.c
+build $builddir/power.o : cc $root/power.c
+build $builddir/combineVectorElements.o : cc $root/combineVectorElements.c
+build $builddir/indexShapeCheck.o : cc $root/indexShapeCheck.c
+build $builddir/detrend.o : cc $root/detrend.c
+build $builddir/qr.o : cc $root/qr.c
+build $builddir/xgeqrf.o : cc $root/xgeqrf.c
+build $builddir/trisolve.o : cc $root/trisolve.c
+build $builddir/warning.o : cc $root/warning.c
+build $builddir/repmat.o : cc $root/repmat.c
+build $builddir/fft.o : cc $root/fft.c
+build $builddir/FFTWApi.o : cc $root/FFTWApi.c
+build $builddir/blockedSummation.o : cc $root/blockedSummation.c
+build $builddir/_coder_multitaper_spectrogram_coder_mex_api.o : cc $root/interface/_coder_multitaper_spectrogram_coder_mex_api.c
+build $builddir/_coder_multitaper_spectrogram_coder_mex_mex.o : cc $root/interface/_coder_multitaper_spectrogram_coder_mex_mex.c
+build $builddir/multitaper_spectrogram_coder_mex_emxutil.o : cc $root/multitaper_spectrogram_coder_mex_emxutil.c
+build $builddir/_coder_multitaper_spectrogram_coder_mex_info.o : cc $root/interface/_coder_multitaper_spectrogram_coder_mex_info.c
+build $builddir/c_mexapi_version.o : cc $matlabdir/extern/version/c_mexapi_version.c
+
+# Link
+build $root/multitaper_spectrogram_coder_mex.mexa64 : link $builddir/rt_nonfinite.o $builddir/multitaper_spectrogram_coder_mex_mexutil.o $builddir/multitaper_spectrogram_coder_mex_data.o $builddir/multitaper_spectrogram_coder_mex_initialize.o $builddir/multitaper_spectrogram_coder_mex_terminate.o $builddir/multitaper_spectrogram_coder_mex.o $builddir/colon.o $builddir/eml_int_forloop_overflow_check.o $builddir/nextpow2.o $builddir/power.o $builddir/combineVectorElements.o $builddir/indexShapeCheck.o $builddir/detrend.o $builddir/qr.o $builddir/xgeqrf.o $builddir/trisolve.o $builddir/warning.o $builddir/repmat.o $builddir/fft.o $builddir/FFTWApi.o $builddir/blockedSummation.o $builddir/_coder_multitaper_spectrogram_coder_mex_api.o $builddir/_coder_multitaper_spectrogram_coder_mex_mex.o $builddir/multitaper_spectrogram_coder_mex_emxutil.o $builddir/_coder_multitaper_spectrogram_coder_mex_info.o $builddir/c_mexapi_version.o 
