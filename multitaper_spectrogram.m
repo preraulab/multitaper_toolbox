@@ -236,7 +236,7 @@ end
 function [window_idxs, stimes, sfreqs, freq_inds] = process_spectrogram_params(Fs, nfft, frequency_range, window_start, datawin_size)
 %Create the frequency vector
 df = Fs/nfft;
-sfreqs = 0:df:Fs; % all possible frequencies
+sfreqs = df/2:df:(Fs-df/2); % all possible frequencies
 
 %Set max frequency to nyquist if only lower bound specified
 if length(frequency_range) == 1
