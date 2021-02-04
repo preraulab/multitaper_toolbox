@@ -7,6 +7,7 @@ from scipy.signal import detrend
 import warnings
 import timeit
 from functools import partial
+from multiprocessing import Pool, cpu_count
 # Visualization imports
 import matplotlib.pyplot as plt
 import librosa.display
@@ -14,12 +15,10 @@ import librosa.display
 
 # MULTITAPER SPECTROGRAM #
 def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=None, window_params=None,
-                           min_nfft=0, detrend_opt='linear', plot_on=True, verbose=True):
+                           min_nfft=0, detrend_opt='linear', multiprocess=False, cpus=False, plot_on=True, verbose=True):
     """ Compute multitaper spectrogram of timeseries data
-
     Results tend to agree with Prerau Lab Matlab implementation of multitaper spectrogram with precision on the order
     of at most 10^-12 with SD of at most 10^-10
-
             Arguments:
                     data (1d np.array): time series data -- required
                     fs (float): sampling frequency in Hz  -- required
@@ -33,14 +32,16 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
                                           (Default: 'linear')
                     min_nfft (int): minimum allowable NFFT size, adds zero padding for interpolation (closest 2^x)
                                     (default: 0)
+                    multiprocess (bool): Use multiprocessing to compute multitaper spectrogram (default: False)
+                    cpus (int): Number of cpus to use if multiprocess = True (default: False). Note: if default is left
+                                as False and multiprocess = True, the number of cpus used for multiprocessing will be
+                                all available - 1.
                     plot_on (bool): plot results (default: True)
                     verbose (bool): display spectrogram properties (default: true)
-
             Returns:
                     mt_spectrogram (TxF np array): spectral power matrix
                     stimes (1xT np array): timepoints (s) in mt_spectrogram
                     sfreqs (1xF np array)L frequency values (Hz) in mt_spectrogram
-
     """
 
     #  Process user input
@@ -76,8 +77,19 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
     calc_mts_segment_plus_args = partial(calc_mts_segment, DPSS_tapers=DPSS_tapers, nfft=nfft,
                                          freq_inds=freq_inds, detrend_opt=detrend_opt)
 
-    # Compute multitaper
-    mt_spectrogram = np.apply_along_axis(calc_mts_segment_plus_args, 1, data_segments)
+    if multiprocess: # use multiprocessing
+        if not cpus: # if cpus not specfied, use all but 1
+            pool = Pool(cpu_count()-1)
+        else: # else us specified number
+            pool = Pool(cpus)
+
+        # Compute multiprocess multitaper spect.
+        mt_spectrogram = pool.map(calc_mts_segment_plus_args, data_segments)
+        pool.close()
+        pool.join()
+
+    else: # if no multiprocessing, compute normally
+        mt_spectrogram = np.apply_along_axis(calc_mts_segment_plus_args, 1, data_segments)
 
     # Compute mean fft magnitude (STEP 4.2)
     mt_spectrogram = np.asarray(mt_spectrogram)
@@ -117,7 +129,6 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
 def process_input(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=None, window_params=None, min_nfft=0,
                   detrend_opt='linear', plot_on=True, verbose=True):
     """ Helper function to process multitaper_spectrogram() arguments
-
             Arguments:
                     data (1d np.array): time series data-- required
                     fs (float): sampling frequency in Hz  -- required
@@ -133,7 +144,6 @@ def process_input(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=N
                                           (Default: 'linear')
                     plot_on (True): plot results (default: True)
                     verbose (True): display spectrogram properties (default: true)
-
             Returns:
                     data (1d np.array): same as input
                     fs (float): same as input
@@ -236,7 +246,6 @@ def process_input(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=N
 # PROCESS THE SPECTROGRAM PARAMETERS #
 def process_spectrogram_params(fs, nfft, frequency_range, window_start, datawin_size):
     """ Helper function to create frequency vector and window indices
-
         Arguments:
              fs (float): sampling frequency in Hz  -- required
              nfft (int): length of signal to calculate fft on -- required
@@ -244,8 +253,6 @@ def process_spectrogram_params(fs, nfft, frequency_range, window_start, datawin_
              window_start (1xm np.array): array of timestamps representing the beginning time for each
                                           window -- required
              datawin_size (float): seconds in one window -- required
-
-
         Returns:
             window_idxs (nxm np array): indices of timestamps for each window
                                         (nxm where n=number of windows and m=datawin_size)
@@ -270,6 +277,7 @@ def process_spectrogram_params(fs, nfft, frequency_range, window_start, datawin_
 
     # Get indexes for each window
     window_idxs = np.atleast_2d(window_start).T + np.arange(0, datawin_size, 1)
+    window_idxs = window_idxs.astype(int)
 
     return [window_idxs, stimes, sfreqs, freq_inds]
 
@@ -277,7 +285,6 @@ def process_spectrogram_params(fs, nfft, frequency_range, window_start, datawin_
 # DISPLAY SPECTROGRAM PROPERTIES
 def display_spectrogram_props(fs, time_bandwidth, num_tapers, data_window_params, frequency_range, detrend_opt):
     """ Prints spectrogram properties
-
         Arguments:
             fs (float): sampling frequency in Hz  -- required
             time_bandwidth (float): time-half bandwidth product (window duration*1/2*frequency_resolution) -- required
@@ -285,10 +292,8 @@ def display_spectrogram_props(fs, time_bandwidth, num_tapers, data_window_params
             data_window_params (list): 1x2 list - [window length(s), window step size(s)] -- required
             frequency_range (list): 1x2 list - [<min frequency>, <max frequency>] -- required
             detrend_opt (str): detrend data window ('linear' (default), 'constant', 'off')
-
         Returns:
             This function does not return anything
-
     """
 
     data_window_params = np.asarray(data_window_params) / fs
@@ -307,10 +312,8 @@ def display_spectrogram_props(fs, time_bandwidth, num_tapers, data_window_params
 # NANPOW2DB
 def nanpow2db(y):
     """ Power to dB conversion, setting bad values to nans
-
         Arguments:
             y (float or array-like): power
-
         Returns:
             ydB (float or np array): inputs converted to dB with 0s and negatives resulting in nans
     """
@@ -333,7 +336,6 @@ def nanpow2db(y):
 # CALCULATE MULTITAPER SPECTRUM ON SINGLE SEGMENT
 def calc_mts_segment(data_segment, DPSS_tapers, nfft, freq_inds, detrend_opt):
     """ Helper function to calculate the multitaper spectrum of a single segment of data
-
         Arguments:
             data_segment (1d np.array): One window worth of time-series data -- required
             DPSS_tapers (2d np.array): Parameters for the DPSS tapers to be used.
@@ -342,7 +344,6 @@ def calc_mts_segment(data_segment, DPSS_tapers, nfft, freq_inds, detrend_opt):
             freq_inds (1d np array): boolean array of which frequencies are being analyzed in
                                       an array of frequencies from 0 to fs with steps of fs/nfft
             detrend_opt (str): detrend data window ('linear' (default), 'constant', 'off')
-
         Returns:
             mt_spectrum (1d np.array): spectral power for single window
     """
