@@ -1,5 +1,3 @@
-# multitaper_public
-
 # This repository contains 3 multitaper spectrogram implementations (Matlab, R, and Python) from the Prerau Lab
 
 ## Matlab Implementation
