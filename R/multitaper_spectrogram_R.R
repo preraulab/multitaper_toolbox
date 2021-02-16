@@ -1,6 +1,7 @@
 ## Package installation and library initializing ##
-packages <- c("waveslim", "pracma", "fields")
-install.packages(setdiff(packages, rownames(installed.packages()))) # Install packages if they aren't already installed
+packages_req <- c("waveslim", "pracma", "fields")
+not_installed <- packages_req[!(packages_req %in% installed.packages()[ , "Package"])]    # Extract not installed packages
+if(length(not_installed)) install.packages(not_installed)                               # Install not installed packages
 
 library(waveslim)
 library(pracma)
