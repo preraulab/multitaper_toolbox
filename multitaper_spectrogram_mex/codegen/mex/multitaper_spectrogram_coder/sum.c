@@ -20,66 +20,66 @@
 /* Variable Definitions */
 static emlrtRSInfo xe_emlrtRSI = { 20, /* lineNo */
   "sum",                               /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\sum.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/sum.m"/* pathName */
 };
 
 static emlrtRSInfo ye_emlrtRSI = { 144,/* lineNo */
   "colMajorFlatIter",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pathName */
 };
 
 static emlrtRSInfo af_emlrtRSI = { 166,/* lineNo */
   "colMajorFlatIter",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pathName */
 };
 
 static emlrtRSInfo bf_emlrtRSI = { 180,/* lineNo */
   "colMajorFlatIter",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pathName */
 };
 
 static emlrtRSInfo cf_emlrtRSI = { 201,/* lineNo */
   "colMajorFlatIter",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pathName */
 };
 
 static emlrtRSInfo df_emlrtRSI = { 183,/* lineNo */
   "colMajorFlatIter",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pathName */
 };
 
 static emlrtRSInfo ef_emlrtRSI = { 203,/* lineNo */
   "colMajorFlatIter",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pathName */
 };
 
 static emlrtRSInfo ff_emlrtRSI = { 214,/* lineNo */
   "colMajorFlatIter",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pathName */
 };
 
 static emlrtRTEInfo c_emlrtRTEI = { 46,/* lineNo */
   23,                                  /* colNo */
   "sumprod",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\sumprod.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/sumprod.m"/* pName */
 };
 
 static emlrtRTEInfo kd_emlrtRTEI = { 20,/* lineNo */
   1,                                   /* colNo */
   "sum",                               /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\sum.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/sum.m"/* pName */
 };
 
 static emlrtRTEInfo ld_emlrtRTEI = { 129,/* lineNo */
   23,                                  /* colNo */
   "blockedSummation",                  /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pName */
 };
 
 static emlrtRTEInfo md_emlrtRTEI = { 129,/* lineNo */
   1,                                   /* colNo */
   "blockedSummation",                  /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pName */
 };
 
 /* Function Definitions */

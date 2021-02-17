@@ -21,40 +21,40 @@
 /* Variable Definitions */
 static emlrtRSInfo x_emlrtRSI = { 297, /* lineNo */
   "eml_float_colon",                   /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pathName */
 };
 
 static emlrtRSInfo ub_emlrtRSI = { 126,/* lineNo */
   "eml_integer_colon_dispatcher",      /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pathName */
 };
 
 static emlrtRSInfo vb_emlrtRSI = { 149,/* lineNo */
   "eml_signed_integer_colon",          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pathName */
 };
 
 static emlrtRSInfo wb_emlrtRSI = { 154,/* lineNo */
   "eml_signed_integer_colon",          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pathName */
 };
 
 static emlrtRTEInfo e_emlrtRTEI = { 403,/* lineNo */
   15,                                  /* colNo */
   "assert_pmaxsize",                   /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pName */
 };
 
 static emlrtRTEInfo uc_emlrtRTEI = { 298,/* lineNo */
   20,                                  /* colNo */
   "colon",                             /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pName */
 };
 
 static emlrtRTEInfo ad_emlrtRTEI = { 150,/* lineNo */
   20,                                  /* colNo */
   "colon",                             /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pName */
 };
 
 /* Function Definitions */

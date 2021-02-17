@@ -31,7 +31,7 @@ void mexFunction(int32_T nlhs, mxArray *plhs[], int32_T nrhs, const mxArray
   };
 
   mexAtExit(&multitaper_spectrogram_coder_atexit);
-  emlrtLoadLibrary("C:\\ProgramData\\MATLAB\\SupportPackages\\R2020b\\3P.instrset\\mingw_w64.instrset\\bin\\libgomp-1.dll");
+  emlrtLoadMATLABLibrary("sys/os/glnxa64/libiomp5.so");
 
   /* Initialize the memory manager. */
   omp_init_lock(&emlrtLockGlobal);

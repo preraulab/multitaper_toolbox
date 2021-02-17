@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2018b">
-  <configuration build-checksum="1100206365" file="C:\Users\mrlon\Dropbox (Personal)\Mac_Desktop\MIT_HST\NSRL_Purdon_Prerau\Prerau_labcode\multitaper\multitaper_spectrogram_mex\multitaper_spectrogram_coder.prj" location="C:\Users\mrlon\Dropbox (Personal)\Mac_Desktop\MIT_HST\NSRL_Purdon_Prerau\Prerau_labcode\multitaper\multitaper_spectrogram_mex" name="multitaper_spectrogram_coder" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="804988831" file="/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.prj" location="/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex" name="multitaper_spectrogram_coder" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -244,7 +244,7 @@
       <param.HardwareSizeChar.Production>8</param.HardwareSizeChar.Production>
       <param.HardwareSizeShort.Production>16</param.HardwareSizeShort.Production>
       <param.HardwareSizeInt.Production>32</param.HardwareSizeInt.Production>
-      <param.HardwareSizeLong.Production>32</param.HardwareSizeLong.Production>
+      <param.HardwareSizeLong.Production>64</param.HardwareSizeLong.Production>
       <param.HardwareSizeLongLong.Production>64</param.HardwareSizeLongLong.Production>
       <param.HardwareSizeFloat.Production>32</param.HardwareSizeFloat.Production>
       <param.HardwareSizeDouble.Production>64</param.HardwareSizeDouble.Production>
@@ -265,7 +265,7 @@
       <param.HardwareSizeChar.Target>8</param.HardwareSizeChar.Target>
       <param.HardwareSizeShort.Target>16</param.HardwareSizeShort.Target>
       <param.HardwareSizeInt.Target>32</param.HardwareSizeInt.Target>
-      <param.HardwareSizeLong.Target>32</param.HardwareSizeLong.Target>
+      <param.HardwareSizeLong.Target>64</param.HardwareSizeLong.Target>
       <param.HardwareSizeLongLong.Target>64</param.HardwareSizeLongLong.Target>
       <param.HardwareSizeFloat.Target>32</param.HardwareSizeFloat.Target>
       <param.HardwareSizeDouble.Target>64</param.HardwareSizeDouble.Target>
@@ -314,7 +314,7 @@
       <param.CustomBLASCallback />
       <param.GenerateDefaultInSwitch>false</param.GenerateDefaultInSwitch>
       <param.EnableTraceability>true</param.EnableTraceability>
-      <param.UseECoderFeatures>true</param.UseECoderFeatures>
+      <param.UseECoderFeatures>false</param.UseECoderFeatures>
       <param.EnableGitSupport>false</param.EnableGitSupport>
       <param.EnableAutoCommit>false</param.EnableAutoCommit>
       <param.RepositoryStyle>option.RepositoryStyle.Auto</param.RepositoryStyle>
@@ -430,7 +430,6 @@
         <param.HardwareSizeChar.Production />
         <param.HardwareSizeShort.Production />
         <param.HardwareSizeInt.Production />
-        <param.HardwareSizeLong.Production />
         <param.HardwareSizeLongLong.Production />
         <param.HardwareSizeFloat.Production />
         <param.HardwareSizeDouble.Production />
@@ -444,7 +443,6 @@
         <param.HardwareSizeChar.Target />
         <param.HardwareSizeShort.Target />
         <param.HardwareSizeInt.Target />
-        <param.HardwareSizeLong.Target />
         <param.HardwareSizeLongLong.Target />
         <param.HardwareSizeFloat.Target />
         <param.HardwareSizeDouble.Target />
@@ -849,13 +847,13 @@
     <param.objective>option.objective.c</param.objective>
     <param.WorkflowStep>workflowSummary</param.WorkflowStep>
     <param.TestSnippets>
-      <item>multitaper_spectrogram_coder_script.m</item>
+      <item>multitaper_spectrogram_coder_script</item>
     </param.TestSnippets>
     <param.ExternalFcnMajority>column</param.ExternalFcnMajority>
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
-    <param.outputfile>${PROJECT_ROOT}\multitaper_spectrogram_coder_mex.mexw64</param.outputfile>
+    <param.outputfile>${PROJECT_ROOT}/multitaper_spectrogram_coder_mex.mexa64</param.outputfile>
     <param.version>R2012a</param.version>
-    <param.HasECoderFeatures>true</param.HasECoderFeatures>
+    <param.HasECoderFeatures>false</param.HasECoderFeatures>
     <param.HasGpuCoder>true</param.HasGpuCoder>
     <var.HasNeuralNetworkToolbox>true</var.HasNeuralNetworkToolbox>
     <param.mex.mainhtml />
@@ -868,22 +866,22 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>954231931</param.AnnotationChecksum>
+    <param.AnnotationChecksum>1655780628</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
     <var.redirectedInputTypeData />
-    <var.DismissScreener>true</var.DismissScreener>
+    <var.DismissScreener>false</var.DismissScreener>
     <param.unifiedParamStorage />
-    <var.gc.lastOutputRoot>codegen\mex\multitaper_spectrogram_coder</var.gc.lastOutputRoot>
+    <var.gc.lastOutputRoot>codegen/mex/multitaper_spectrogram_coder</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>MEX_FILE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>1100206365</var.gc.preBuildChecksum>
-    <var.cfi.lastOutputRoot>codegen\mex\multitaper_spectrogram_coder</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>1939088591</var.cfi.preBuildChecksum>
-    <var.lastCfiTestSnippet>multitaper_spectrogram_coder_script.m</var.lastCfiTestSnippet>
+    <var.gc.preBuildChecksum>804988831</var.gc.preBuildChecksum>
+    <var.cfi.lastOutputRoot>codegen/mex/multitaper_spectrogram_coder</var.cfi.lastOutputRoot>
+    <var.cfi.preBuildChecksum>361373039</var.cfi.preBuildChecksum>
+    <var.lastCfiTestSnippet>multitaper_spectrogram_coder_script</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\mrlon\Dropbox (Personal)\Mac_Desktop\MIT_HST\NSRL_Purdon_Prerau\Prerau_labcode\multitaper\multitaper_spectrogram_mex\multitaper_spectrogram_coder.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;3335421371&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
-    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\mrlon\Dropbox (Personal)\Mac_Desktop\MIT_HST\NSRL_Purdon_Prerau\Prerau_labcode\multitaper\multitaper_spectrogram_mex\multitaper_spectrogram_coder.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;1735950865&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
     <param.configImportActive>false</param.configImportActive>
@@ -891,11 +889,11 @@
     <var.notGpuCoder>true</var.notGpuCoder>
     <var.boundToGui>true</var.boundToGui>
     <var.isConfigDialog>false</var.isConfigDialog>
-    <var.ecoderEnabled>true</var.ecoderEnabled>
+    <var.ecoderEnabled>false</var.ecoderEnabled>
     <param.mex.outputfile>multitaper_spectrogram_coder_mex</param.mex.outputfile>
     <param.grt.outputfile>multitaper_spectrogram_coder</param.grt.outputfile>
     <param.artifact>option.target.artifact.mex</param.artifact>
-    <param.outputfile>${PROJECT_ROOT}\multitaper_spectrogram_coder_mex.mexw64</param.outputfile>
+    <param.outputfile>${PROJECT_ROOT}/multitaper_spectrogram_coder_mex.mexa64</param.outputfile>
     <param.CppNamespace />
     <param.CppPackagesToNamespaces>true</param.CppPackagesToNamespaces>
     <param.CppNamespaceForMathworksCode>coder</param.CppNamespaceForMathworksCode>
@@ -920,8 +918,8 @@
     <var.isDeepLearningForMatlabCoderEnabled>true</var.isDeepLearningForMatlabCoderEnabled>
     <param.deeplearning.TargetLib>option.deeplearning.targetlibrary.none</param.deeplearning.TargetLib>
     <var.cfiTargetLibSuppression>false</var.cfiTargetLibSuppression>
-    <var.hasMatlabDeepLearningSupportPackage>true</var.hasMatlabDeepLearningSupportPackage>
-    <var.hasGpuDeepLearningSupportPackage>true</var.hasGpuDeepLearningSupportPackage>
+    <var.hasMatlabDeepLearningSupportPackage>false</var.hasMatlabDeepLearningSupportPackage>
+    <var.hasGpuDeepLearningSupportPackage>false</var.hasGpuDeepLearningSupportPackage>
     <param.tensorrt.DataType>option.tensorrt.datatype.fp32</param.tensorrt.DataType>
     <param.tensorrt.DataPath />
     <param.tensorrt.NumCalibrationBatches>0</param.tensorrt.NumCalibrationBatches>
@@ -1000,6 +998,7 @@
       <var.MirrorOnOpen />
       <param.FixedPointEnabled />
       <var.redirectedInputTypeData />
+      <var.DismissScreener />
       <param.unifiedParamStorage />
       <var.outdatedOnRestore />
       <param.forceMexBuild />
@@ -1036,8 +1035,6 @@
       <var.isDeepLearningForMatlabCoderEnabled />
       <param.deeplearning.TargetLib />
       <var.cfiTargetLibSuppression />
-      <var.hasMatlabDeepLearningSupportPackage />
-      <var.hasGpuDeepLearningSupportPackage />
       <param.tensorrt.DataType />
       <param.tensorrt.DataPath />
       <param.tensorrt.NumCalibrationBatches />
@@ -1094,15 +1091,15 @@
       <param.FixedPointUseDesignRanges />
     </unset>
     <fileset.entrypoints>
-      <file custom-data-expanded="false" value="${PROJECT_ROOT}\multitaper_spectrogram_coder.m">
-        <Marker>1613595629285</Marker>
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}/multitaper_spectrogram_coder.m">
+        <Marker>1613597483072</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench>
-      <file>${PROJECT_ROOT}\multitaper_spectrogram_coder_script.m</file>
+      <file>${PROJECT_ROOT}/multitaper_spectrogram_coder_script.m</file>
     </fileset.testbench>
     <fileset.inputtypes>
-      <file custom-data-expanded="false" value="${PROJECT_ROOT}\multitaper_spectrogram_coder.m">
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}/multitaper_spectrogram_coder.m">
         <Inputs fileName="multitaper_spectrogram_coder.m" functionName="multitaper_spectrogram_coder">
           <Input Name="data" typeId="0" />
           <Input Name="Fs" typeId="1" />
@@ -1163,17 +1160,14 @@
       </file>
     </fileset.inputtypes>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}" name="multitaper_spectrogram_coder_mex.mexw64" optional="false">C:\Users\mrlon\Dropbox (Personal)\Mac_Desktop\MIT_HST\NSRL_Purdon_Prerau\Prerau_labcode\multitaper\multitaper_spectrogram_mex\multitaper_spectrogram_coder_mex.mexw64</file>
+      <file location="${PROJECT_ROOT}" name="multitaper_spectrogram_coder_mex.mexa64" optional="false">/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder_mex.mexa64</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>C:\Program Files\MATLAB\R2020b</root>
+      <root>/apps/software/MATLAB/R2020b</root>
       <toolboxes>
         <toolbox name="matlabcoder" />
-        <toolbox name="embeddedcoder" />
         <toolbox name="gpucoder" />
-        <toolbox name="fixedpoint" />
-        <toolbox name="matlabhdlcoder" />
         <toolbox name="neuralnetwork" />
       </toolboxes>
       <toolbox>
@@ -1182,24 +1176,9 @@
         </matlabcoder>
       </toolbox>
       <toolbox>
-        <embeddedcoder>
-          <enabled>true</enabled>
-        </embeddedcoder>
-      </toolbox>
-      <toolbox>
         <gpucoder>
           <enabled>true</enabled>
         </gpucoder>
-      </toolbox>
-      <toolbox>
-        <fixedpoint>
-          <enabled>true</enabled>
-        </fixedpoint>
-      </toolbox>
-      <toolbox>
-        <matlabhdlcoder>
-          <enabled>true</enabled>
-        </matlabhdlcoder>
       </toolbox>
       <toolbox>
         <neuralnetwork>
@@ -1208,18 +1187,18 @@
       </toolbox>
     </matlab>
     <platform>
-      <unix>false</unix>
+      <unix>true</unix>
       <mac>false</mac>
-      <windows>true</windows>
+      <windows>false</windows>
       <win2k>false</win2k>
       <winxp>false</winxp>
       <vista>false</vista>
-      <linux>false</linux>
+      <linux>true</linux>
       <solaris>false</solaris>
-      <osver>10.0</osver>
+      <osver>3.10.0-862.11.6.el7.x86_64</osver>
       <os32>false</os32>
       <os64>true</os64>
-      <arch>win64</arch>
+      <arch>glnxa64</arch>
       <matlab>true</matlab>
     </platform>
   </configuration>

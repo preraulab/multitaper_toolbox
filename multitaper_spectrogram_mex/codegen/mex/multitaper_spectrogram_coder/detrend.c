@@ -28,261 +28,261 @@
 /* Variable Definitions */
 static emlrtRSInfo qb_emlrtRSI = { 100,/* lineNo */
   "detrend",                           /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo rb_emlrtRSI = { 174,/* lineNo */
   "detrend",                           /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo sb_emlrtRSI = { 28, /* lineNo */
   "colon",                             /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pathName */
 };
 
 static emlrtRSInfo tb_emlrtRSI = { 81, /* lineNo */
   "colon",                             /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pathName */
 };
 
 static emlrtRSInfo ac_emlrtRSI = { 184,/* lineNo */
   "chooseDetrendMethod",               /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo bc_emlrtRSI = { 345,/* lineNo */
   "CCDetrend",                         /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo cc_emlrtRSI = { 63, /* lineNo */
   "applyVectorFunction",               /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\applyVectorFunction.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/applyVectorFunction.m"/* pathName */
 };
 
 static emlrtRSInfo dc_emlrtRSI = { 47, /* lineNo */
   "function_handle/parenReference",    /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\function_handle.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/function_handle.m"/* pathName */
 };
 
 static emlrtRSInfo ec_emlrtRSI = { 344,/* lineNo */
   "@(x)subsum(x,ONE,endSeg)",          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo fc_emlrtRSI = { 244,/* lineNo */
   "subsum",                            /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo gc_emlrtRSI = { 247,/* lineNo */
   "subsum",                            /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo hc_emlrtRSI = { 254,/* lineNo */
   "subsum",                            /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo ic_emlrtRSI = { 264,/* lineNo */
   "sumab",                             /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo jc_emlrtRSI = { 186,/* lineNo */
   "chooseDetrendMethod",               /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo kc_emlrtRSI = { 367,/* lineNo */
   "CPPDetrend",                        /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo lc_emlrtRSI = { 372,/* lineNo */
   "CPPDetrend",                        /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo mc_emlrtRSI = { 377,/* lineNo */
   "CPPDetrend",                        /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo nc_emlrtRSI = { 378,/* lineNo */
   "CPPDetrend",                        /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo oc_emlrtRSI = { 382,/* lineNo */
   "CPPDetrend",                        /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo pc_emlrtRSI = { 385,/* lineNo */
   "CPPDetrend",                        /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo qc_emlrtRSI = { 387,/* lineNo */
   "CPPDetrend",                        /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo rc_emlrtRSI = { 389,/* lineNo */
   "CPPDetrend",                        /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo sc_emlrtRSI = { 391,/* lineNo */
   "CPPDetrend",                        /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pathName */
 };
 
 static emlrtRSInfo tc_emlrtRSI = { 14, /* lineNo */
   "max",                               /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\max.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/max.m"/* pathName */
 };
 
 static emlrtRSInfo uc_emlrtRSI = { 29, /* lineNo */
   "minOrMax",                          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\minOrMax.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/minOrMax.m"/* pathName */
 };
 
 static emlrtRSInfo vc_emlrtRSI = { 58, /* lineNo */
   "maximum2",                          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\minOrMax.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/minOrMax.m"/* pathName */
 };
 
 static emlrtRSInfo wc_emlrtRSI = { 64, /* lineNo */
   "binaryMinOrMax",                    /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\binaryMinOrMax.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/binaryMinOrMax.m"/* pathName */
 };
 
 static emlrtRSInfo sd_emlrtRSI = { 79, /* lineNo */
   "eml_mtimes_helper",                 /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\eml_mtimes_helper.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"/* pathName */
 };
 
 static emlrtRSInfo ud_emlrtRSI = { 142,/* lineNo */
   "mtimes",                            /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\+blas\\mtimes.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/+blas/mtimes.m"/* pathName */
 };
 
 static emlrtRSInfo vd_emlrtRSI = { 178,/* lineNo */
   "mtimes_blas",                       /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\+blas\\mtimes.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/+blas/mtimes.m"/* pathName */
 };
 
 static emlrtRSInfo wd_emlrtRSI = { 100,/* lineNo */
   "linsolve",                          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\matfun\\linsolve.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/matfun/linsolve.m"/* pathName */
 };
 
 static emlrtRSInfo xd_emlrtRSI = { 423,/* lineNo */
   "solveUT",                           /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\matfun\\linsolve.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/matfun/linsolve.m"/* pathName */
 };
 
 static emlrtRSInfo yd_emlrtRSI = { 440,/* lineNo */
   "solveUT",                           /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\matfun\\linsolve.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/matfun/linsolve.m"/* pathName */
 };
 
 static emlrtRSInfo ae_emlrtRSI = { 442,/* lineNo */
   "solveUT",                           /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\matfun\\linsolve.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/matfun/linsolve.m"/* pathName */
 };
 
 static emlrtRSInfo fe_emlrtRSI = { 173,/* lineNo */
   "crudeRcondTriangular",              /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\matfun\\linsolve.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/matfun/linsolve.m"/* pathName */
 };
 
 static emlrtRTEInfo w_emlrtRTEI = { 88,/* lineNo */
   15,                                  /* colNo */
   "linsolve",                          /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\matfun\\linsolve.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/matfun/linsolve.m"/* pName */
 };
 
 static emlrtRTEInfo vc_emlrtRTEI = { 120,/* lineNo */
   5,                                   /* colNo */
   "detrend",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pName */
 };
 
 static emlrtRTEInfo wc_emlrtRTEI = { 124,/* lineNo */
   5,                                   /* colNo */
   "detrend",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pName */
 };
 
 static emlrtRTEInfo xc_emlrtRTEI = { 60,/* lineNo */
   20,                                  /* colNo */
   "bsxfun",                            /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\elmat\\bsxfun.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/bsxfun.m"/* pName */
 };
 
 static emlrtRTEInfo yc_emlrtRTEI = { 100,/* lineNo */
   66,                                  /* colNo */
   "detrend",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pName */
 };
 
 static emlrtRTEInfo ud_emlrtRTEI = { 100,/* lineNo */
   59,                                  /* colNo */
   "detrend",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pName */
 };
 
 static emlrtRTEInfo vd_emlrtRTEI = { 365,/* lineNo */
   20,                                  /* colNo */
   "detrend",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pName */
 };
 
 static emlrtRTEInfo wd_emlrtRTEI = { 64,/* lineNo */
   67,                                  /* colNo */
   "binaryMinOrMax",                    /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\binaryMinOrMax.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/binaryMinOrMax.m"/* pName */
 };
 
 static emlrtRTEInfo xd_emlrtRTEI = { 373,/* lineNo */
   20,                                  /* colNo */
   "detrend",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pName */
 };
 
 static emlrtRTEInfo yd_emlrtRTEI = { 218,/* lineNo */
   20,                                  /* colNo */
   "mtimes",                            /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\+blas\\mtimes.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/+blas/mtimes.m"/* pName */
 };
 
 static emlrtRTEInfo ae_emlrtRTEI = { 100,/* lineNo */
   1,                                   /* colNo */
   "detrend",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pName */
 };
 
 static emlrtRTEInfo be_emlrtRTEI = { 365,/* lineNo */
   1,                                   /* colNo */
   "detrend",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pName */
 };
 
 static emlrtRTEInfo ce_emlrtRTEI = { 373,/* lineNo */
   1,                                   /* colNo */
   "detrend",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pName */
 };
 
 static emlrtRTEInfo de_emlrtRTEI = { 1,/* lineNo */
   14,                                  /* colNo */
   "detrend",                           /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\detrend.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/detrend.m"/* pName */
 };
 
 /* Function Definitions */

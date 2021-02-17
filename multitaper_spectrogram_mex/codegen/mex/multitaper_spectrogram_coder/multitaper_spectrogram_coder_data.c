@@ -31,86 +31,86 @@ emlrtContext emlrtContextGlobal = { true,/* bFirstTime */
 
 emlrtRSInfo ab_emlrtRSI = { 21,        /* lineNo */
   "eml_int_forloop_overflow_check",    /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\eml\\eml_int_forloop_overflow_check.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/eml/eml_int_forloop_overflow_check.m"/* pathName */
 };
 
 emlrtRSInfo gb_emlrtRSI = { 45,        /* lineNo */
   "mpower",                            /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\mpower.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/mpower.m"/* pathName */
 };
 
 emlrtRSInfo hb_emlrtRSI = { 70,        /* lineNo */
   "power",                             /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\power.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/power.m"/* pathName */
 };
 
 emlrtRSInfo jb_emlrtRSI = { 99,        /* lineNo */
   "sumprod",                           /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\sumprod.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/sumprod.m"/* pathName */
 };
 
 emlrtRSInfo ob_emlrtRSI = { 143,       /* lineNo */
   "allOrAny",                          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\allOrAny.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/allOrAny.m"/* pathName */
 };
 
 emlrtRSInfo xc_emlrtRSI = { 66,        /* lineNo */
   "applyBinaryScalarFunction",         /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\applyBinaryScalarFunction.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/applyBinaryScalarFunction.m"/* pathName */
 };
 
 emlrtRSInfo yc_emlrtRSI = { 188,       /* lineNo */
   "flatIter",                          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\applyBinaryScalarFunction.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/applyBinaryScalarFunction.m"/* pathName */
 };
 
 emlrtRSInfo td_emlrtRSI = { 48,        /* lineNo */
   "eml_mtimes_helper",                 /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\eml_mtimes_helper.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"/* pathName */
 };
 
 emlrtRSInfo te_emlrtRSI = { 69,        /* lineNo */
   "combineVectorElements",             /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\combineVectorElements.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/combineVectorElements.m"/* pathName */
 };
 
 emlrtRSInfo ue_emlrtRSI = { 87,        /* lineNo */
   "blockedSummation",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pathName */
 };
 
 emlrtRSInfo ve_emlrtRSI = { 149,       /* lineNo */
   "colMajorFlatIter",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pathName */
 };
 
 emlrtRSInfo we_emlrtRSI = { 168,       /* lineNo */
   "colMajorFlatIter",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pathName */
 };
 
 emlrtRTEInfo p_emlrtRTEI = { 123,      /* lineNo */
   23,                                  /* colNo */
   "dynamic_size_checks",               /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\eml_mtimes_helper.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"/* pName */
 };
 
 emlrtRTEInfo q_emlrtRTEI = { 118,      /* lineNo */
   23,                                  /* colNo */
   "dynamic_size_checks",               /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\eml_mtimes_helper.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"/* pName */
 };
 
 emlrtRTEInfo id_emlrtRTEI = { 46,      /* lineNo */
   6,                                   /* colNo */
   "applyBinaryScalarFunction",         /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\applyBinaryScalarFunction.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/applyBinaryScalarFunction.m"/* pName */
 };
 
 emlrtRTEInfo jd_emlrtRTEI = { 122,     /* lineNo */
   24,                                  /* colNo */
   "blockedSummation",                  /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\blockedSummation.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/blockedSummation.m"/* pName */
 };
 
 /* End of code generation (multitaper_spectrogram_coder_data.c) */

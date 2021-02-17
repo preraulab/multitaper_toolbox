@@ -1,1 +1,2 @@
-"/Applications/MATLAB_R2019b.app/toolbox/shared/coder/ninja/maci64/ninja" -v "$@"
+"/apps/software/MATLAB/R2020b/toolbox/shared/coder/ninja/glnxa64/ninja" -t compdb cc cxx cudac > compile_commands.json
+"/apps/software/MATLAB/R2020b/toolbox/shared/coder/ninja/glnxa64/ninja" -v "$@"

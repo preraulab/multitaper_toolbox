@@ -20,7 +20,7 @@
 /* Variable Definitions */
 static emlrtRSInfo re_emlrtRSI = { 79, /* lineNo */
   "fltpower",                          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\power.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/power.m"/* pathName */
 };
 
 /* Function Definitions */

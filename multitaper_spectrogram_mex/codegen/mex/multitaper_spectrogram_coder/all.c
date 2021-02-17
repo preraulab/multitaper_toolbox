@@ -19,7 +19,7 @@
 /* Variable Definitions */
 static emlrtRSInfo nb_emlrtRSI = { 13, /* lineNo */
   "all",                               /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\all.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/all.m"/* pathName */
 };
 
 /* Function Definitions */

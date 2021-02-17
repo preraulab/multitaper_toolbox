@@ -20,7 +20,7 @@
 /* Variable Definitions */
 static emlrtRSInfo se_emlrtRSI = { 49, /* lineNo */
   "mean",                              /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\mean.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/mean.m"/* pathName */
 };
 
 /* Function Definitions */

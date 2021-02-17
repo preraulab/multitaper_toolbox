@@ -36,181 +36,159 @@
 /* Variable Definitions */
 static emlrtRSInfo emlrtRSI = { 55,    /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo b_emlrtRSI = { 61,  /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo c_emlrtRSI = { 65,  /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo d_emlrtRSI = { 77,  /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo e_emlrtRSI = { 98,  /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo f_emlrtRSI = { 101, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo g_emlrtRSI = { 105, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo h_emlrtRSI = { 112, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo i_emlrtRSI = { 114, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo j_emlrtRSI = { 118, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo k_emlrtRSI = { 121, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo l_emlrtRSI = { 124, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo m_emlrtRSI = { 129, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo n_emlrtRSI = { 130, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo o_emlrtRSI = { 134, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo p_emlrtRSI = { 136, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo q_emlrtRSI = { 137, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo r_emlrtRSI = { 142, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo s_emlrtRSI = { 150, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo t_emlrtRSI = { 151, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo u_emlrtRSI = { 152, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo v_emlrtRSI = { 153, /* lineNo */
   "multitaper_spectrogram_coder",      /* fcnName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pathName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pathName */
 };
 
 static emlrtRSInfo w_emlrtRSI = { 103, /* lineNo */
   "colon",                             /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pathName */
 };
 
 static emlrtRSInfo ib_emlrtRSI = { 15, /* lineNo */
   "sum",                               /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\sum.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/sum.m"/* pathName */
 };
 
 static emlrtRSInfo gf_emlrtRSI = { 39, /* lineNo */
   "find",                              /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\elmat\\find.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pathName */
 };
 
 static emlrtRSInfo jf_emlrtRSI = { 19, /* lineNo */
   "setdiff",                           /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\setdiff.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/setdiff.m"/* pathName */
 };
 
 static emlrtRSInfo kf_emlrtRSI = { 70, /* lineNo */
   "eml_setop",                         /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\private\\eml_setop.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/private/eml_setop.m"/* pathName */
 };
 
 static emlrtRSInfo wf_emlrtRSI = { 27, /* lineNo */
   "cat",                               /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\cat.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/cat.m"/* pathName */
 };
 
 static emlrtRSInfo xf_emlrtRSI = { 102,/* lineNo */
   "cat_impl",                          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\cat.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/cat.m"/* pathName */
 };
 
 static emlrtRTEInfo b_emlrtRTEI = { 283,/* lineNo */
   27,                                  /* colNo */
   "check_non_axis_size",               /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\cat.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/cat.m"/* pName */
 };
 
 static emlrtRTEInfo d_emlrtRTEI = { 20,/* lineNo */
   15,                                  /* colNo */
   "rdivide_helper",                    /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\rdivide_helper.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/rdivide_helper.m"/* pName */
 };
 
 static emlrtBCInfo emlrtBCI = { -1,    /* iFirst */
@@ -219,8 +197,7 @@ static emlrtBCInfo emlrtBCI = { -1,    /* iFirst */
   39,                                  /* colNo */
   "mt_spectrum",                       /* aName */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   0                                    /* checkKind */
 };
 
@@ -228,8 +205,7 @@ static emlrtECInfo emlrtECI = { -1,    /* nDims */
   146,                                 /* lineNo */
   5,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtBCInfo b_emlrtBCI = { -1,  /* iFirst */
@@ -238,8 +214,7 @@ static emlrtBCInfo b_emlrtBCI = { -1,  /* iFirst */
   22,                                  /* colNo */
   "mt_spectrogram",                    /* aName */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   0                                    /* checkKind */
 };
 
@@ -249,8 +224,7 @@ static emlrtBCInfo c_emlrtBCI = { -1,  /* iFirst */
   26,                                  /* colNo */
   "mt_spectrogram",                    /* aName */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   0                                    /* checkKind */
 };
 
@@ -258,23 +232,20 @@ static emlrtECInfo b_emlrtECI = { 2,   /* nDims */
   137,                                 /* lineNo */
   29,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtECInfo c_emlrtECI = { 2,   /* nDims */
   136,                                 /* lineNo */
   16,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtDCInfo emlrtDCI = { 136,   /* lineNo */
   30,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   1                                    /* checkKind */
 };
 
@@ -282,15 +253,13 @@ static emlrtECInfo d_emlrtECI = { 2,   /* nDims */
   134,                                 /* lineNo */
   50,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtDCInfo b_emlrtDCI = { 134, /* lineNo */
   79,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   1                                    /* checkKind */
 };
 
@@ -298,31 +267,27 @@ static emlrtECInfo e_emlrtECI = { 2,   /* nDims */
   124,                                 /* lineNo */
   14,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtECInfo f_emlrtECI = { 2,   /* nDims */
   118,                                 /* lineNo */
   20,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtECInfo g_emlrtECI = { 2,   /* nDims */
   68,                                  /* lineNo */
   13,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtDCInfo c_emlrtDCI = { 77,  /* lineNo */
   24,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   4                                    /* checkKind */
 };
 
@@ -332,8 +297,7 @@ static emlrtBCInfo d_emlrtBCI = { -1,  /* iFirst */
   10,                                  /* colNo */
   "sfreqs",                            /* aName */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   0                                    /* checkKind */
 };
 
@@ -343,8 +307,7 @@ static emlrtBCInfo e_emlrtBCI = { -1,  /* iFirst */
   25,                                  /* colNo */
   "window_start",                      /* aName */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   0                                    /* checkKind */
 };
 
@@ -354,16 +317,14 @@ static emlrtBCInfo f_emlrtBCI = { -1,  /* iFirst */
   25,                                  /* colNo */
   "data",                              /* aName */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   0                                    /* checkKind */
 };
 
 static emlrtDCInfo d_emlrtDCI = { 98,  /* lineNo */
   25,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   1                                    /* checkKind */
 };
 
@@ -373,16 +334,14 @@ static emlrtBCInfo g_emlrtBCI = { -1,  /* iFirst */
   65,                                  /* colNo */
   "mt_spectrogram",                    /* aName */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   0                                    /* checkKind */
 };
 
 static emlrtDCInfo e_emlrtDCI = { 153, /* lineNo */
   65,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   1                                    /* checkKind */
 };
 
@@ -392,8 +351,7 @@ static emlrtBCInfo h_emlrtBCI = { -1,  /* iFirst */
   34,                                  /* colNo */
   "mt_spectrogram",                    /* aName */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   0                                    /* checkKind */
 };
 
@@ -403,8 +361,7 @@ static emlrtBCInfo i_emlrtBCI = { -1,  /* iFirst */
   91,                                  /* colNo */
   "mt_spectrogram",                    /* aName */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   0                                    /* checkKind */
 };
 
@@ -414,334 +371,290 @@ static emlrtBCInfo j_emlrtBCI = { -1,  /* iFirst */
   37,                                  /* colNo */
   "Spower",                            /* aName */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m",      /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m",/* pName */
   0                                    /* checkKind */
 };
 
 static emlrtRTEInfo x_emlrtRTEI = { 55,/* lineNo */
   1,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo y_emlrtRTEI = { 65,/* lineNo */
   1,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo ab_emlrtRTEI = { 68,/* lineNo */
   14,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo bb_emlrtRTEI = { 68,/* lineNo */
   47,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo cb_emlrtRTEI = { 68,/* lineNo */
   13,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo db_emlrtRTEI = { 1,/* lineNo */
   45,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo eb_emlrtRTEI = { 73,/* lineNo */
   1,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo fb_emlrtRTEI = { 77,/* lineNo */
   1,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo gb_emlrtRTEI = { 88,/* lineNo */
   5,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo hb_emlrtRTEI = { 92,/* lineNo */
   5,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo ib_emlrtRTEI = { 90,/* lineNo */
   5,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo jb_emlrtRTEI = { 150,/* lineNo */
   18,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo kb_emlrtRTEI = { 150,/* lineNo */
   1,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo lb_emlrtRTEI = { 151,/* lineNo */
   23,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo mb_emlrtRTEI = { 98,/* lineNo */
   44,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo nb_emlrtRTEI = { 28,/* lineNo */
   9,                                   /* colNo */
   "colon",                             /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\colon.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/colon.m"/* pName */
 };
 
 static emlrtRTEInfo ob_emlrtRTEI = { 98,/* lineNo */
   5,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo pb_emlrtRTEI = { 152,/* lineNo */
   36,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo qb_emlrtRTEI = { 101,/* lineNo */
   12,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo rb_emlrtRTEI = { 15,/* lineNo */
   13,                                  /* colNo */
   "isnan",                             /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\elmat\\isnan.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/isnan.m"/* pName */
 };
 
 static emlrtRTEInfo sb_emlrtRTEI = { 153,/* lineNo */
   50,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo tb_emlrtRTEI = { 112,/* lineNo */
   32,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo ub_emlrtRTEI = { 153,/* lineNo */
   19,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo vb_emlrtRTEI = { 153,/* lineNo */
   76,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo wb_emlrtRTEI = { 124,/* lineNo */
   14,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo xb_emlrtRTEI = { 124,/* lineNo */
   34,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo yb_emlrtRTEI = { 142,/* lineNo */
   9,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo ac_emlrtRTEI = { 130,/* lineNo */
   28,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo bc_emlrtRTEI = { 131,/* lineNo */
   9,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo cc_emlrtRTEI = { 153,/* lineNo */
   1,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo dc_emlrtRTEI = { 134,/* lineNo */
   50,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo ec_emlrtRTEI = { 134,/* lineNo */
   74,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo fc_emlrtRTEI = { 76,/* lineNo */
   9,                                   /* colNo */
   "eml_mtimes_helper",                 /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\ops\\eml_mtimes_helper.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"/* pName */
 };
 
 static emlrtRTEInfo gc_emlrtRTEI = { 136,/* lineNo */
   25,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo hc_emlrtRTEI = { 137,/* lineNo */
   29,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo ic_emlrtRTEI = { 137,/* lineNo */
   25,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo jc_emlrtRTEI = { 136,/* lineNo */
   13,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo kc_emlrtRTEI = { 134,/* lineNo */
   13,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo lc_emlrtRTEI = { 130,/* lineNo */
   9,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo mc_emlrtRTEI = { 124,/* lineNo */
   5,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo nc_emlrtRTEI = { 121,/* lineNo */
   5,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo oc_emlrtRTEI = { 137,/* lineNo */
   47,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo pc_emlrtRTEI = { 146,/* lineNo */
   39,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo qc_emlrtRTEI = { 68,/* lineNo */
   1,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo rc_emlrtRTEI = { 152,/* lineNo */
   1,                                   /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 static emlrtRTEInfo sc_emlrtRTEI = { 31,/* lineNo */
   6,                                   /* colNo */
   "find",                              /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\elmat\\find.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pName */
 };
 
 static emlrtRTEInfo tc_emlrtRTEI = { 152,/* lineNo */
   18,                                  /* colNo */
   "multitaper_spectrogram_coder",      /* fName */
-  "C:\\Users\\mrlon\\Dropbox (Personal)\\Mac_Desktop\\MIT_HST\\NSRL_Purdon_Prerau\\Prerau_labcode\\multitaper\\multitaper_spectrogram_mex\\mu"
-  "ltitaper_spectrogram_coder.m"       /* pName */
+  "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/multitaper_spectrogram_coder.m"/* pName */
 };
 
 /* Function Definitions */

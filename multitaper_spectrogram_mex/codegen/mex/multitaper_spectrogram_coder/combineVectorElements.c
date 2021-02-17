@@ -19,12 +19,12 @@
 /* Variable Definitions */
 static emlrtRSInfo kb_emlrtRSI = { 133,/* lineNo */
   "combineVectorElements",             /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\combineVectorElements.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/combineVectorElements.m"/* pathName */
 };
 
 static emlrtRSInfo lb_emlrtRSI = { 194,/* lineNo */
   "colMajorFlatIter",                  /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\private\\combineVectorElements.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/combineVectorElements.m"/* pathName */
 };
 
 /* Function Definitions */

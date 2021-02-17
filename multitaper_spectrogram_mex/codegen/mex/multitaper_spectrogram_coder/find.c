@@ -20,30 +20,30 @@
 /* Variable Definitions */
 static emlrtRSInfo hf_emlrtRSI = { 144,/* lineNo */
   "eml_find",                          /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\elmat\\find.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pathName */
 };
 
 static emlrtRSInfo if_emlrtRSI = { 382,/* lineNo */
   "find_first_indices",                /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\elmat\\find.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pathName */
 };
 
 static emlrtRTEInfo r_emlrtRTEI = { 392,/* lineNo */
   1,                                   /* colNo */
   "find_first_indices",                /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\elmat\\find.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pName */
 };
 
 static emlrtRTEInfo nd_emlrtRTEI = { 364,/* lineNo */
   24,                                  /* colNo */
   "find",                              /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\elmat\\find.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pName */
 };
 
 static emlrtRTEInfo od_emlrtRTEI = { 144,/* lineNo */
   9,                                   /* colNo */
   "find",                              /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\elmat\\find.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pName */
 };
 
 /* Function Definitions */

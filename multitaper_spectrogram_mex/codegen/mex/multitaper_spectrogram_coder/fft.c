@@ -19,57 +19,57 @@
 /* Variable Definitions */
 static emlrtRSInfo je_emlrtRSI = { 63, /* lineNo */
   "fft",                               /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\fft.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/fft.m"/* pathName */
 };
 
 static emlrtRSInfo ke_emlrtRSI = { 31, /* lineNo */
   "fft",                               /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\+fft\\fft.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/+fft/fft.m"/* pathName */
 };
 
 static emlrtRSInfo le_emlrtRSI = { 58, /* lineNo */
   "executeCallback",                   /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\+fft\\fft.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/+fft/fft.m"/* pathName */
 };
 
 static emlrtRSInfo me_emlrtRSI = { 44, /* lineNo */
   "Custom1DFFTCallback/fft",           /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\shared\\coder\\coder\\lib\\+coder\\+internal\\Custom1DFFTCallback.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/shared/coder/coder/lib/+coder/+internal/Custom1DFFTCallback.m"/* pathName */
 };
 
 static emlrtRSInfo ne_emlrtRSI = { 54, /* lineNo */
   "Custom1DFFTCallback/fftLoop",       /* fcnName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\shared\\coder\\coder\\lib\\+coder\\+internal\\Custom1DFFTCallback.m"/* pathName */
+  "/apps/software/MATLAB/R2020b/toolbox/shared/coder/coder/lib/+coder/+internal/Custom1DFFTCallback.m"/* pathName */
 };
 
 static emlrtRTEInfo m_emlrtRTEI = { 52,/* lineNo */
   35,                                  /* colNo */
   "fft",                               /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\fft.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/fft.m"/* pName */
 };
 
 static emlrtRTEInfo n_emlrtRTEI = { 48,/* lineNo */
   35,                                  /* colNo */
   "fft",                               /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\fft.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/fft.m"/* pName */
 };
 
 static emlrtRTEInfo o_emlrtRTEI = { 37,/* lineNo */
   31,                                  /* colNo */
   "fft",                               /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\fft.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/fft.m"/* pName */
 };
 
 static emlrtRTEInfo gd_emlrtRTEI = { 63,/* lineNo */
   5,                                   /* colNo */
   "fft",                               /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\lib\\matlab\\datafun\\fft.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/fft.m"/* pName */
 };
 
 static emlrtRTEInfo hd_emlrtRTEI = { 26,/* lineNo */
   32,                                  /* colNo */
   "MATLABFFTWCallback",                /* fName */
-  "C:\\Program Files\\MATLAB\\R2020b\\toolbox\\eml\\eml\\+coder\\+internal\\+fft\\MATLABFFTWCallback.m"/* pName */
+  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/+fft/MATLABFFTWCallback.m"/* pName */
 };
 
 /* Function Definitions */
@@ -128,7 +128,7 @@ void fft(const emlrtStack *sp, const emxArray_real32_T *x, real_T varargin_1,
     if (emlrtIsInParallelRegion(&e_st)) {
       emlrtFFTWSetNumThreads(1);
     } else {
-      emlrtFFTWSetNumThreads(10);
+      emlrtFFTWSetNumThreads(28);
     }
 
     i = y->size[0] * y->size[1];
