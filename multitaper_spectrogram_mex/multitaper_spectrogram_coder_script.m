@@ -4,7 +4,7 @@ taper_params=[3 5]; %Time bandwidth and number of tapers
 window_params=[4 1]; %Window size is 4s with step size of 1s
 min_NFFT = 2^10;
 detrend_opt = 2;
-
+weighting = 0;
 
 time_bandwidth = taper_params(1);
 num_tapers = taper_params(2);
@@ -18,17 +18,15 @@ f_start=1;f_end=20; % Set chirp range in Hz
 data=chirp(t,f_start,t(end),f_end,'logarithmic');
 
 
-DPSS_tapers = dpss(winsize_samples, time_bandwidth, num_tapers) * sqrt(Fs);
+[DPSS_tapers,DPSS_eigen] = dpss(winsize_samples, time_bandwidth, num_tapers);
 
 %Compute the multitaper spectrogram
 tic
-[spect,stimes,sfreqs] = multitaper_spectrogram_coder(single(data), Fs, frequency_range, DPSS_tapers, time_bandwidth, num_tapers, winsize_samples, winstep_samples, min_NFFT, detrend_opt);
+[spect,stimes,sfreqs] = multitaper_spectrogram_coder(single(data'), Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, min_NFFT, detrend_opt, weighting);
 toc
 
-% [spect,stimes,sfreqs] = multitaper_spectrogram_mex(data, Fs, frequency_range, taper_params, window_params, min_NFFT, detrend_opt, true, true);
-% [spect,stimes,sfreqs] = multitaper_spectrogram_optimized(data, Fs, frequency_range, taper_params, window_params, min_NFFT, detrend_opt, true, true);
-
+figure
 imagesc(stimes,sfreqs, pow2db(spect'));
 axis xy;
 climscale;
-colormap(jet);
+colormap(jet);coder

@@ -1,0 +1,24 @@
+LIBRARY multitaper_spectrogram_coder_mex.mexw64
+EXPORTS
+mexFunction
+mexfilerequiredapiversion
+emlrtMexFcnProperties
+multitaper_spectrogram_coder
+multitaper_spectrogram_coder_initialize
+multitaper_spectrogram_coder_terminate
+multitaper_spectrogram_coder_atexit
+emxInit_boolean_T
+emxInit_creal32_T
+emxEnsureCapacity_boolean_T
+emxFree_creal32_T
+emxEnsureCapacity_creal32_T
+emxInit_int32_T
+emxFree_int32_T
+emxEnsureCapacity_int32_T
+emxFree_boolean_T
+emxFree_real32_T
+emxFree_real_T
+emxInit_real_T
+emxInit_real32_T
+emxEnsureCapacity_real32_T
+emxEnsureCapacity_real_T
