@@ -92,10 +92,8 @@ else
     wt = 0;
 end
 
-%temp_mex = zeros(1024,3,num_windows); %%%%%%%
-
 %Loop in parallel over all of the windows
-parfor n = 1:num_windows %%%%%%%
+parfor n = 1:num_windows
     %Grab the data for the given window
     data_segment = data(window_start(n) + (0:winsize_samples-1));
     
@@ -121,8 +119,6 @@ parfor n = 1:num_windows %%%%%%%
     
     %Compute the FFT (STEP 3)
     fft_data = fft(tapered_data, nfft);
-    %temp_mex(:,:,n) = fft_data; %%%%%%%%%
-
     
     %Compute the weighted mean spectral power across tapers (STEP 4)
     Spower = imag(fft_data).^2 + real(fft_data).^2;
@@ -149,9 +145,6 @@ parfor n = 1:num_windows %%%%%%%
     %Append the spectrum to the spectrogram
     mt_spectrogram(:,n) = mt_spectrum(freq_inds);
 end
-
-%save('tapered_data_mex.mat', 'temp_mex');
-
 
 %Compute one-sided PSD spectrum 
 DC_select = find(sfreqs==0);
