@@ -66,7 +66,7 @@ try
     [DPSS_tapers, DPSS_eigen] = dpss(winsize_samples, time_bandwidth, num_tapers);
     
     start_time = tic;
-    %Compute the multitaper spectrogram
+    %Compute the multitaper spectrogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder_mex(single(data), Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, min_NFFT, detrend_opt, weighting);
     if xyflip; mt_spectrogram = mt_spectrogram'; end
     

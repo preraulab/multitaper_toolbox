@@ -3,21 +3,22 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %
 %   Usage:
 %   Direct input:
-%       [spect,stimes,sfreqs] = multitaper_spectrogram(data, Fs, frequency_range, taper_params, window_params, min_NFFT, detrend_opt, plot_on, verbose)
+%       [spect,stimes,sfreqs] = multitaper_spectrogram(data, Fs, frequency_range, taper_params, window_params, min_NFFT, detrend_opt, weighting, plot_on, verbose)
 %
 %   Input:
-%       data: 1 x <number of samples> vector - time series data-- required
+%       data: <number of samples> x 1  vector - time series data-- required
 %       Fs: double - sampling frequency in Hz  -- required
 %       frequency_range: 1x2 vector - [<min frequency>, <max frequency>] (default: [0 nyquist])
 %       taper_params: 1x2 vector - [<time-halfbandwidth product>, <number of tapers>] (default: [5 9])
 %       window_params: 1x2 vector - [window size (seconds), step size (seconds)] (default: [5 1])
 %       detrend_opt: string - detrend data window ('linear' (default), 'constant', 'off');
 %       min_NFFT: double - minimum allowable NFFT size, adds zero padding for interpolation (closest 2^x) (default: 0)
+%       weighting: string - weighting of tapers ('unity' (default), 'eigen', 'adapt');
 %       plot_on: boolean to plot results (default: true)
 %       verbose: boolean to display spectrogram properties (default: true)
 %
 %   Output:
-%       spect: TxF matrix of spectral power
+%       spect: FxT matrix of spectral power
 %       stimes: 1xT vector of times for the center of the spectral bins
 %        sfreqs: 1xF vector of frequency bins for the spectrogram
 %  
@@ -55,10 +56,11 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 % PROCESS DATA AND PARAMETERS
 
 %Process user input
-[data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, plot_on, verbose] = process_input(varargin{:});
+[data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, ...
+weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
 
 %Set up and display spectrogram parameters
-[window_idxs, stimes, sfreqs, freq_inds] = process_spectrogram_params(Fs, nfft, frequency_range, window_start, winsize_samples);
+[window_idxs, stimes, sfreqs, freq_inds] = get_windows(Fs, nfft, frequency_range, window_start, winsize_samples);
 
 if verbose
     display_spectrogram_props([time_bandwidth num_tapers], [winsize_samples winstep_samples], frequency_range, detrend_opt, Fs);
@@ -67,12 +69,7 @@ end
 %Preallocate spectrogram and slice data for efficient parallel computing
 data_type = class(data);
 mt_spectrogram = zeros(sum(freq_inds), num_windows, data_type);
-data_segments = data(window_idxs);
-
-%Intitalize parallel computing
-% if isempty(gcp)
-%     parpool;
-% end
+data_segments = data(window_idxs)';
 
 %Start timing
 start_time = tic;
@@ -85,15 +82,31 @@ start_time = tic;
 %     STEP 4: Take the mean of the tapered spectra
 
 %Generate DPSS tapers (STEP 1)
-DPSS_tapers = dpss(winsize_samples, time_bandwidth, num_tapers) * sqrt(Fs);
+[DPSS_tapers, DPSS_eigen] = dpss(winsize_samples, time_bandwidth, num_tapers);
+
+% pre-compute weights
+if weighting == 1
+    wt = DPSS_eigen / num_tapers;
+elseif weighting == 0
+    wt = ones(num_tapers,1) / num_tapers;
+else
+    wt = 0;
+end
+
+%temp_reg = zeros(1024,3,num_windows);
 
 %Loop in parallel over all of the windows
 parfor n = 1:num_windows
     %Grab the data for the given window
-    data_segment = data_segments(n,:);
+    data_segment = data_segments(:,n);
     
     %Skip empty segments
     if all(data_segment == 0)
+        continue;
+    end
+    
+    if any(isnan(data_segment))
+        mt_spectrogram(:,n) = nan;
         continue;
     end
     
@@ -103,22 +116,50 @@ parfor n = 1:num_windows
     end
     
     %Multiply the data by the tapers (STEP 2)
-    tapered_data = data_segment(:) .* DPSS_tapers;
+    tapered_data = repmat(data_segment,1,num_tapers) .* DPSS_tapers;
     
     %Compute the FFT (STEP 3)
     fft_data = fft(tapered_data, nfft);
-    fft_range = fft_data(freq_inds, :);
+    %temp_reg(:,:,n) = fft_data;
+
     
-    %Take the FFT magnitude (STEP 4)
-    magnitude = imag(fft_range).^2 + real(fft_range).^2;
-    mt_spectrum = sum(magnitude, 2);
-    
+    %Compute the weighted mean spectral power across tapers (STEP 4)
+    Spower = imag(fft_data).^2 + real(fft_data).^2;
+    if weighting == 2
+        % adaptive weights - for colored noise spectrum (Percival & Walden
+        % p368-p370)
+        x = data_segment;
+        Tpower = x'*x/length(x);
+        Spower_iter = mean(Spower(:,1:2),2);
+        a = (1-DPSS_eigen)*Tpower;
+        for ii = 1:3 % run 3 iterations
+            % calculate the MSE weights
+            b=(Spower_iter*ones(1,num_tapers))./(Spower_iter*DPSS_eigen'+ones(nfft,1)*a');
+            % calculate new spectral estimate
+            wk=(b.^2).*(ones(nfft,1)*DPSS_eigen');
+            Spower_iter=sum(wk'.*Spower')' ./ sum(wk,2);
+        end
+        mt_spectrum = Spower_iter;
+    else
+        % eigenvalue or uniform weights
+        mt_spectrum = Spower * wt;
+    end
+        
     %Add the spectrum to the spectrogram
-    mt_spectrogram(:,n) = mt_spectrum;
+    mt_spectrogram(:,n) = mt_spectrum(freq_inds);
 end
 
-%Compute the mean FFT magnitude (STEP 4)
-mt_spectrogram = mt_spectrogram' / (Fs*Fs) / num_tapers;
+%save('tapered_data_reg.mat', 'temp_reg');
+
+%Compute one-sided PSD spectrum 
+DC_select = find(sfreqs==0);
+Nyquist_select = find(sfreqs==Fs/2);
+select = setdiff(1:length(sfreqs), [DC_select, Nyquist_select]);
+mt_spectrogram = [mt_spectrogram(DC_select,:); 2*mt_spectrogram(select,:); mt_spectrogram(Nyquist_select,:)] / Fs;
+
+%Flip if requested
+if xyflip; mt_spectrogram = mt_spectrogram'; end
+
 
 %% PLOT THE SPECTROGRAM
 
@@ -130,15 +171,20 @@ end
 
 %Plot the spectrogram
 if plot_on
-    imagesc(stimes, sfreqs, nanpow2db(mt_spectrogram'));
+    if xyflip
+        imagesc(stimes, sfreqs, nanpow2db(mt_spectrogram'));
+    else
+        imagesc(stimes, sfreqs, nanpow2db(mt_spectrogram));
+    end
     axis xy
     xlabel('Time (s)');
     ylabel('Frequency (Hz)');
-    
+
     c = colorbar;
     ylabel(c,'Power (dB)');
     axis tight
 end
+
 end
 
 
@@ -148,13 +194,14 @@ end
 % ********************************************
 %% PROCESS THE USER INPUT
 
-function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, plot_on, verbose] = process_input(varargin)
+function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, ...
+          detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin)
 if length(varargin)<2
     error('Too few inputs. Need at least data and sampling rate');
 end
 
 %Set default values for inputs
-default={[],[],[0 varargin{2}/2],[5 9], [5 1], 0, true, true, true}; % updated on 05/18/2020 to remove floor on (Fs/2)
+default={[],[],[0 varargin{2}/2],[5 9], [5 1], 0, 'linear', 'unity', true, true, false};
 
 %Allow the third input to be ploton
 if nargin == 3 && islogical(varargin{3})
@@ -167,7 +214,7 @@ inputs = default;
 inputs(setdiff(1:length(varargin), find(cellfun(@isempty,varargin)))) = varargin(~cellfun(@isempty,(varargin)));
 
 %Transfer input vector to parameters
-[data, Fs, frequency_range, taper_params, data_window_params, min_NFFT, detrend_opt, plot_on, verbose] = deal(inputs{:});
+[data, Fs, frequency_range, taper_params, data_window_params, min_NFFT, detrend_opt, weighting, plot_on, verbose, xyflip] = deal(inputs{:});
 
 %Set either linear or constant detrending
 if detrend_opt ~= false
@@ -181,8 +228,20 @@ if detrend_opt ~= false
     end
 end
 
+%Set taper weighting options
+switch lower(weighting)
+    case {'adapt','adaptive'}
+        weighting = 2;
+    case {'eig', 'eigen'}
+        weighting = 1;
+    otherwise
+        weighting = 0;
+end
+
 %Fix error in frequency range
-if frequency_range(2) > Fs/2 % updated on 05/18/2020 to remove floor on (Fs/2)
+if length(frequency_range) == 1 %Set max frequency to nyquist if only lower bound specified
+    frequency_range(2) = Fs/2;
+elseif frequency_range(2) > Fs/2 % updated on 05/18/2020 to remove floor on (Fs/2)
     frequency_range(2) = Fs/2;
     warning(['Upper frequency range greater than Nyquist, setting range to [' num2str(frequency_range(1)) ' ' num2str(frequency_range(2)) ']']);
 end
@@ -222,6 +281,11 @@ end
 %Total data length
 N=length(data);
 
+%Force data to be a column vector 
+if isrow(data)
+    data = data(:);
+end
+
 %Window start indices
 window_start = 1:winstep_samples:N-winsize_samples+1;
 %Number of windows
@@ -233,23 +297,18 @@ end
 
 %% PROCESS THE SPECTROGRAM PARAMETERS
 
-function [window_idxs, stimes, sfreqs, freq_inds] = process_spectrogram_params(Fs, nfft, frequency_range, window_start, datawin_size)
+function [window_idxs, stimes, sfreqs, freq_inds] = get_windows(Fs, nfft, frequency_range, window_start, datawin_size)
 %Create the frequency vector
 df = Fs/nfft;
-sfreqs = df/2:df:(Fs-df/2); % all possible frequencies
-
-%Set max frequency to nyquist if only lower bound specified
-if length(frequency_range) == 1
-    frequency_range(2) = Fs/2; % updated on 05/18/2020 to remove floor on (Fs/2)
-end
+sfreqs = 0:df:Fs; % all possible frequencies
 
 %Get just the frequencies for the given frequency range
 freq_inds = (sfreqs >= frequency_range(1)) & (sfreqs <= frequency_range(2));
 sfreqs = sfreqs(freq_inds);
 
 %Compute the times of the middle of each spectrum
-window_middle_times = window_start + round(datawin_size/2);
-stimes = window_middle_times/Fs;
+window_middle_samples = window_start + round(datawin_size/2);
+stimes = (window_middle_samples-1)/Fs; % stimes start from 0
 
 %Data windows
 window_idxs = window_start' + (0:datawin_size-1);
