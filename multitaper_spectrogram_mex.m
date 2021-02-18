@@ -10,7 +10,7 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %   Fs: double - sampling frequency in Hz  -- required
 %   frequency_range: 1x2 vector - [<min frequency>, <max frequency>] (default: [0 nyquist])
 %   taper_params: 1x2 vector - [<time-halfbandwidth product>, <number of tapers>] (default: [5 9])
-%   window_params: 1x2 vector - [window size (seconds), step size (seconds)] (default: [5 1])
+%   window_params: 1x2 vector - [window size (seconds), step size (seconds)] (default: [30 5])
 %   min_NFFT: double - minimum allowable NFFT size, adds zero padding for interpolation (closest 2^x) (default: 0)
 %   detrend_opt: string - detrend data window ('linear' (default), 'constant', 'off');
 %   weighting: string - weighting of tapers ('unity' (default), 'eigen', 'adapt');
@@ -113,7 +113,7 @@ if length(varargin)<2
 end
 
 %Set default values for inputs
-default={[],[],[0 varargin{2}/2],[5 9], [5 1], 0, 'linear', 'unity', true, true, false};
+default={[],[],[0 varargin{2}/2],[5 9],[30 5],0,'linear','unity',true,true,false};
 
 %Allow the third input to be ploton
 if nargin == 3 && islogical(varargin{3})
