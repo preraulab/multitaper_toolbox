@@ -1,23 +1,24 @@
-function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram_mex(varargin)
+function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %MULTITAPER_SPECTROGRAM  Compute the multitaper spectrogram for time series data
 %
 %   Usage:
 %   Direct input:
-%   [spect,stimes,sfreqs] = multitaper_spectrogram_mex(data, Fs, frequency_range, taper_params, window_params, min_NFFT, detrend_opt, plot_on, verbose)
+%   [spect,stimes,sfreqs] = multitaper_spectrogram_mex(data, Fs, frequency_range, taper_params, window_params, min_NFFT, detrend_opt, weighting, plot_on, verbose)
 %
 %   Input:
-%   data: 1 x <number of samples> vector - time series data-- required
+%   data: <number of samples> x 1 vector - time series data -- required
 %   Fs: double - sampling frequency in Hz  -- required
 %   frequency_range: 1x2 vector - [<min frequency>, <max frequency>] (default: [0 nyquist])
 %   taper_params: 1x2 vector - [<time-halfbandwidth product>, <number of tapers>] (default: [5 9])
-%   window_params: 1x2 vector - [window size (seconds), step size (seconds)] (default: [5 1])
-%   detrend_opt: string - detrend data window ('linear' (default), 'constant', 'off');
+%   window_params: 1x2 vector - [window size (seconds), step size (seconds)] (default: [30 5])
 %   min_NFFT: double - minimum allowable NFFT size, adds zero padding for interpolation (closest 2^x) (default: 0)
+%   detrend_opt: string - detrend data window ('linear' (default), 'constant', 'off');
+%   weighting: string - weighting of tapers ('unity' (default), 'eigen', 'adapt');
 %   plot_on: boolean to plot results (default: true)
 %   verbose: boolean to display spectrogram properties (default: true)
 %
 %   Output:
-%   spect: TxF matrix of spectral power
+%   spect: FxT matrix of spectral power
 %   stimes: 1XT vector of times for the center of the spectral bins
 %   sfreqs: 1XF vector of frequency bins for the spectrogram
 %
@@ -49,31 +50,29 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram_mex(varargin)
 %   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 %   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
 %
-%   Last modified 1/11/2019
+%   Last modified 2/16/2021
 %% ********************************************************************
 
-% PROCESS DATA AND PARAMETERS
+%% PROCESS DATA AND PARAMETERS
 try
     %Process user input
-    [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, ~, ~, min_NFFT, detrend_opt, plot_on, verbose] = process_input(varargin{:});
-    
+    [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, ~, ~, min_NFFT, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
     
     if verbose
         display_spectrogram_props([time_bandwidth num_tapers], [winsize_samples winstep_samples], frequency_range, detrend_opt, Fs);
     end
     
-    
     %Generate DPSS tapers (STEP 1)
-    DPSS_tapers = dpss(winsize_samples, time_bandwidth, num_tapers) * sqrt(Fs);
+    [DPSS_tapers, DPSS_eigen] = dpss(winsize_samples, time_bandwidth, num_tapers);
     
     start_time = tic;
     %Compute the multitaper spectrogram
-    [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram_coder_mex(single(data(:)'), Fs, frequency_range, DPSS_tapers, time_bandwidth, num_tapers, winsize_samples, winstep_samples, min_NFFT, detrend_opt);
+    [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder_mex(single(data), Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, min_NFFT, detrend_opt, weighting);
+    if xyflip; mt_spectrogram = mt_spectrogram'; end
     
     %% PLOT THE SPECTROGRAM
     
     %Show timing if verbose
-    
     if verbose
         disp(' ');
         disp(['Estimation time: ' datestr(toc(start_time)*datenum([0 0 0 0 0 1]), 'HH:MM:SS.FFF')]);
@@ -81,7 +80,11 @@ try
     
     %Plot the spectrogram
     if plot_on
-        imagesc(stimes, sfreqs, nanpow2db(mt_spectrogram'));
+        if xyflip
+            imagesc(stimes, sfreqs, nanpow2db(mt_spectrogram'));
+        else
+            imagesc(stimes, sfreqs, nanpow2db(mt_spectrogram));
+        end
         axis xy
         xlabel('Time (s)');
         ylabel('Frequency (Hz)');
@@ -90,8 +93,10 @@ try
         ylabel(c,'Power (dB)');
         axis tight
     end
-catch
-    warning(['Mex file unavailable for system: ' computer ' . Reverting to matlab version']);
+    
+catch ME
+    warning(ME.message)
+    warning(['Mex file execution error for system: ' computer ' . Reverting to matlab version']);
     [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin{:});
 end
 end
@@ -102,13 +107,13 @@ end
 % ********************************************
 %% PROCESS THE USER INPUT
 
-function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, plot_on, verbose] = process_input(varargin)
+function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin)
 if length(varargin)<2
     error('Too few inputs. Need at least data and sampling rate');
 end
 
 %Set default values for inputs
-default={[],[],[0 varargin{2}/2],[5 9], [5 1], 0, true, true, true};
+default={[],[],[0 varargin{2}/2],[5 9],[30 5],0,'linear','unity',true,true,false};
 
 %Allow the third input to be ploton
 if nargin == 3 && islogical(varargin{3})
@@ -121,26 +126,36 @@ inputs = default;
 inputs(setdiff(1:length(varargin), find(cellfun(@isempty,varargin)))) = varargin(~cellfun(@isempty,(varargin)));
 
 %Transfer input vector to parameters
-[data, Fs, frequency_range, taper_params, data_window_params, min_NFFT, detrend_opt, plot_on, verbose] = deal(inputs{:});
+[data, Fs, frequency_range, taper_params, data_window_params, min_NFFT, detrend_opt, weighting, plot_on, verbose, xyflip] = deal(inputs{:});
 
 %Set either linear or constant detrending
-if detrend_opt ~= false
-    switch lower(detrend_opt)
-        case {'const','constant'}
-            detrend_opt = 1;
-        case {'none', 'off'}
-            detrend_opt = 0;
-        otherwise
-            detrend_opt = 2;
-    end
+switch lower(detrend_opt)
+    case {'const','constant'}
+        detrend_opt = 1;
+    case {'none', 'off'}
+        detrend_opt = 0;
+    otherwise
+        detrend_opt = 2;
+end
+
+%Set taper weighting options
+switch lower(weighting)
+    case {'adapt','adaptive'}
+        weighting = 2;
+    case {'eig', 'eigen'}
+        weighting = 1;
+    otherwise
+        weighting = 0;
 end
 
 %Fix error in frequency range
-if frequency_range(2) > Fs/2
+%Set max frequency to nyquist if only lower bound specified
+if length(frequency_range) == 1
+    frequency_range(2) = Fs/2;
+elseif frequency_range(2) > Fs/2
     frequency_range(2) = Fs/2;
     warning(['Upper frequency range greater than Nyquist, setting range to [' num2str(frequency_range(1)) ' ' num2str(frequency_range(2)) ']']);
 end
-
 
 %Set the number of tapers if none supplied
 time_bandwidth = taper_params(1);
@@ -176,6 +191,11 @@ end
 %Total data length
 N=length(data);
 
+%Force data to be a column vector 
+if isrow(data)
+    data = data(:);
+end
+
 %Window start indices
 window_start = 1:winstep_samples:N-winsize_samples+1;
 %Number of windows
@@ -183,30 +203,6 @@ num_windows = length(window_start);
 
 %Number of points in the FFT
 nfft = max(max(2^(nextpow2(winsize_samples)),winsize_samples), 2^nextpow2(min_NFFT));
-end
-
-%% PROCESS THE SPECTROGRAM PARAMETERS
-
-function [window_idxs, stimes, sfreqs, freq_inds] = process_spectrogram_params(Fs, nfft, frequency_range, window_start, datawin_size)
-%Create the frequency vector
-df = Fs/nfft;
-sfreqs = df/2:df:(Fs-df/2); % all possible frequencies
-
-%Set max frequency to nyquist if only lower bound specified
-if length(frequency_range) == 1
-    frequency_range(2) = Fs/2;
-end
-
-%Get just the frequencies for the given frequency range
-freq_inds = (sfreqs >= frequency_range(1)) & (sfreqs <= frequency_range(2));
-sfreqs = sfreqs(freq_inds);
-
-%Compute the times of the middle of each spectrum
-window_middle_times = window_start + round(datawin_size/2);
-stimes = window_middle_times/Fs;
-
-%Data windows
-window_idxs = window_start' + (0:datawin_size-1);
 end
 
 %% DISPLAY SPECTROGRAM PROPERTIES
@@ -237,6 +233,8 @@ disp(['    Detrending: ' det_string]);
 disp(' ');
 %disp(['Estimating multitaper spectrogram on ' num2str(my_pool.NumWorkers) ' workers...']);
 end
+
+%% POW2DB FOR NAN ENTRIES
 
 function ydB = nanpow2db(y)
 %POW2DB   Power to dB conversion, setting all bad values to nan
