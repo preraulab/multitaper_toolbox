@@ -120,8 +120,6 @@ parfor n = 1:num_windows
     
     %Compute the FFT (STEP 3)
     fft_data = fft(tapered_data, nfft);
-    %temp_reg(:,:,n) = fft_data;
-
     
     %Compute the weighted mean spectral power across tapers (STEP 4)
     Spower = imag(fft_data).^2 + real(fft_data).^2;
@@ -149,7 +147,6 @@ parfor n = 1:num_windows
     mt_spectrogram(:,n) = mt_spectrum(freq_inds);
 end
 
-%save('tapered_data_reg.mat', 'temp_reg');
 
 %Compute one-sided PSD spectrum 
 DC_select = find(sfreqs==0);
