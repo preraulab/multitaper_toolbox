@@ -1,16 +1,19 @@
 ## Package installation and library initializing ##
-packages_req <- c("waveslim", "pracma", "fields")
+packages_req <- c("multitaper", "pracma", "fields", "doParallel", "parallel", "png")
 not_installed <- packages_req[!(packages_req %in% installed.packages()[ , "Package"])]    # Extract not installed packages
 if(length(not_installed)) install.packages(not_installed)                               # Install not installed packages
 
-library(waveslim)
+library(multitaper)
 library(pracma)
 library(fields)
-
+library(doParallel)
+library(parallel)
+library(png)
 
 # Multitaper Spectrogram #
 multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_tapers=NULL, window_params=c(5,1),
-                                     min_nfft=0, detrend_opt='linear', plot_on=TRUE, verbose=TRUE){
+                                     min_nfft=0, weighting='unity', detrend_opt='linear', parallel=FALSE, num_workers=FALSE,
+                                     plot_on=TRUE, verbose=TRUE, xyflip=FALSE){
   # Compute multitaper spectrogram of timeseries data
   # 
   # Results tend to agree with Prerau Lab python implementation of multitaper spectrogram with precision on the order of at most 
@@ -26,10 +29,17 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   #         num_tapers (numeric): number of DPSS tapers to use (default: NULL [will be computed
   #                                                               as floor(2*time_bandwidth - 1)])
   #         window_params (numeric vector): c(window size (seconds), step size (seconds)) (default: [5 1])
-  #         detrend_opt (char): detrend data window ('linear' (default), 'constant', 'off') 
   #         min_nfft (numeric): minimum allowable NFFT size, adds zero padding for interpolation (closest 2^x) (default: 0)
+  #         weighting (char): weighting of tapers ('unity' (default), 'eigen', 'adapt')
+  #         detrend_opt (char): detrend data window ('linear' (default), 'constant', 'off') 
+  #         parallel (logical): use parallel processing to speed up calculation (default: FALSE). Note: speedup is faster on
+  #                             unix-like machines (Mac, Linux) because they allow fork processes while Windows does not.w
+  #         num_workers (numeric): number of cpus/workers to dedicate to parallel processing (default: FALSE). Note: Will 
+  #                                be ignored if parallel is FALSE. If parallel is TRUE and num_workers is false (or if num_workers
+  #                                exceeds available workers), will default to max number of workers available minus 1. 
   #         plot_on (logical): plot results (default: TRUE)
   #         verbose (logical): display spectrogram properties (default: TRUE)
+  #         xyflip (logical): return the transpose of mt_spectrogram 
   #
   # returns:
   #         mt_spectrogram (matrix): spectral power matrix
@@ -37,7 +47,7 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   #         sfreqs (numeric vector): frequency values (Hz) in mt_spectrogram
   
   # Process user input
-  res <- process_input(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, 
+  res <- process_input(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, weighting, detrend_opt, 
                        plot_on, verbose)
   
   data <- res[[1]]
@@ -50,9 +60,10 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   window_start = res[[8]]
   num_windows <- res[[9]]
   nfft <- res[[10]]
-  detrend_opt <- res[[11]]
-  plot_on <- res[[12]]
-  verbose <- res[[13]]
+  weighting = res[[11]]
+  detrend_opt <- res[[12]]
+  plot_on <- res[[13]]
+  verbose <- res[[14]]
   
   # Set up spectrogram parameters
   res <- process_spectrogram_params(fs, nfft, frequency_range, window_start, winsize_samples)
@@ -76,16 +87,59 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   #     STEP 3: Compute the spectrum for each tapered segment
   #     STEP 4: Take the mean of the tapered spectra
   
-  # Compute DPSS tapers (STEP 1)
-  dpss_tapers <- dpss.taper(winsize_samples, num_tapers, time_bandwidth) * sqrt(fs)
-  
   tic <- proc.time() # start timer for multitaper
-  # Compute multitaper
-  mt_spectrogram = apply(data_segments, 1, calc_mts_segment, dpss_tapers=dpss_tapers, nfft=nfft, 
-                         freq_inds=freq_inds, detrend_opt=detrend_opt)
   
-  # Compute mean fft magnitude (STEP 4.2)
-  mt_spectrogram = Conj(t(mt_spectrogram)) / fs^2 / num_tapers
+  # Compute DPSS tapers (STEP 1)
+  dpss_tapers <- dpss(winsize_samples, num_tapers, time_bandwidth, returnEigenvalues=TRUE)
+  dpss_eigen = dpss_tapers$eigen
+  dpss_tapers = dpss_tapers$v
+  
+  # pre-compute weights
+  if(weighting == 'eigen'){
+    wt = dpss_eigen / num_tapers;
+  }
+  else if(weighting == 'unity'){
+    wt = ones(num_tapers,1) / num_tapers;
+  }
+  else{
+    wt = 0;
+  }
+  
+  # Compute multitaper #
+  if(parallel){ # Check for parallelization
+    workers_avail <- detectCores() - 1  # detect cores available and leave 1 for user
+    if(num_workers==FALSE | num_workers > workers_avail){
+      num_workers = workers_avail
+      warning(paste("Number of workers for parallelization either not specified or greater than workers available. Setting number
+                    of workers to number available minus 1 (", toString(num_workers), ")"))
+    }
+    registerDoParallel(cores=num_workers) # register workers with doParallel
+    
+    # Create cluster of workers differently depending on OS
+    if(Sys.info()["sysname"] == "Windows"){ # windows cannot use FORK argument
+      cluster <- makeCluster(num_workers) # create cluster of workers without forking
+    }
+    else{ 
+      cluster <- makeCluster(num_workers, type="FORK") # if not windows, use FORK because it's faster
+    }
+    
+    mt_spectrogram <- parApply(cluster, data_segments, 1, calc_mts_segment, dpss_tapers=dpss_tapers, nfft=nfft, freq_inds=freq_inds,
+                               weighting=weighting, wt=wt, dpss_eigen=dpss_eigen, num_tapers=num_tapers, detrend_opt=detrend_opt)
+    
+    stopCluster(cluster) # stop cluster to give back resources
+    registerDoSEQ() # switch back to serial processing
+    } 
+  else{ # if no parallelization, use normal apply
+    mt_spectrogram = apply(data_segments, 1, calc_mts_segment, dpss_tapers=dpss_tapers, nfft=nfft, freq_inds=freq_inds,
+                           weighting=weighting, wt=wt, dpss_eigen=dpss_eigen, num_tapers=num_tapers, detrend_opt=detrend_opt)
+  }
+  
+  
+  # Compute one-sided PSD spectrum 
+  DC_select = which(sfreqs==0)
+  Nyquist_select = which(sfreqs==fs/2)
+  select = setdiff(1:(length(sfreqs)), c(DC_select, Nyquist_select))
+  mt_spectrogram = rbind(mt_spectrogram[DC_select,], 2*mt_spectrogram[select,], mt_spectrogram[Nyquist_select,]) / fs
   
   # End timer and get elapsed time
   toc = proc.time()
@@ -98,8 +152,26 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   if(all(as.vector(mt_spectrogram) == 0)){
     print("Spectrogram calculated as all zeros, no plot shown")
   }else if(plot_on){
-    image.plot(x=stimes, y=sfreqs, nanpow2db(mt_spectrogram), xlab="Time (s)", 
+    print("plotting...")
+    
+    # Saving to PNG, loading back in, and plotting as raster is actually faster than just plotting using image.plot
+    png(filename=paste("spectrogram.png")) # save as png
+    image.plot(x=stimes, y=sfreqs, nanpow2db(t(mt_spectrogram)), xlab="Time (s)", 
                ylab='Frequency (Hz)')
+    dev.off()
+    
+    im <- readPNG("spectrogram.png") # load png
+    file.remove("spectrogram.png") # remove png file
+    plot.new() 
+    rasterImage(im,0,0,1,1, interpolate=FALSE) # plot as raster
+    print("done plotting")
+  }
+  
+  
+  
+  
+  if(xyflip){
+    mt_spectrogram = t(mt_spectrogram)
   }
   
   return(list(mt_spectrogram, stimes, sfreqs))
@@ -116,7 +188,7 @@ split_data_helper <- function(indices, data){ # for sapply when splitting data i
 
 # Process user input #
 process_input <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_tapers=NULL,
-                          window_params=c(5,1), min_nfft=0, detrend_opt='linear', plot_on=TRUE,
+                          window_params=c(5,1), min_nfft=0, weighting='unity', detrend_opt='linear', plot_on=TRUE,
                           verbose=TRUE){
   
   # Helper function to process multitaper_spectrogram arguments, mainly checking for validity
@@ -162,15 +234,26 @@ process_input <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_
   # Set detrend method
   detrend_opt = tolower(detrend_opt)
   if(detrend_opt != 'linear'){
-    if(detrend_opt == 'const'){
+    if(detrend_opt == 'const' || detrend_opt == 'constant'){
       detrend_opt <- 'constant'
-    } else if(detrend_opt == 'none' || detrend_opt == 'false'){
+    } else if(detrend_opt == 'none' || detrend_opt == 'false' || detrend_opt == 'off'){
       detrend_opt <- 'off'
     }else{
       stop(paste("'", toString(detrend_opt), "' is not a valid detrend_opt argument. The",
                  " choices are: 'constant', 'linear', or 'off'.", sep=""))
     } 
   }
+  
+  # Set taper weighting options
+  weighting = tolower(weighting)
+  if(weighting == 'adaptive' || weighting == 'adapt'){
+    weighting = 'adapt'
+  } else if(weighting == 'eig' || weighting == 'eigen'){
+    weighting = 'eigen'
+  } else if(weighting != 'unity'){
+    stop(paste("'", toString(weighting), "' is not a valid weighing argument. Choices are: 'unity', 'eigen' or 'adapt'"))
+  }
+  
   
   # Check if frequency range is valid
   if(frequency_range[2] > fs/2){
@@ -229,7 +312,7 @@ process_input <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_
   nfft = max(max(2^ceiling(log2(abs(winsize_samples))), winsize_samples), 2^ceiling(log2(abs(min_nfft))))
   
   return(list(data, fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, 
-              window_start, num_windows, nfft, detrend_opt, plot_on, verbose))
+              window_start, num_windows, nfft, weighting, detrend_opt, plot_on, verbose))
 }
 
 
@@ -254,15 +337,15 @@ process_spectrogram_params <- function(fs, nfft, frequency_range, window_start, 
   
   # Create frequency vector
   df <- fs/nfft
-  sfreqs <- seq(df/2, fs-(df/2), by=df)
+  sfreqs <- seq(0, fs, by=df)
   
   # Get frequencies for given frequency range
   freq_inds <- (sfreqs >= frequency_range[1]) & (sfreqs <= frequency_range[2])
   sfreqs <- sfreqs[freq_inds]
   
   # Compute times in middle of each spectrum
-  window_middle_times <- window_start + round(datawin_size/2)
-  stimes <- window_middle_times / fs
+  window_middle_samples <- window_start + round(datawin_size/2)
+  stimes <- (window_middle_samples-1) / fs  # stimes starts from 0
   
   # Get indices for each window
   window_idxs <- lapply(window_start, window_index_helper, datawin_size=datawin_size) # list of indices for n windows
@@ -333,7 +416,7 @@ nanpow2db <- function(y){
 
 
 # Calculate multitpaer spectrum of single segment #
-calc_mts_segment <- function(data_segment, dpss_tapers, nfft, freq_inds, detrend_opt){
+calc_mts_segment <- function(data_segment, dpss_tapers, nfft, freq_inds, weighting, wt, dpss_eigen, num_tapers, detrend_opt){
   # Calculate multitaper spectrum for a single segment of data
   #
   # params:
@@ -343,10 +426,16 @@ calc_mts_segment <- function(data_segment, dpss_tapers, nfft, freq_inds, detrend
   #         nfft (numeric): length of signal to calculate fft on -- required 
   #         freq_inds (logical vector): boolean array indicating frequencies to use in an array of frequenices
   #                                    from 0 to fs with steps of fs/nfft --required
+  #         weighting (char): weighting of tapers ('unity' (default), 'eigen', 'adapt') --required
+  #         wt (numeric vector or numeric): precomputed taper weights --required
+  #         dpss_eigen (numeric vector): --required
+  #         num_tapers (numeric): number of dpss tapers being used --required
   #         detrend_opt (char): detrend data window ('linear' (default), 'constant', 'off') --required
   #
   # returns:
   #         mt_spectrum (numeric matrix): spectral power for single window
+  
+  library(pracma)
   
   # If segment has all zeros, return vector of zeros
   if(all(data_segment==0)){
@@ -362,17 +451,39 @@ calc_mts_segment <- function(data_segment, dpss_tapers, nfft, freq_inds, detrend
   # Multiply data by dpss tapers (STEP 2)
   tapered_data <- sweep(dpss_tapers, 1, data_segment, '*')
   
+  
   # Manually add nfft zero-padding (R's fft function does not support)
   tapered_padded_data <- rbind(tapered_data, matrix(0, nrow=nfft-nrow(tapered_data), ncol=ncol(tapered_data)))
   
+  
   # Compute the FFT (STEP 3)
   fft_data <- apply(tapered_padded_data, 2, fft)
-  fft_range = fft_data[freq_inds,]
+  # Compute the weighted mean spectral power across tapers (STEP 4)
+  Spower = Im(fft_data)^2 + Re(fft_data)^2;
+  if(weighting == 'adapt'){
+    # daptive weights - for colored noise spectrum (Percival & Walden p368-p370)
+    x = matrix(data_segment, nrow=1)
+    Tpower <- x %*% (t(x)/length(x))
+    Spower_iter <- rowMeans(Spower[,1:2])
+    Spower_iter <- matrix(Spower_iter, ncol=1) # (nfft,1)
+    a <- (1 - dpss_eigen) * as.vector(Tpower)
+    a <- matrix(a, ncol=1) # (num_tapers, 1)
+    dpss_eigen = matrix(dpss_eigen, nrow=1)
+    for(i in 1:3){ # run 3 iterations
+      # calculate the MSE weights
+      b = (Spower_iter %*% ones(1,num_tapers)) / ( (Spower_iter %*% dpss_eigen) + repmat(t(a),nfft,1) )
+      # calculate new spectral estimate
+      wk = b^2 * (ones(nfft,1) %*% dpss_eigen)
+      Spower_iter = matrix(colSums(t(wk) * t(Spower)), nrow=1) / rowSums(wk)
+      Spower_iter = matrix(Spower_iter, ncol=1)
+    }
+    mt_spectrum = as.vector(Spower_iter)
+  } else{
+    # eigenvalue or uniform weights
+    mt_spectrum = Spower %*% wt
+    mt_spectrum = as.vector(mt_spectrum)
+  }
   
-  # Take the FFT magnitude (STEP 4.1)
-  magnitude = Im(fft_range)^2 + Re(fft_range)^2
-  mt_spectrum = rowSums(magnitude)
-  
-  return(mt_spectrum)
+  return(mt_spectrum[freq_inds])
 }
 
