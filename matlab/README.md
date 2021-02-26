@@ -31,6 +31,7 @@ Find videos describing the theory of spectral estimation and demonstrating how m
 
 ## Usage
 The two functions multitaper_spectrogram and multitaper_spectrogram_mex differ only in speed and data precision. The mex function is implemented in C and is therefor much faster, but reduces data precision from double to single. Both function have identicle inputs.
+
 ---
 
 multitaper_spectrogram usage:
