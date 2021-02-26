@@ -116,7 +116,7 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
     registerDoParallel(cores=num_workers) # register workers with doParallel
     
     # Create cluster of workers differently depending on OS
-    if(Sys.info()["sysname"] == "Windows"){ # windows cannot use FORK argument
+    if(.Platform$OS.type == "windows"){ # windows cannot use FORK argument
       cluster <- makeCluster(num_workers) # create cluster of workers without forking
     }
     else{ 
@@ -163,7 +163,7 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
     im <- readPNG("spectrogram.png") # load png
     file.remove("spectrogram.png") # remove png file
     plot.new() 
-    rasterImage(im,0,0,1,1, interpolate=FALSE) # plot as raster
+    rasterImage(im,0,0,1,1, interpolate=FALSE) # plot as raster image
     print("done plotting")
   }
   
