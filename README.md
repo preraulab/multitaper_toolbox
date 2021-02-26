@@ -3,13 +3,12 @@
 ---
 
 ## Table of Contents
-* [General Information](#gerenal-information)
+* [General Information](#general-information)
 * [Matlab Implementation](#matlab-implementation)
 * [Python Implementation](#python-implementation)
 * [R Implementation](#r-implementation)
 * [Parameters](#parameters)
 * [Numerical Differences Between Implementations](#numerical-differences-between-implementations)
-* [Weighting Options](#weighting-options)
 * [Status](#status)
 * [References](#references)
 * [Contact](#contact)
@@ -33,27 +32,31 @@ Find videos describing the theory of spectral estimation and demonstrating how m
 <br/>
 
 ## Matlab Implementation
-- **multitaper_spectrogram.m**: baseline parallelized implementation in Matlab 
-- **multitaper_spectrogram_mex.m**: optimized implementation in C called from Matlab. Data precision is reduced from double to single for major speed improvements.
+The "matlab" folder contains 2 functions that both run the multitaper spectrogram analysis:
+* **multitaper_spectrogram.m**: baseline parallelized implementation in Matlab 
+* **multitaper_spectrogram_mex.m**: optimized implementation in C called from Matlab. Data precision is reduced from double to single for major speed improvements.
+* See [the matlab implementation folder](https://github.com/preraulab/multitaper_toolbox/tree/master/matlab) for usage information and other details of the Matlab implementation
 <br/>
 
 ## Python Implementation
-- **multitaper_spectrogram_python.py**: baseline implementation in Python with option for multiprocessing
-- **requirements.txt**: contains names and versions of non-standard library Python packages required to run multitaper_spectrogram_python.py
-- Results tend to agree with Matlab implementation with precision on the order of at most 10^-13 with SD of at most 10^-10
+* **multitaper_spectrogram_python.py**: baseline implementation in Python with option for multiprocessing
+* **requirements.txt**: contains names and versions of non-standard library Python packages required to run multitaper_spectrogram_python.py
+* See [the python implementation folder](https://github.com/preraulab/multitaper_toolbox/tree/master/python) for usage information and other details of the Matlab implementation
+
 <br/>
 
 ## R Implementation
-- **multitaper_spectrogram_R.R**: baseline implementation in R (no multiprocessing option implemented yet)
-- Results tend to agree with Python implementation with precision on the order of at most 10^-11 with SD of at most 10^-9
+* **multitaper_spectrogram_R.R**: baseline implementation in R with option for multiprocessing
+* See [the R implementation folder](https://github.com/preraulab/multitaper_toolbox/tree/master/R) for usage information and other details of the Matlab implementation
+
 <br/>
 
 ## Parameters
 The spectral parameters used in all implementations of the multitaper spectrogram are described here.
 * data: 1-dimensional time series data
 * Fs: Frequency at which the data was sampled in Hz 
-* frequency_range: [<min frequency>, <max frequency>)] Range of frequencies (Hz) across which to compute the spectrum. The default for all implementations is [0, fs/2].
-* taper_params:  [<time-halfbandwidth product>, <number of tapers>] The time-half bandwidth product can be computed as T*(BW/2) where T is the length of the window (seconds) and BW is the bandwidth of the main lobe. The bandwidth of the main lobe is also called the frequency resolution because it dictates the minimum difference in frequency that can be detected. Number of tapers is that number of DPSS tapers to be used to compute the spectrum. The optimal number of tapers is 2*(time-half bandwidth product)-1. The default for all implementations is [5, 9].
+* frequency_range: [min frequency, max frequency] Range of frequencies (Hz) across which to compute the spectrum. The default for all implementations is [0, fs/2].
+* taper_params:  [time-halfbandwidth product, number of tapers] The time-half bandwidth product can be computed as T*(BW/2) where T is the length of the window (seconds) and BW is the bandwidth of the main lobe. The bandwidth of the main lobe is also called the frequency resolution because it dictates the minimum difference in frequency that can be detected. Number of tapers is that number of DPSS tapers to be used to compute the spectrum. The optimal number of tapers is 2*(time-half bandwidth product)-1. The default for all implementations is [5, 9].
 * window_params: [window size (seconds), step size (seconds)] These parameters dictate the temporal resolution of the analysis. The multitaper spectrum is computed for a single window of data, then the window moves based on step size and the spectrum will be computed again on the next window until the whole data array has been covered. The default for all implementations is [5, 1]. 
 * min_nfft: Multitaper spectrum computation relies on the Fourier Transform to transform the data from the time domain to the frequency domain. The Fast Fourier Transform (FFT) is an very computationally efficient algorithm to compute the Fourier Transform, and it works most efficiently when the number of data points in the given time series is a power of 2. Therefore, we want to pad the data with 0s to make it reach the closest power of 2. This implementation pads with zeros to the nearest power of 2 automatically, but if a specific power of 2 above the closest power fo 2 is desired, use this parameter. The default for all implementations is 0.
 * weighting: The DPSS tapers can be weighted differently, and we have included 2 weighting method options - 'eigen' and 'adaptive' - along with the uniformly weighted option 'unity' which is the default for all implementations. Eigenvalue weighting weights the contribution of each taper to the spectrum by it's eigenvalue (frequency concentration). In most cases this makes little difference between most taper's eigenvalues are very close to one anyway. The adaptive weighting method weights the tapers in such a way as to reduce the broadband leakage of non-white ('colored') noise. This method is adapted from pages 368-370 of "Spectral Analysis for Physical Applications: Multitaper and Conventional Univariate Techniques"<sup>5</sup>. In practice, the adaptive method does not change the results much at all but is provided here for the sake of completeness. 
@@ -62,10 +65,8 @@ The spectral parameters used in all implementations of the multitaper spectrogra
 <br/>
 
 ## Numerical Differences Between Implementations
-
-<br/>
-
-## Weighting Options
+* In data point comparisons Matlab and Python implementation results tend to agree on average with precision on the order of at most 10^-13 with SD of at most 10^-10.
+* In data point comparisons R and Python tend to agree on average with precision on the order of at most 10^-11 with SD of at most 10^-9.
 
 <br/>
 
