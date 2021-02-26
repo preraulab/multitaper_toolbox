@@ -18,8 +18,6 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
                            min_nfft=0, detrend_opt='linear', multiprocess=False, cpus=False, weighting='unity',
                            plot_on=True, verbose=True, xyflip=False):
     """ Compute multitaper spectrogram of timeseries data
-    Results tend to agree with Prerau Lab Matlab implementation of multitaper spectrogram with precision on the order
-    of at most 10^-12 with SD of at most 10^-10
 
     Usage:
     mt_spectrogram, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5,
