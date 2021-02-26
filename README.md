@@ -1,4 +1,4 @@
-# Prerau Lab Multitaper Spectrogram Code:
+# Prerau Lab Multitaper Spectrogram Code
 ### Matlab, Python, and R implementations
 ---
 
@@ -31,7 +31,6 @@ Find videos describing the theory of spectral estimation and demonstrating how m
 <br/>
 
 ## Matlab Implementation
-The "matlab" folder contains 2 functions that both run the multitaper spectrogram analysis:
 * **multitaper_spectrogram.m**: baseline parallelized implementation in Matlab 
 * **multitaper_spectrogram_mex.m**: optimized implementation in C called from Matlab. Data precision is reduced from double to single for major speed improvements.
 * See [the matlab implementation folder](https://github.com/preraulab/multitaper_toolbox/tree/master/matlab) for usage information and other details of the Matlab implementation
