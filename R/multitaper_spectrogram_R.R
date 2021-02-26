@@ -12,9 +12,6 @@ library(fields)
 multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_tapers=NULL, window_params=c(5,1),
                                      min_nfft=0, detrend_opt='linear', plot_on=TRUE, verbose=TRUE){
   # Compute multitaper spectrogram of timeseries data
-  # 
-  # Results tend to agree with Prerau Lab python implementation of multitaper spectrogram with precision on the order of at most 
-  # 10^-7 with SD of at most 10^-5
   #
   # params:
   #         data (numeric vector): time series data -- required
