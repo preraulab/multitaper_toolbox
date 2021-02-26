@@ -1,4 +1,21 @@
-# This repository contains 3 multitaper spectrogram implementations (Matlab, R, and Python) from the Prerau Lab
+# Prerau Lab Multitaper Spectrogram Code
+## Matlab, Python, and R implementations
+---
+
+## Table of Contents
+* [General Information](#gerenal-information)
+* [Parameters](#parameters)
+* [Matlab Implementation](#matlab-implementation)
+* [Python Implementation](#python-implementation)
+* [R Implementation](#r-implementation)
+* [Numerical Differences Between Implementations](#numerical-differences-between-implementations)
+* [Weighting Options](#weighting-options)
+* [Status](#status)
+* [Contact](#contact)
+
+## Generel Information 
+
+## Parameters
 
 ## Matlab Implementation
 - **multitaper_spectrogram.m**: baseline parallelized implementation in Matlab 
@@ -13,3 +30,10 @@
 - **multitaper_spectrogram_R.R**: baseline implementation in R (no multiprocessing option implemented yet)
 - Results tend to agree with Python implementation with precision on the order of at most 10^-7 with SD of at most 10^-5
 
+## Numerical Differences Between Implementations
+
+## Weighting Options
+
+## Status 
+
+## Contact
