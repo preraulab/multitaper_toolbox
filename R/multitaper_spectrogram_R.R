@@ -62,8 +62,8 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   #     data = chirp(t, f_start, tail(t,n=1), f_end, 'logarithmic')
   #
   #     # Compute the multitaper spectrogram
-  #     results = multitaper_spectrogram_R(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, weighting, detrend_opt, \
-  #                                        parallel, num_workers, plot_on, verbose, xyflip)
+  #     results = multitaper_spectrogram_R(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, 
+  #                                        weighting, detrend_opt, parallel, num_workers, plot_on, verbose, xyflip)
   #     spect = results[[1]]
   #     stimes = results[[2]]
   #     sfreqs = results[[3]]
