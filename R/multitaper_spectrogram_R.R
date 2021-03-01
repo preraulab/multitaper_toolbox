@@ -32,6 +32,41 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   #         mt_spectrogram (matrix): spectral power matrix
   #         stimes (numeric vector): timepoints (s) in mt_spectrogram
   #         sfreqs (numeric vector): frequency values (Hz) in mt_spectrogram
+  #
+  # 
+  # Example:
+  # In ths example we create some chirp data and compute the multitaper spectrogram on it.
+  #
+  #     install.packages("signal")
+  #     library(signal)  # get signal library for chirp function
+  #
+  #     # Set spectrogram params
+  #     fs = 200  # Sampling Frequency
+  #     frequency_range = c(0, 25)  # Limit frequencies from 0 to 25 Hz
+  #     time_bandwidth = 3  # Set time-half bandwidth
+  #     num_tapers = 5  # Set number of tapers (optimal is time_bandwidth*2 - 1)
+  #     window_params = c(4, 1)  # Window size is 4s with step size of 1s
+  #     min_nfft = 0  # No minimum nfft
+  #     weighting = 'unity'  # weight each taper at 1
+  #     detrend_opt = 'constant'  # detrend each window by subtracting the average
+  #     parallel = TRUE  # use multiprocessing
+  #     num_workers = 3  # use 3 cores in multiprocessing
+  #     plot_on = TRUE  # plot spectrogram
+  #     verbose = TRUE  # print extra info
+  #     xyflip = FALSE  # do not transpose spect output matrix
+  #
+  #     # Generate sample chirp data
+  #     t = seq(1/fs, 600, by=1/fs)  # Create 10 min time array from 1/fs to 600 stepping by 1/fs
+  #     f_start = 1  # Set chirp freq range min (Hz)
+  #     f_end = 20  # Set chirp freq range max (Hz)
+  #     data = chirp(t, f_start, tail(t,n=1), f_end, 'logarithmic')
+  #
+  #     # Compute the multitaper spectrogram
+  #     results = multitaper_spectrogram_R(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, weighting, detrend_opt, \
+  #                                        parallel, num_workers, plot_on, verbose, xyflip)
+  #     spect = results[[1]]
+  #     stimes = results[[2]]
+  #     sfreqs = results[[3]]
   
   # Process user input
   res <- process_input(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, 
