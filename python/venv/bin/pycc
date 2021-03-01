@@ -1,0 +1,3 @@
+#!/PHShome/tjp42/tjp_user/lab_code/Github/multitaper/python/venv/bin/python
+from numba.pycc import main
+main()
