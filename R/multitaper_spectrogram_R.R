@@ -67,6 +67,22 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   #     spect = results[[1]]
   #     stimes = results[[2]]
   #     sfreqs = results[[3]]
+  #
+  #
+  #   This code is companion to the paper:
+  #         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
+  #         Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon
+  #         December 7, 2016 : 60-92
+  #         DOI: 10.1152/physiol.00062.2015
+  #   which should be cited for academic use of this code.
+  #
+  #   A full tutorial on the multitaper spectrogram can be found at:
+  #   http://www.sleepEEG.org/multitaper
+  #
+  #   Copyright 2021 Michael Prerau Laboratory - http://www.sleepEEG.org
+  #   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+  #   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+  #__________________________________________________________________________________________________________________
   
   # Process user input
   res <- process_input(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, 
