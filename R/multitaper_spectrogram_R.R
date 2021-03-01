@@ -90,6 +90,8 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   #
   #   Copyright 2021 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
   #   Authors: Michael J. Prerau, Ph.D., Thomas Possidente
+  #
+  #   Last edited: 3/01/2021 - Thomas Possidente
   #__________________________________________________________________________________________________________________
   
   # Process user input
