@@ -87,11 +87,11 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
 
          A full tutorial on the multitaper spectrogram can be found at:  #   http://www.sleepEEG.org/multitaper
 
-        Copyright 2021 Michael Prerau Laboratory - http://www.sleepEEG.org
-        This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-        (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+        Copyright 2021 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+        Authors: Michael J. Prerau, Ph.D., Thomas Possidente
+        
+        Last modified - 2/18/2021 Thomas Possidente
   __________________________________________________________________________________________________________________
-        Last modified - 2/18/2021 Tom P.
     """
 
     #  Process user input
