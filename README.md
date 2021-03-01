@@ -11,6 +11,7 @@
 * [Numerical Differences Between Implementations](#numerical-differences-between-implementations)
 * [Status](#status)
 * [References](#references)
+* [Citations](#citations)
 * [Contact](#contact)
 
 <br/>
@@ -66,6 +67,16 @@ The spectral parameters used in all implementations of the multitaper spectrogra
 * In data point comparisons Matlab and Python implementation results tend to agree on average with precision on the order of at most 10^-13 with SD of at most 10^-10.
 * In data point comparisons R and Python implementation results tend to agree on average with precision on the order of at most 10^-11 with SD of at most 10^-9.
 
+<br/>
+
+## Citations
+The code contained in this repository for multitaper spectral analysis is companion to the paper:  
+> "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"  
+>   Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon  
+>    December 7, 2016 : 60-92  
+>    DOI: 10.1152/physiol.00062.2015  
+
+which should be cited for academic use of this code.  
 <br/>
 
 ## Status 
