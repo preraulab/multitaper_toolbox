@@ -31,6 +31,7 @@ Find videos describing the theory of spectral estimation and demonstrating how m
 
 ## Usage
 The two functions multitaper_spectrogram and multitaper_spectrogram_mex differ only in speed and data precision. The mex function is implemented in C and is therefor much faster, but reduces data precision from double to single. Both function have identicle inputs.  
+<br/>
 Additionally, the "mex_files" folder contains the compiled C code necessary to run multitaper_spectrogram_mex and must be on the Matlab path in order to be used. Currently, this code is compiled for 64 bit Mac, PC, and Linux use only.
 
 ---
