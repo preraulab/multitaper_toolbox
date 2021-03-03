@@ -8,6 +8,7 @@
 * [Usage](#usage)
 * [Example](#example)
 * [Parallel Processing](#parallel-processing)
+* [Citations](#citations)
 * [Status](#status)
 * [References](#references)
 * [Contact](#contact)
@@ -87,6 +88,16 @@ OR
 ```
 gcp; %Start workers with default number for cluster
 ```
+<br/>
+
+## Citations
+The code contained in this repository for multitaper spectral analysis is companion to the paper:  
+> "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"  
+>   Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon  
+>    December 7, 2016 : 60-92  
+>    DOI: 10.1152/physiol.00062.2015  
+
+which should be cited for academic use of this code.  
 <br/>
 
 ## Status 
