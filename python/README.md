@@ -8,6 +8,7 @@
 * [Usage](#usage)
 * [Example](#example)
 * [Parallel Processing](#parallel-processing)
+* [Citations](#citations)
 * [Status](#status)
 * [References](#references)
 * [Contact](#contact)
@@ -82,6 +83,16 @@ Here is the resulting spectrogram
 ## Parallel Processing
 The multitaper_spectrogram function makes use of Python's 'multiprocessing' package. To utilize multiprocessing, pass the 'multiprocess' argument as True and set the 'cpus' argument to the number of cores you would like to use for multiprocessing. Note that if you do not provide the 'cpus' argument, but the 'multiprocess' argument is True, the function will automatically use all cores available minus 1. Also, note that if the 'cpus' argument exceeds the number of available cores, the function will default to using all available cores minus 1. Lastly, note that if you choose to use all available cores, your machine will not be able to do anything else while the function is running (because all cores will be in use by the function).
 
+<br/>
+
+## Citations
+The code contained in this repository for multitaper spectral analysis is companion to the paper:  
+> "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"  
+>   Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon  
+>    December 7, 2016 : 60-92  
+>    DOI: 10.1152/physiol.00062.2015  
+
+which should be cited for academic use of this code.  
 <br/>
 
 ## Status 
