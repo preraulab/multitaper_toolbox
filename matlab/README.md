@@ -8,6 +8,7 @@
 * [Usage](#usage)
 * [Example](#example)
 * [Parallel Processing](#parallel-processing)
+* [Citations](#citations)
 * [Status](#status)
 * [References](#references)
 * [Contact](#contact)
@@ -18,7 +19,7 @@
 ## General Information 
 This folder contains the Matlab implementations of the multitaper spectrogram analysis described in the paper ["Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"](https://prerau.bwh.harvard.edu/publications/Physiology_Bethesda_2017_Prerau.pdf)<sup>1</sup>. Multitaper spectral estimation, which was developed in the early 1980s by David Thomson<sup>2</sup> and has been shown to have superior statistical properties compared with single-taper spectral estimates<sup>3,4</sup>. The multitaper method works by averaging together multiple independent spectra estimated from a single segment of data. The innovation of the multitaper method is that, instead of using a single-taper function to compute the spectrum, it uses multiple taper functions called discrete prolate spheroidal sequences (DPSS). Because DPSS tapers are uncorrelated with each other, they can be averaged together as if they were independent trials of the same condition, producing a spectrum with reduced variance compared to periodogram and single-taper estimation. 
 
-Find videos describing the theory of spectral estimation and demonstrating how multitaper spectral estimation works [http://sleepeeg.org/multitaper](http://sleepeeg.org/multitaper) on the Prerau Lab website. 
+Find videos describing the theory of spectral estimation and demonstrating how multitaper spectral estimation works [here](https://prerau.bwh.harvard.edu/multitaper/) on the Prerau Lab website. 
 
 <br/>
 
@@ -30,9 +31,7 @@ Find videos describing the theory of spectral estimation and demonstrating how m
 <br/>
 
 ## Usage
-The two functions multitaper_spectrogram and multitaper_spectrogram_mex differ only in speed and data precision. The mex function is implemented in C and is therefor much faster, but reduces data precision from double to single. Both function have identicle inputs.  
-<br/>
-Additionally, the "mex_files" folder contains the compiled C code necessary to run multitaper_spectrogram_mex and must be on the Matlab path in order to be used. Currently, this code is compiled for 64 bit Mac, PC, and Linux use only.
+The two functions multitaper_spectrogram and multitaper_spectrogram_mex differ only in speed and data precision. The mex function is implemented in C and is therefor much faster, but reduces data precision from double to single. Both function have identicle inputs.
 
 ---
 
@@ -87,6 +86,16 @@ OR
 ```
 gcp; %Start workers with default number for cluster
 ```
+<br/>
+
+## Citations
+The code contained in this repository for multitaper spectral analysis is companion to the paper:  
+> "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"  
+>   Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon  
+>    December 7, 2016 : 60-92  
+>    DOI: 10.1152/physiol.00062.2015  
+
+which should be cited for academic use of this code.  
 <br/>
 
 ## Status 
