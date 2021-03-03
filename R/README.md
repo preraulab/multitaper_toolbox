@@ -8,6 +8,7 @@
 * [Usage](#usage)
 * [Example](#example)
 * [Parallel Processing](#parallel-processing)
+* [Citations](#citations)
 * [Status](#status)
 * [References](#references)
 * [Contact](#contact)
@@ -18,7 +19,7 @@
 ## General Information 
 This folder contains the R implementations of the multitaper spectrogram analysis described in the paper ["Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"](https://prerau.bwh.harvard.edu/publications/Physiology_Bethesda_2017_Prerau.pdf)<sup>1</sup>. Multitaper spectral estimation, which was developed in the early 1980s by David Thomson<sup>2</sup> and has been shown to have superior statistical properties compared with single-taper spectral estimates<sup>3,4</sup>. The multitaper method works by averaging together multiple independent spectra estimated from a single segment of data. The innovation of the multitaper method is that, instead of using a single-taper function to compute the spectrum, it uses multiple taper functions called discrete prolate spheroidal sequences (DPSS). Because DPSS tapers are uncorrelated with each other, they can be averaged together as if they were independent trials of the same condition, producing a spectrum with reduced variance compared to periodogram and single-taper estimation. 
 
-Find videos describing the theory of spectral estimation and demonstrating how multitaper spectral estimation works [http://sleepeeg.org/multitaper](http://sleepeeg.org/multitaper) on the Prerau Lab website. 
+Find videos describing the theory of spectral estimation and demonstrating how multitaper spectral estimation works [here](https://prerau.bwh.harvard.edu/multitaper/) on the Prerau Lab website. 
 
 <br/>
 
@@ -90,6 +91,16 @@ The multitaper_spectrogram function makes use of R's 'parallel' and 'doParallel'
 
 <br/>
 
+## Citations
+The code contained in this repository for multitaper spectral analysis is companion to the paper:  
+> "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"  
+>   Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon  
+>    December 7, 2016 : 60-92  
+>    DOI: 10.1152/physiol.00062.2015  
+
+which should be cited for academic use of this code.  
+<br/>
+
 ## Status 
 This code is complete and functional but may receive occasional updates. 
 <br/>
@@ -104,4 +115,3 @@ This code is complete and functional but may receive occasional updates.
 ## Contact
 For questions or suggestions please contact Thomas Possidente at tpossidente@bwh.harvard.edu
 <br/>
-
