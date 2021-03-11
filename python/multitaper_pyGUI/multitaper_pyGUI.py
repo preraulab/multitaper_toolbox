@@ -155,7 +155,7 @@ def channel_changed(event, root):
 
     # Read edf file
     loading_label = Label(root, text="Loading in EDF channel...")
-    loading_label.place(relx=0.25, rely=0.2, anchor=CENTER)
+    loading_label.place(relx=0.625, rely=0.525, anchor=CENTER)
     root.update()
     root.signals, root.signal_headers, root.header = pyedflib.highlevel.read_edf(root.filename)
     loading_label.configure(text='Channel Loaded')
@@ -163,79 +163,82 @@ def channel_changed(event, root):
     # Populate other parameters #
     # TODO - create button for info on all parameters
     # Freq range param
-    Label(root, text="Frequency Range of Analysis:").place(relx=0.08, rely=0.275, anchor=CENTER)
+    y=0.6
+    Label(root, text="Frequency Range of Analysis:").place(relx=0.1, rely=y, anchor=CENTER)
     root.freq_from_entered = ttk.Entry(root, width=10)
-    root.freq_from_entered.place(relx=0.2, rely=0.275, anchor=CENTER)
+    root.freq_from_entered.place(relx=0.225, rely=y, anchor=CENTER)
     root.freq_from_entered.delete(0, END)
     root.freq_from_entered.insert(0, 0)
-    Label(root, text=" - ").place(relx=0.25, rely=0.275, anchor=CENTER)
+    Label(root, text=" - ").place(relx=0.275, rely=y, anchor=CENTER)
     root.freq_to_entered = ttk.Entry(root, width=10)
-    root.freq_to_entered.place(relx=0.3, rely=0.275, anchor=CENTER)
+    root.freq_to_entered.place(relx=0.325, rely=y, anchor=CENTER)
     root.freq_to_entered.delete(0, END)
     root.freq_to_entered.insert(0, 50)
-    Label(root, text=" (Hz)").place(relx=0.35, rely=0.275, anchor=CENTER)
+    Label(root, text=" (Hz)").place(relx=0.375, rely=y, anchor=CENTER)
 
     # Taper Parameters
-    Label(root, text="Half-Time Bandwidth (HW):").place(relx=0.0725, rely=0.31, anchor=CENTER)
+    y = 0.64
+    Label(root, text="Half-Time Bandwidth (HW):").place(relx=0.096, rely=y, anchor=CENTER)
     root.hw_entered = ttk.Entry(root, width=10)
     root.hw_entered.delete(0, END)
     root.hw_entered.insert(0, 5)
-    root.hw_entered.place(relx=0.2, rely=0.31, anchor=CENTER)
+    root.hw_entered.place(relx=0.22, rely=y, anchor=CENTER)
 
-    Label(root, text="Number of Tapers (L):").place(relx=0.0525, rely=0.35, anchor=CENTER)
+    y = 0.68
+    Label(root, text="Number of Tapers (L):").place(relx=0.08, rely=y, anchor=CENTER)
     root.num_tapers_entered = ttk.Entry(root, width=10)
-    root.num_tapers_entered.place(relx=0.15, rely=0.35, anchor=CENTER)
+    root.num_tapers_entered.place(relx=0.19, rely=y, anchor=CENTER)
     root.num_tapers_entered.delete(0, END)
     root.num_tapers_entered.insert(0, 9)
 
     # Window Parameters
-    y = 0.385
-    Label(root, text="Window Size (N):").place(relx=0.04, rely=y, anchor=CENTER)
+    y = 0.72
+    Label(root, text="Window Size (N):").place(relx=0.0675, rely=y, anchor=CENTER)
     root.w_size_entered = ttk.Entry(root, width=10)
-    root.w_size_entered.place(relx=0.125, rely=y, anchor=CENTER)
+    root.w_size_entered.place(relx=0.16, rely=y, anchor=CENTER)
     root.w_size_entered.delete(0, END)
     root.w_size_entered.insert(0, 10)
-    Label(root, text="(s)").place(relx=0.15, rely=y, anchor=CENTER)
+    Label(root, text="(s)").place(relx=0.195, rely=y, anchor=CENTER)
 
-    y = 0.42
-    Label(root, text="Window Step Size:").place(relx=0.0525, rely=y, anchor=CENTER)
+    y = 0.76
+    Label(root, text="Window Step Size:").place(relx=0.072, rely=y, anchor=CENTER)
     root.w_step_entered = ttk.Entry(root, width=10)
-    root.w_step_entered.place(relx=0.14, rely=y, anchor=CENTER)
+    root.w_step_entered.place(relx=0.16, rely=y, anchor=CENTER)
     root.w_step_entered.delete(0, END)
     root.w_step_entered.insert(0, 5)
     Label(root, text="(s)").place(relx=0.185, rely=y, anchor=CENTER)
 
     # Detrend method param
-    y = 0.45
-    Label(root, text="Window Detrend Method: ").place(relx=0.075, rely=y, anchor=CENTER)
+    y = 0.8
+    Label(root, text="Window Detrend Method: ").place(relx=0.094, rely=y, anchor=CENTER)
     root.detrend_method_entered = ttk.Entry(root, width=10)
-    root.detrend_method_entered.place(relx=0.175, rely=y, anchor=CENTER)
+    root.detrend_method_entered.place(relx=0.2, rely=y, anchor=CENTER)
     root.detrend_method_entered.delete(0, END)
     root.detrend_method_entered.insert(0, 'linear')
-    Label(root, text="Choices: 'linear' - default, 'constant', 'off'").place(relx=0.3, rely=y, anchor=CENTER)
+    Label(root, text="Choices: 'linear' - default, 'constant', 'off'").place(relx=0.345, rely=y, anchor=CENTER)
 
     # Minimum NFFT Param
-    y = 0.50
-    Label(root, text="Minimum NFFT:").place(relx=0.075, rely=y, anchor=CENTER)
+    y = 0.84
+    Label(root, text="Minimum NFFT:").place(relx=0.069, rely=y, anchor=CENTER)
     root.min_nfft_entered = ttk.Entry(root, width=10)
     root.min_nfft_entered.place(relx=0.15, rely=y, anchor=CENTER)
     root.min_nfft_entered.delete(0, END)
     root.min_nfft_entered.insert(0, 0)
 
     # Taper Weighting Param
-    y = 0.55
-    Label(root, text="Taper Weighting Method:").place(relx=0.075, rely=y, anchor=CENTER)
+    y = 0.88
+    Label(root, text="Taper Weighting Method:").place(relx=0.09, rely=y, anchor=CENTER)
     root.weighting_entered = ttk.Entry(root, width=10)
-    root.weighting_entered.place(relx=0.175, rely=y, anchor=CENTER)
+    root.weighting_entered.place(relx=0.2, rely=y, anchor=CENTER)
     root.weighting_entered.delete(0, END)
     root.weighting_entered.insert(0, 'unity')
-    Label(root, text="Choices: 'unity' - default/recommended, 'eigen', 'adapt'").place(relx=0.35, rely=y, anchor=CENTER)
+    Label(root, text="Choices: 'unity' - default/recommended, 'eigen', 'adapt'").place(relx=0.385, rely=y, anchor=CENTER)
 
     # Multitaper Calc Button
     multitaper_go = Button(root, text="Calculate Multitaper Spectrogram", width=25, height=2, relief=GROOVE,
                            bg='#0064BB', fg="white", highlightbackground='#0064BB',
                            command=lambda: go_multitaper_spectrogram(root))
-    multitaper_go.place(relx=0.5, rely=0.8, anchor=CENTER)
+    multitaper_go.place(relx=0.5, rely=0.95, anchor=CENTER)
 
 
 def start_edf(root):
@@ -256,14 +259,14 @@ def start_edf(root):
 
     # Create text label for select channel dropdown
     label_channel = Label(root, text='Select Channel:')
-    label_channel.place(relx=0.05, rely=0.2, anchor=CENTER)
+    label_channel.place(relx=0.39, rely=0.525, anchor=CENTER)
 
     # Create select channel dropdown
     selected_channel = StringVar()
     root.channel = ttk.Combobox(root, textvariable=selected_channel)
     root.channel['values'] = root.signal_labels
     root.channel['state'] = 'readonly'
-    root.channel.place(relx=0.15, rely=0.2, anchor=CENTER)
+    root.channel.place(relx=0.52, rely=0.525, anchor=CENTER)
     root.channel.bind('<<ComboboxSelected>>', lambda event: channel_changed(event, root))
 
     return root.filename
@@ -272,24 +275,26 @@ def start_edf(root):
 def main():
     # Create window
     root = Tk()
-    root.geometry("1250x600")
+    root.geometry("1000x600")
     root.title('Multitaper Spectrogram Analysis')
     center(root)
 
     # Put image in window
-    #spath = resource_path("Splash.png")
-    #simg = ImageTk.PhotoImage(Image.open(spath))
-    #panel = Label(root, image=simg)
-    #center(root)
-    #panel.pack()
+    spath = resource_path("multitpaer_image.png")
+    simg = Image.open(spath)
+    simg = simg.resize((700,200))
+    simg = ImageTk.PhotoImage(simg)
+    panel = Label(root, image=simg)
+    center(root)
+    panel.pack()
 
     # Put button on window
     btn = Button(root, text="Choose EDF File", width=25, height=2, relief=GROOVE, bg='#0064BB',
                  fg="white", command=lambda: start_edf(root), highlightbackground='#0064BB')
-    btn.place(relx=0.1, rely=0.1, anchor=CENTER)
+    btn.place(relx=0.5, rely=0.45, anchor=CENTER)
 
     choose_file = Label(root, text="Select EDF file to begin")
-    choose_file.place(relx=0.1, rely=0.05, anchor=CENTER)
+    choose_file.place(relx=0.5, rely=0.39, anchor=CENTER)
 
     root.mainloop()
 
