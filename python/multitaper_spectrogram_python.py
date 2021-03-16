@@ -184,8 +184,8 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
         plt.show()
 
     # Put outputs into better format for output
-    stimes = np.mat(stimes)
-    sfreqs = np.mat(sfreqs)
+    #stimes = np.mat(stimes)
+    #sfreqs = np.mat(sfreqs)
 
     if all(mt_spectrogram.flatten() == 0):
         print("\n Data was all zeros, no output")
