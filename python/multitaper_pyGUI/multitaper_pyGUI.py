@@ -15,7 +15,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import librosa.display
 
-
 sys.path.append("..")
 from multitaper_spectrogram_python import multitaper_spectrogram
 
@@ -55,13 +54,14 @@ def change_entry_type(entry, entry_name, desired_type):
         except ValueError:
             print(entry_name + " could not be converted to an integer")
             out = 0
-
-    if desired_type == "float":
+    elif desired_type == "float":
         try:
             out = float(entry)
         except ValueError:
             print(entry_name + " could not be converted to a float")
             out = 0
+    else:
+        raise ValueError('desired output not supported')
 
     return out
 
@@ -97,6 +97,35 @@ def nanpow2db(y):
 
     return ydB
 
+def plot_spect(root):
+    '''
+    '''
+
+    # Plot Spectrogram with scaled colors #
+    # Eliminate outliers and bad data from colormap scaling
+    outlier_mask = np.apply_along_axis(is_outlier, 1, root.spect)  # apply outlier function to each column
+    spect_data = root.spect[~outlier_mask]
+    clim = np.percentile(spect_data, [5, 98])  # Scale colormap from 5th percentile to 98th
+
+    # Plot #
+    plt.figure(1, figsize=(10, 5))
+    librosa.display.specshow(nanpow2db(root.spect), x_axis='time', y_axis='linear',
+                             x_coords=root.stimes, y_coords=root.sfreqs, shading='auto', cmap="jet")
+    plt.colorbar(label='Power (dB)')
+    plt.xlabel("Time (HH:MM:SS)")
+    plt.ylabel("Frequency (Hz)")
+    plt.clim(clim)  # actually change colorbar scale
+    plt.show()
+
+
+def download_spect(root):
+    '''
+    '''
+    root.saveloc = filedialog.askdirectory()
+    np.savetxt(os.path.join(root.saveloc, 'spect.csv'), root.spect, delimiter=',')
+    np.savetxt(os.path.join(root.saveloc, 'stimes.csv'), root.stimes, delimiter=',')
+    np.savetxt(os.path.join(root.saveloc, 'sfreqs.csv'), root.sfreqs, delimiter=',')
+
 
 def go_multitaper_spectrogram(root):
     """
@@ -125,21 +154,20 @@ def go_multitaper_spectrogram(root):
     root.spect, root.stimes, root.sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers,
                                                                   window_params, min_nfft, detrend, multiprocess, cpus,
                                                                   weighting, plot_on)
-    # Plot Spectrogram with scaled colors #
-    # Eliminate outliers and bad data from colormap scaling
-    outlier_mask = np.apply_along_axis(is_outlier, 1, root.spect)  # apply outlier function to each column
-    spect_data = root.spect[~outlier_mask]
-    clim = np.percentile(spect_data, [5, 98])  # Scale colormap from 5th percentile to 98th
 
-    # Plot #
-    plt.figure(1, figsize=(10, 5))
-    librosa.display.specshow(nanpow2db(root.spect), x_axis='time', y_axis='linear',
-                             x_coords=root.stimes, y_coords=root.sfreqs, shading='auto', cmap="jet")
-    plt.colorbar(label='Power (dB)')
-    plt.xlabel("Time (HH:MM:SS)")
-    plt.ylabel("Frequency (Hz)")
-    plt.clim(clim)  # actually change colorbar scale
-    plt.show()
+    # Make button for downloading spectrogram data
+    download_data_button = Button(root, text="Download Output .csv", width=20,
+                               height=2, relief=GROOVE, bg='#0064BB', fg="white", highlightbackground='#0064BB',
+                               command=lambda: download_spect(root))
+    download_data_button.place(relx=0.7, rely=0.92)
+
+    plot_button = Button(root, text="Plot Spectrogram", width=20,
+                               height=2, relief=GROOVE, bg='#0064BB', fg="white", highlightbackground='#0064BB',
+                               command=lambda: plot_spect(root))
+    plot_button.place(relx=0.15, rely=0.92)
+
+
+
 
 def param_info_popup():
     param_info = Tk()
@@ -187,6 +215,7 @@ def param_info_popup():
                          justify=LEFT, wraplength=500, padx=10, pady=10)
     descriptions.pack()
 
+
 def channel_changed(event, root):
     """
 
@@ -208,11 +237,11 @@ def channel_changed(event, root):
     root.fs = root.signal_headers[index_channel]['sample_rate']
     root.data = root.signals[index_channel]
     Label(root, text="Sampling frequency of selected channel: "
-                     + str(root.fs) + " Hz" ).place(relx=0.15, rely=0.55, anchor=CENTER)
+                     + str(root.fs) + " Hz").place(relx=0.15, rely=0.55, anchor=CENTER)
 
     # Populate other parameters #
     # Freq range param
-    y=0.6
+    y = 0.6
     Label(root, text="Frequency Range of Analysis:").place(relx=0.1, rely=y, anchor=CENTER)
     root.freq_from_entered = ttk.Entry(root, width=10)
     root.freq_from_entered.place(relx=0.225, rely=y, anchor=CENTER)
@@ -281,7 +310,8 @@ def channel_changed(event, root):
     root.weighting_entered.place(relx=0.2, rely=y, anchor=CENTER)
     root.weighting_entered.delete(0, END)
     root.weighting_entered.insert(0, 'unity')
-    Label(root, text="Choices: 'unity' - default/recommended, 'eigen', 'adapt'").place(relx=0.385, rely=y, anchor=CENTER)
+    Label(root, text="Choices: 'unity' - default/recommended, 'eigen', 'adapt'").place(relx=0.385,
+                                                                                       rely=y, anchor=CENTER)
 
     # Button for more parameter information
     param_info_button = Button(root, text="Parameter Descriptions", width=20,
@@ -305,7 +335,7 @@ def start_edf(root):
 
     # Load the file
     root.filename = filedialog.askopenfilenames(initialdir="~/", title="Select EDF file",
-                                                 filetypes=(("EDF files", "*.edf"), ("All files", "*.*")))[0]
+                                                filetypes=(("EDF files", "*.edf"), ("All files", "*.*")))[0]
 
     # Get channel names from edf
     print(root.filename)
@@ -337,7 +367,7 @@ def main():
     # Put image in window
     spath = resource_path("multitpaer_image.png")
     simg = Image.open(spath)
-    simg = simg.resize((700,200))
+    simg = simg.resize((700, 200))
     simg = ImageTk.PhotoImage(simg)
     panel = Label(root, image=simg)
     center(root)
