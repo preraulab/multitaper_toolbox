@@ -104,13 +104,10 @@ def go_multitaper_spectrogram(root):
     :param root:
     :return:
     """
-    # Get data and fs from extracted edf data #
-    channel = root.channel.get()
-    index_channel = [i for i in range(len(root.signal_headers)) if root.signal_headers[i]['label'] == channel][0]
-    fs = root.signal_headers[index_channel]['sample_rate']
-    data = root.signals[index_channel]
 
     # Get all multitaper params and convert to appropriate data types #
+    data = root.data
+    fs = root.fs
     frequency_range = [change_entry_type(root.freq_from_entered.get(), "Frequency Min", "float"),
                        change_entry_type(root.freq_to_entered.get(), "Frequency Max", "float")]
     time_bandwidth = change_entry_type(root.hw_entered.get(), "Time Half Bandwidth", "int")
@@ -144,6 +141,51 @@ def go_multitaper_spectrogram(root):
     plt.clim(clim)  # actually change colorbar scale
     plt.show()
 
+def param_info_popup():
+    param_info = Tk()
+    param_info.geometry("500x650")
+    param_info.title('Multitaper Parameter Info')
+    descriptions = Label(param_info, text="*Frequency Range*: Range of frequencies (Hz) across which to compute the "
+                                          "spectrum (default=0-50Hz).\n\n*Half-time Bandwidth (TW)*: TW can be computed as N*(BW/2) where "
+                                          "N is the length of the window (seconds) and BW is the bandwidth of the main "
+                                          "lobe. The bandwidth of the main lobe is also called the frequency resolution "
+                                          "because it dictates the minimum difference in frequency that can be detected"
+                                          "(default=5).\n\n*Number of Tapers (L)*: The number of DPSS tapers to be used "
+                                          "to compute the spectrum. The optimal number of tapers is 2*(TW)-1. The "
+                                          "default is 9 tapers.\n\n*Window Size (N) and Window Step Size*: These "
+                                          "parameters dictate the temporal resolution of the analysis. The multitaper "
+                                          "spectrum is computed for a single window of data, then the window moves "
+                                          "based on step size and the spectrum will be computed again on the next window "
+                                          "until the whole data array has been covered. Default window size is 10s, "
+                                          "while default window step size is 5s.\n\n*Window Detrend Method*: Each window "
+                                          "of data can be detrended to remove very low frequency oscillation artifacts "
+                                          "that can come from a variety of sources. In 'linear' detrending, a linear "
+                                          "model is fit to the window then subtracted out, while in 'constant' "
+                                          "detrending the data is set to be zero mean. The default is 'linear', and the "
+                                          "options are 'linear', 'constant', and 'off'.)\n\n*Minimum NFFT*: Multitaper "
+                                          "spectrum computation relies on the Fourier Transform to transform the data "
+                                          "from the time domain to the frequency domain. The Fast Fourier Transform "
+                                          "(FFT) is an very computationally efficient algorithm to compute the Fourier "
+                                          "Transform, and it works most efficiently when the number of data points in "
+                                          "the given time series is a power of 2. Therefore, we want to pad the data "
+                                          "with 0s to make it reach the closest power of 2. This implementation pads "
+                                          "with zeros to the nearest power of 2 automatically, but if a specific power "
+                                          "of 2 above the closest power fo 2 is desired, use this parameter. The default "
+                                          "is 0.\n\n*Taper Weighting Method*: The DPSS tapers can be weighted "
+                                          "differently, and we have included 2 weighting method options - 'eigen' and "
+                                          "'adaptive' - along with the uniformly weighted option 'unity' which is the "
+                                          "default for all implementations. Eigenvalue weighting weights the "
+                                          "contribution of each taper to the spectrum by it's eigenvalue (frequency "
+                                          "concentration). In most cases this makes little difference because most "
+                                          "taper's eigenvalues are very close to one anyway. The adaptive weighting "
+                                          "method weights the tapers in such a way as to reduce the broadband leakage "
+                                          "of non-white ('colored') noise. This method is adapted from pages 368-370 of "
+                                          "Percival and Walden's 'Spectral Analysis for Physical Applications: "
+                                          "Multitaper and Conventional Univariate Techniques'. In practice, the adaptive "
+                                          "method does not change the results much at all but is provided here for the "
+                                          "sake of completeness.",
+                         justify=LEFT, wraplength=500, padx=10, pady=10)
+    descriptions.pack()
 
 def channel_changed(event, root):
     """
@@ -155,13 +197,20 @@ def channel_changed(event, root):
 
     # Read edf file
     loading_label = Label(root, text="Loading in EDF channel...")
-    loading_label.place(relx=0.625, rely=0.525, anchor=CENTER)
+    loading_label.place(relx=0.66, rely=0.45, anchor=CENTER)
     root.update()
     root.signals, root.signal_headers, root.header = pyedflib.highlevel.read_edf(root.filename)
     loading_label.configure(text='Channel Loaded')
 
+    # Get data and fs from extracted edf data #
+    channel = root.channel.get()
+    index_channel = [i for i in range(len(root.signal_headers)) if root.signal_headers[i]['label'] == channel][0]
+    root.fs = root.signal_headers[index_channel]['sample_rate']
+    root.data = root.signals[index_channel]
+    Label(root, text="Sampling frequency of selected channel: "
+                     + str(root.fs) + " Hz" ).place(relx=0.15, rely=0.55, anchor=CENTER)
+
     # Populate other parameters #
-    # TODO - create button for info on all parameters
     # Freq range param
     y=0.6
     Label(root, text="Frequency Range of Analysis:").place(relx=0.1, rely=y, anchor=CENTER)
@@ -178,7 +227,7 @@ def channel_changed(event, root):
 
     # Taper Parameters
     y = 0.64
-    Label(root, text="Half-Time Bandwidth (HW):").place(relx=0.096, rely=y, anchor=CENTER)
+    Label(root, text="Half-Time Bandwidth (TW):").place(relx=0.096, rely=y, anchor=CENTER)
     root.hw_entered = ttk.Entry(root, width=10)
     root.hw_entered.delete(0, END)
     root.hw_entered.insert(0, 5)
@@ -234,6 +283,12 @@ def channel_changed(event, root):
     root.weighting_entered.insert(0, 'unity')
     Label(root, text="Choices: 'unity' - default/recommended, 'eigen', 'adapt'").place(relx=0.385, rely=y, anchor=CENTER)
 
+    # Button for more parameter information
+    param_info_button = Button(root, text="Parameter Descriptions", width=20,
+                               height=2, relief=GROOVE, bg='#0064BB', fg="white", highlightbackground='#0064BB',
+                               command=param_info_popup)
+    param_info_button.place(relx=0.02, rely=0.46)
+
     # Multitaper Calc Button
     multitaper_go = Button(root, text="Calculate Multitaper Spectrogram", width=25, height=2, relief=GROOVE,
                            bg='#0064BB', fg="white", highlightbackground='#0064BB',
@@ -259,14 +314,14 @@ def start_edf(root):
 
     # Create text label for select channel dropdown
     label_channel = Label(root, text='Select Channel:')
-    label_channel.place(relx=0.39, rely=0.525, anchor=CENTER)
+    label_channel.place(relx=0.39, rely=0.45, anchor=CENTER)
 
     # Create select channel dropdown
     selected_channel = StringVar()
     root.channel = ttk.Combobox(root, textvariable=selected_channel)
     root.channel['values'] = root.signal_labels
     root.channel['state'] = 'readonly'
-    root.channel.place(relx=0.52, rely=0.525, anchor=CENTER)
+    root.channel.place(relx=0.52, rely=0.45, anchor=CENTER)
     root.channel.bind('<<ComboboxSelected>>', lambda event: channel_changed(event, root))
 
     return root.filename
@@ -275,7 +330,7 @@ def start_edf(root):
 def main():
     # Create window
     root = Tk()
-    root.geometry("1000x600")
+    root.geometry("1000x700")
     root.title('Multitaper Spectrogram Analysis')
     center(root)
 
@@ -291,13 +346,16 @@ def main():
     # Put button on window
     btn = Button(root, text="Choose EDF File", width=25, height=2, relief=GROOVE, bg='#0064BB',
                  fg="white", command=lambda: start_edf(root), highlightbackground='#0064BB')
-    btn.place(relx=0.5, rely=0.45, anchor=CENTER)
+    btn.place(relx=0.5, rely=0.39, anchor=CENTER)
 
     choose_file = Label(root, text="Select EDF file to begin")
-    choose_file.place(relx=0.5, rely=0.39, anchor=CENTER)
+    choose_file.place(relx=0.5, rely=0.34, anchor=CENTER)
 
     root.mainloop()
 
 
 if __name__ == '__main__':
     main()
+
+
+# TODO: Button to export MT spect data, loading bar for ingesting edfs, loading icon/bar for spectrogram calc
