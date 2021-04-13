@@ -38,7 +38,7 @@ multitaper_spectrogram_python.py utlizies numpy operations, contains no for loop
 multitaper_spectrogram_python usage:
 ```
 spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, multiprocess, cpus,
-                                               weighting, plot_on, verbose, xyflip):
+                                               weighting, plot_on, clim_scale, verbose, xyflip):
 ```
 
 <br/>
