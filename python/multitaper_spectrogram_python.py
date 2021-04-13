@@ -16,7 +16,7 @@ import librosa.display
 # MULTITAPER SPECTROGRAM #
 def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=None, window_params=None,
                            min_nfft=0, detrend_opt='linear', multiprocess=False, cpus=False, weighting='unity',
-                           plot_on=True, verbose=True, xyflip=False):
+                           plot_on=True, clim_scale = True, verbose=True, xyflip=False):
     """ Compute multitaper spectrogram of timeseries data
     Usage:
     mt_spectrogram, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5,
@@ -43,6 +43,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
                             all available - 1.
                 weighting (str): weighting of tapers ('unity' (default), 'eigen', 'adapt');
                 plot_on (bool): plot results (default: True)
+                clim_scale (bool): automatically scale the colormap on the plotted spectrogram
                 verbose (bool): display spectrogram properties (default: true)
                 xyflip (bool): transpose the mt_spectrogram output (default: false)
         Returns:
@@ -66,6 +67,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
             cpus = 3  # use 3 cores in multiprocessing
             weighting = 'unity'  # weight each taper at 1
             plot_on = True  # plot spectrogram
+            clim_scale = False # don't auto-scale the colormap
             verbose = True  # print extra info
             xyflip = False  # do not transpose spect output matrix
             # Generate sample chirp data
@@ -186,7 +188,8 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
         plt.colorbar(label='Power (dB)')
         plt.xlabel("Time (HH:MM:SS)")
         plt.ylabel("Frequency (Hz)")
-        plt.clim(clim)  # actually change colorbar scale
+        if clim_scale:
+            plt.clim(clim)  # actually change colorbar scale
         plt.show()
 
     # Put outputs into better format for output
