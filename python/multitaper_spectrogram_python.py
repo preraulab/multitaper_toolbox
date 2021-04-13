@@ -43,7 +43,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
                             all available - 1.
                 weighting (str): weighting of tapers ('unity' (default), 'eigen', 'adapt');
                 plot_on (bool): plot results (default: True)
-                clim_scale (bool): automatically scale the colormap on the plotted spectrogram
+                clim_scale (bool): automatically scale the colormap on the plotted spectrogram (default: true)
                 verbose (bool): display spectrogram properties (default: true)
                 xyflip (bool): transpose the mt_spectrogram output (default: false)
         Returns:
@@ -177,10 +177,9 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
     # Plot multitaper spectrogram
     if plot_on:
 
-        # Eliminate outliers and bad data from colormap scaling
-        outlier_mask = np.apply_along_axis(is_outlier, 1, mt_spectrogram)  # apply outlier function to each column
-        spect_data = mt_spectrogram[~outlier_mask]
-        clim = np.percentile(spect_data, [5, 98])  # Scale colormap from 5th percentile to 98th
+        # Eliminate bad data from colormap scaling
+        spect_data = mt_spectrogram
+        clim = np.percentile(spect_data, [5, 95])  # Scale colormap from 5th percentile to 95th
 
         plt.figure(1, figsize=(10, 5))
         librosa.display.specshow(nanpow2db(mt_spectrogram), x_axis='time', y_axis='linear',
