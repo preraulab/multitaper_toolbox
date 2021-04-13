@@ -11,8 +11,8 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %       frequency_range: 1x2 vector - [<min frequency>, <max frequency>] (default: [0 nyquist])
 %       taper_params: 1x2 vector - [<time-halfbandwidth product>, <number of tapers>] (default: [5 9])
 %       window_params: 1x2 vector - [window size (seconds), step size (seconds)] (default: [5 1])
-%       detrend_opt: string - detrend data window ('linear' (default), 'constant', 'off');
 %       min_NFFT: double - minimum allowable NFFT size, adds zero padding for interpolation (closest 2^x) (default: 0)
+%       detrend_opt: string - detrend data window ('linear' (default), 'constant', 'off');
 %       weighting: string - weighting of tapers ('unity' (default), 'eigen', 'adapt');
 %       plot_on: boolean to plot results (default: true)
 %       verbose: boolean to display spectrogram properties (default: true)
@@ -20,7 +20,7 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %   Output:
 %       spect: FxT matrix of spectral power
 %       stimes: 1xT vector of times for the center of the spectral bins
-%        sfreqs: 1xF vector of frequency bins for the spectrogram
+%       sfreqs: 1xF vector of frequency bins for the spectrogram
 %  
 %   Example:
 %   In this example we create some chirp data and run the multitaper spectrogram on it.
