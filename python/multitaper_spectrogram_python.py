@@ -175,12 +175,18 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
     # Plot multitaper spectrogram
     if plot_on:
 
+        # Eliminate outliers and bad data from colormap scaling
+        outlier_mask = np.apply_along_axis(is_outlier, 1, mt_spectrogram)  # apply outlier function to each column
+        spect_data = mt_spectrogram[~outlier_mask]
+        clim = np.percentile(spect_data, [5, 98])  # Scale colormap from 5th percentile to 98th
+
         plt.figure(1, figsize=(10, 5))
         librosa.display.specshow(nanpow2db(mt_spectrogram), x_axis='time', y_axis='linear',
                                  x_coords=stimes, y_coords=sfreqs, shading='auto', cmap="jet")
         plt.colorbar(label='Power (dB)')
         plt.xlabel("Time (HH:MM:SS)")
         plt.ylabel("Frequency (Hz)")
+        plt.clim(clim)  # actually change colorbar scale
         plt.show()
 
     # Put outputs into better format for output
@@ -400,6 +406,14 @@ def nanpow2db(y):
         ydB = 10 * np.log10(y)
 
     return ydB
+
+
+# Helper #
+def is_outlier(data):
+    smad = 1.4826 * np.median(abs(data - np.median(data)))  # scaled median absolute deviation
+    outlier_mask = abs(data-np.median(data)) > 3*smad  # outliers are more than 3 smads away from median
+    outlier_mask = (outlier_mask | np.isnan(data) | np.isinf(data))
+    return outlier_mask
 
 
 # CALCULATE MULTITAPER SPECTRUM ON SINGLE SEGMENT
