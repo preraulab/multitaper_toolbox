@@ -16,18 +16,14 @@ import librosa.display
 # MULTITAPER SPECTROGRAM #
 def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=None, window_params=None,
                            min_nfft=0, detrend_opt='linear', multiprocess=False, cpus=False, weighting='unity',
-                           plot_on=True, verbose=True, xyflip=False):
+                           plot_on=True, clim_scale = True, verbose=True, xyflip=False):
     """ Compute multitaper spectrogram of timeseries data
-    Results tend to agree with Prerau Lab Matlab implementation of multitaper spectrogram with precision on the order
-    of at most 10^-12 with SD of at most 10^-10
-
     Usage:
     mt_spectrogram, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5,
                                                                    num_tapers=None, window_params=None, min_nfft=0,
                                                                    detrend_opt='linear', multiprocess=False, cpus=False,
                                                                     weighting='unity', plot_on=True, verbose=True,
                                                                     xyflip=False):
-
         Arguments:
                 data (1d np.array): time series data -- required
                 fs (float): sampling frequency in Hz  -- required
@@ -47,6 +43,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
                             all available - 1.
                 weighting (str): weighting of tapers ('unity' (default), 'eigen', 'adapt');
                 plot_on (bool): plot results (default: True)
+                clim_scale (bool): automatically scale the colormap on the plotted spectrogram
                 verbose (bool): display spectrogram properties (default: true)
                 xyflip (bool): transpose the mt_spectrogram output (default: false)
         Returns:
@@ -54,7 +51,49 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
                 stimes (1xT np array): timepoints (s) in mt_spectrogram
                 sfreqs (1xF np array)L frequency values (Hz) in mt_spectrogram
 
-        Last modified - 2/18/2021 Tom P.
+        Example:
+        In this example we create some chirp data and run the multitaper spectrogram on it.
+            import numpy as np  # import numpy
+            from scipy.signal import chirp  # import chirp generation function
+            # Set spectrogram params
+            fs = 200  # Sampling Frequency
+            frequency_range = [0, 25]  # Limit frequencies from 0 to 25 Hz
+            time_bandwidth = 3  # Set time-half bandwidth
+            num_tapers = 5  # Set number of tapers (optimal is time_bandwidth*2 - 1)
+            window_params = [4, 1]  # Window size is 4s with step size of 1s
+            min_nfft = 0  # No minimum nfft
+            detrend_opt = 'constant'  # detrend each window by subtracting the average
+            multiprocess = True  # use multiprocessing
+            cpus = 3  # use 3 cores in multiprocessing
+            weighting = 'unity'  # weight each taper at 1
+            plot_on = True  # plot spectrogram
+            clim_scale = False # don't auto-scale the colormap
+            verbose = True  # print extra info
+            xyflip = False  # do not transpose spect output matrix
+            # Generate sample chirp data
+            t = np.arange(1/fs, 600, 1/fs)  # Create 10 min time array from 1/fs to 600 stepping by 1/fs
+            f_start = 1  # Set chirp freq range min (Hz)
+            f_end = 20  # Set chirp freq range max (Hz)
+            data = chirp(t, f_start, t[-1], f_end, 'logarithmic')
+            # Compute the multitaper spectrogram
+            spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers,
+                                                           window_params, min_nfft, detrend_opt, multiprocess,
+                                                           cpus, weighting, plot_on, verbose, xyflip):
+
+        This code is companion to the paper:
+        "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
+           Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon
+           December 7, 2016 : 60-92
+           DOI: 10.1152/physiol.00062.2015
+         which should be cited for academic use of this code.
+
+         A full tutorial on the multitaper spectrogram can be found at:  #   http://www.sleepEEG.org/multitaper
+
+        Copyright 2021 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+        Authors: Michael J. Prerau, Ph.D., Thomas Possidente
+        
+        Last modified - 2/18/2021 Thomas Possidente
+  __________________________________________________________________________________________________________________
     """
 
     #  Process user input
@@ -138,17 +177,24 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
     # Plot multitaper spectrogram
     if plot_on:
 
+        # Eliminate outliers and bad data from colormap scaling
+        outlier_mask = np.apply_along_axis(is_outlier, 1, mt_spectrogram)  # apply outlier function to each column
+        spect_data = mt_spectrogram[~outlier_mask]
+        clim = np.percentile(spect_data, [5, 98])  # Scale colormap from 5th percentile to 98th
+
         plt.figure(1, figsize=(10, 5))
         librosa.display.specshow(nanpow2db(mt_spectrogram), x_axis='time', y_axis='linear',
                                  x_coords=stimes, y_coords=sfreqs, shading='auto', cmap="jet")
         plt.colorbar(label='Power (dB)')
         plt.xlabel("Time (HH:MM:SS)")
         plt.ylabel("Frequency (Hz)")
+        if clim_scale:
+            plt.clim(clim)  # actually change colorbar scale
         plt.show()
 
     # Put outputs into better format for output
-    stimes = np.mat(stimes)
-    sfreqs = np.mat(sfreqs)
+    #stimes = np.mat(stimes)
+    #sfreqs = np.mat(sfreqs)
 
     if all(mt_spectrogram.flatten() == 0):
         print("\n Data was all zeros, no output")
@@ -363,6 +409,14 @@ def nanpow2db(y):
         ydB = 10 * np.log10(y)
 
     return ydB
+
+
+# Helper #
+def is_outlier(data):
+    smad = 1.4826 * np.median(abs(data - np.median(data)))  # scaled median absolute deviation
+    outlier_mask = abs(data-np.median(data)) > 3*smad  # outliers are more than 3 smads away from median
+    outlier_mask = (outlier_mask | np.isnan(data) | np.isinf(data))
+    return outlier_mask
 
 
 # CALCULATE MULTITAPER SPECTRUM ON SINGLE SEGMENT
