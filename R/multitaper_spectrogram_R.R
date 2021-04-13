@@ -12,9 +12,6 @@ library(fields)
 multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_tapers=NULL, window_params=c(5,1),
                                      min_nfft=0, detrend_opt='linear', plot_on=TRUE, verbose=TRUE){
   # Compute multitaper spectrogram of timeseries data
-  # 
-  # Results tend to agree with Prerau Lab python implementation of multitaper spectrogram with precision on the order of at most 
-  # 10^-7 with SD of at most 10^-5
   #
   # params:
   #         data (numeric vector): time series data -- required
@@ -35,6 +32,57 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   #         mt_spectrogram (matrix): spectral power matrix
   #         stimes (numeric vector): timepoints (s) in mt_spectrogram
   #         sfreqs (numeric vector): frequency values (Hz) in mt_spectrogram
+  #
+  # 
+  # Example:
+  # In ths example we create some chirp data and compute the multitaper spectrogram on it.
+  #
+  #     install.packages("signal")
+  #     library(signal)  # get signal library for chirp function
+  #
+  #     # Set spectrogram params
+  #     fs = 200  # Sampling Frequency
+  #     frequency_range = c(0, 25)  # Limit frequencies from 0 to 25 Hz
+  #     time_bandwidth = 3  # Set time-half bandwidth
+  #     num_tapers = 5  # Set number of tapers (optimal is time_bandwidth*2 - 1)
+  #     window_params = c(4, 1)  # Window size is 4s with step size of 1s
+  #     min_nfft = 0  # No minimum nfft
+  #     weighting = 'unity'  # weight each taper at 1
+  #     detrend_opt = 'constant'  # detrend each window by subtracting the average
+  #     parallel = TRUE  # use multiprocessing
+  #     num_workers = 3  # use 3 cores in multiprocessing
+  #     plot_on = TRUE  # plot spectrogram
+  #     verbose = TRUE  # print extra info
+  #     xyflip = FALSE  # do not transpose spect output matrix
+  #
+  #     # Generate sample chirp data
+  #     t = seq(1/fs, 600, by=1/fs)  # Create 10 min time array from 1/fs to 600 stepping by 1/fs
+  #     f_start = 1  # Set chirp freq range min (Hz)
+  #     f_end = 20  # Set chirp freq range max (Hz)
+  #     data = chirp(t, f_start, tail(t,n=1), f_end, 'logarithmic')
+  #
+  #     # Compute the multitaper spectrogram
+  #     results = multitaper_spectrogram_R(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, 
+  #                                        weighting, detrend_opt, parallel, num_workers, plot_on, verbose, xyflip)
+  #     spect = results[[1]]
+  #     stimes = results[[2]]
+  #     sfreqs = results[[3]]
+  #
+  #
+  #   This code is companion to the paper:
+  #         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
+  #         Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon
+  #         December 7, 2016 : 60-92
+  #         DOI: 10.1152/physiol.00062.2015
+  #   which should be cited for academic use of this code.
+  #
+  #   A full tutorial on the multitaper spectrogram can be found at:
+  #   http://www.sleepEEG.org/multitaper
+  #
+  #   Copyright 2021 Michael Prerau Laboratory - http://www.sleepEEG.org
+  #   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+  #   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+  #__________________________________________________________________________________________________________________
   
   # Process user input
   res <- process_input(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, 

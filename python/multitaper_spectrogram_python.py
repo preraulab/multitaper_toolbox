@@ -50,11 +50,13 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
                 mt_spectrogram (TxF np array): spectral power matrix
                 stimes (1xT np array): timepoints (s) in mt_spectrogram
                 sfreqs (1xF np array)L frequency values (Hz) in mt_spectrogram
-
+                
         Example:
         In this example we create some chirp data and run the multitaper spectrogram on it.
+
             import numpy as np  # import numpy
             from scipy.signal import chirp  # import chirp generation function
+
             # Set spectrogram params
             fs = 200  # Sampling Frequency
             frequency_range = [0, 25]  # Limit frequencies from 0 to 25 Hz
@@ -67,33 +69,30 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
             cpus = 3  # use 3 cores in multiprocessing
             weighting = 'unity'  # weight each taper at 1
             plot_on = True  # plot spectrogram
-            clim_scale = False # don't auto-scale the colormap
+            clim_scale = False # do not auto-scale colormap
             verbose = True  # print extra info
-            xyflip = False  # do not transpose spect output matrix
+
             # Generate sample chirp data
             t = np.arange(1/fs, 600, 1/fs)  # Create 10 min time array from 1/fs to 600 stepping by 1/fs
             f_start = 1  # Set chirp freq range min (Hz)
             f_end = 20  # Set chirp freq range max (Hz)
             data = chirp(t, f_start, t[-1], f_end, 'logarithmic')
-            # Compute the multitaper spectrogram
-            spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers,
-                                                           window_params, min_nfft, detrend_opt, multiprocess,
-                                                           cpus, weighting, plot_on, verbose, xyflip):
 
+            # Compute the multitaper spectrogram
+            spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, 
+                                                           multiprocess, cpus, weighting, plot_on, clim_scale, verbose):
+    
         This code is companion to the paper:
         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
            Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon
            December 7, 2016 : 60-92
            DOI: 10.1152/physiol.00062.2015
          which should be cited for academic use of this code.
-
+  
          A full tutorial on the multitaper spectrogram can be found at:  #   http://www.sleepEEG.org/multitaper
 
         Copyright 2021 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
         Authors: Michael J. Prerau, Ph.D., Thomas Possidente
-        
-        Last modified - 2/18/2021 Thomas Possidente
-  __________________________________________________________________________________________________________________
     """
 
     #  Process user input

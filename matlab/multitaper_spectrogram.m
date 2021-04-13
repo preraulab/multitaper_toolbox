@@ -23,19 +23,25 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %        sfreqs: 1xF vector of frequency bins for the spectrogram
 %  
 %   Example:
-%      Fs=200; %Sampling Frequency
-%      frequency_range=[0 25]; %Limit frequencies from .5 to 25 Hz
-%      taper_params=[3 5]; %Time bandwidth and number of tapers
-%      window_params=[4 1]; %Window size is 4s with step size of 1s
+%   In this example we create some chirp data and run the multitaper spectrogram on it.
+%       Fs=200; %Sampling Frequency
+%       frequency_range=[0 25]; %Limit frequencies from 0 to 25 Hz
+%       taper_params=[3 5]; %Time bandwidth and number of tapers
+%       window_params=[4 1]; %Window size is 4s with step size of 1s
+%       min_nfft=0; %No minimum nfft
+%       detrend_opt='constant' %detrend each window by subtracting the average
+%       weighting='unity' %weight each taper at 1
+%       plot_on=true; %plot spectrogram
+%       verbose=true; %print extra info
 %
-%      %Generate sample chirp data
-%      t=1/Fs:1/Fs:600; %Create 10 minutes of data
-%      f_start=1;f_end=20; % Set chirp range in Hz
-%      data=chirp(t,f_start,t(end),f_end,'logarithmic');
+%       %Generate sample chirp data
+%       t=1/Fs:1/Fs:600; %Create 10 minutes of data
+%       f_start=1;f_end=20; % Set chirp range in Hz
+%       data=chirp(t,f_start,t(end),f_end,'logarithmic');
 %
-%      %Compute the multitaper spectrogram
-%      [spect,stimes,sfreqs] = multitaper_spectrogram(data,Fs,frequency_range, taper_params, window_params);
-%
+%       %Compute the multitaper spectrogram
+%       [spect,stimes,sfreqs] = multitaper_spectrogram(data,Fs,frequency_range, taper_params, window_params, min_nfft, detrend_opt, weighting, plot_on, verbose);
+%    
 %   This code is companion to the paper:
 %         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
 %         Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon
@@ -46,9 +52,8 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %   A full tutorial on the multitaper spectrogram can be found at:
 %   http://www.sleepEEG.org/multitaper
 %
-%   Copyright 2019 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+%    Copyright 2021 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%    Authors: Michael J. Prerau, Ph.D., Mingjian He
 %
 %   Last modified 1/11/2019
 %% ********************************************************************
@@ -120,8 +125,6 @@ parfor n = 1:num_windows
     
     %Compute the FFT (STEP 3)
     fft_data = fft(tapered_data, nfft);
-    %temp_reg(:,:,n) = fft_data;
-
     
     %Compute the weighted mean spectral power across tapers (STEP 4)
     Spower = imag(fft_data).^2 + real(fft_data).^2;
@@ -149,7 +152,6 @@ parfor n = 1:num_windows
     mt_spectrogram(:,n) = mt_spectrum(freq_inds);
 end
 
-%save('tapered_data_reg.mat', 'temp_reg');
 
 %Compute one-sided PSD spectrum 
 DC_select = find(sfreqs==0);
