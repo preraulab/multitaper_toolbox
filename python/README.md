@@ -7,6 +7,7 @@
 * [General Information](#general-information)
 * [Usage](#usage)
 * [Example](#example)
+* [Reading in EDF Data](#reading-in-edf-data)
 * [Parallel Processing](#parallel-processing)
 * [Citations](#citations)
 * [Status](#status)
@@ -46,6 +47,7 @@ spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_b
 ## Example
 In this example we create some chirp data and run the multitaper spectrogram on it.
 ```
+from multitaper_spectrogram_python import multitaper_spectrogram  # import multitaper_spectrogram function from the multitaper_spectrogram_python.py file
 import numpy as np  # import numpy
 from scipy.signal import chirp  # import chirp generation function
 
@@ -78,6 +80,27 @@ spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_b
 Here is the resulting spectrogram
 
 <img src="https://prerau.bwh.harvard.edu/images/chirp_python.png" width="400">
+
+<br/>
+
+## Reading in EDF Data
+
+Many times, medical signal data are stored in EDF files. There are several packages in Python to read in EDF files and below we illustrate one method of loading a single channel of EEG data from an EDF file containing several signals.
+
+
+```
+from pyedflib import highlevel  # to install this package using pip: 'pip install pyEDFlib' 
+                                # to install this package using conda: 'conda install -c conda-forge pyedflib' 
+
+signals, signal_headers, header = highlevel.read_edf('test.edf')  # reads in the signal data, header for each signal, and the overall edf header from test.edf
+
+C3_data = signals[2]  # in this edf the 3rd signal is data from the C3 electrode (look at signal_headers to determine the label for each signal in your edf)
+C3_fs = signal_headers[2]['sample_rate']  # Extract the sampling frequency for the C3 signal
+
+# C3_data will be the 'data' argument to multitaper_spectrogram
+# C3_fs will be the 'fs' argument to multitaper_spectrogram
+
+```
 
 <br/>
 
