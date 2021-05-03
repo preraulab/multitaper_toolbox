@@ -228,8 +228,8 @@ def process_input(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=N
                     frequency_range (list): same as input or calculated from fs if not given
                     time_bandwidth (float): same as input or default if not given
                     num_tapers (int): same as input or calculated from time_bandwidth if not given
-                    winsize_samples (float): number of samples in single time window
-                    winstep_samples (float): number of samples in a single window step
+                    winsize_samples (int): number of samples in single time window
+                    winstep_samples (int): number of samples in a single window step
                     window_start (1xm np.array): array of timestamps representing the beginning time for each window
                     num_windows (int): number of windows in the data
                     nfft (int): length of signal to calculate fft on
@@ -317,7 +317,7 @@ def process_input(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=N
                    2 ** math.ceil(np.log2(abs(min_nfft))))
 
     return ([data, fs, frequency_range, time_bandwidth, num_tapers,
-             winsize_samples, winstep_samples, window_start, num_windows, nfft,
+             int(winsize_samples), int(winstep_samples), window_start, num_windows, nfft,
              detrend_opt, plot_on, verbose])
 
 
