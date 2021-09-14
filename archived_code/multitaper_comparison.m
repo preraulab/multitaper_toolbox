@@ -63,7 +63,7 @@ linkaxes([ax1,ax2,ax3], 'xy')
 
 
 % MATLAB pmtm method 
-[ pxx, f ] = pmtm(EEG, nw, [], Fs, 'adapt');
+[ pxx, f ] = pmtm(EEG, nw, [], Fs, 'unity');
 
 % compare the two methods 
 figure
