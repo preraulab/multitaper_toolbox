@@ -93,7 +93,7 @@ try
         xlabel('Time (s)');
         ylabel('Frequency (Hz)');
         
-        c = colorbar;
+        c = colorbar_noresize;
         ylabel(c,'Power (dB)');
         axis tight
     end
