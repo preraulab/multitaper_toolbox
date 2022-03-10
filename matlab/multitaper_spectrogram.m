@@ -181,8 +181,15 @@ if plot_on
     axis xy
     xlabel('Time (s)');
     ylabel('Frequency (Hz)');
-
-    c = colorbar;
+    
+    if isfolder('./helper_functions')
+        addpath('./helper_functions');
+        climscale;
+        c = colorbar_noresize;
+    else 
+        c = colorbar;
+    end
+    
     ylabel(c,'Power (dB)');
     axis tight
 end
