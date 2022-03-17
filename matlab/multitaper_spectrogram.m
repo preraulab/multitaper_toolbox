@@ -179,11 +179,14 @@ if plot_on
         imagesc(stimes, sfreqs, nanpow2db(mt_spectrogram));
     end
     axis xy
+    
     xlabel('Time (s)');
     ylabel('Frequency (Hz)');
-
-    c = colorbar;
+    
+    climscale; 
+    c = colorbar_noresize;
     ylabel(c,'Power (dB)');
+    
     axis tight
 end
 
