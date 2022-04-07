@@ -22,8 +22,8 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
     mt_spectrogram, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5,
                                                                    num_tapers=None, window_params=None, min_nfft=0,
                                                                    detrend_opt='linear', multiprocess=False, cpus=False,
-                                                                    weighting='unity', plot_on=True, verbose=True,
-                                                                    xyflip=False):
+                                                                    weighting='unity', plot_on=True, clim_scale=true, 
+                                                                    verbose=True, xyflip=False):
         Arguments:
                 data (1d np.array): time series data -- required
                 fs (float): sampling frequency in Hz  -- required
