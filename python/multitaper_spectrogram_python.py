@@ -78,7 +78,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
             # Compute the multitaper spectrogram
             spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers,
                                                            window_params, min_nfft, detrend_opt, multiprocess,
-                                                           cpus, weighting, plot_on, verbose, xyflip):
+                                                           cpus, weighting, plot_on, clim_scale, verbose, xyflip):
 
         This code is companion to the paper:
         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
