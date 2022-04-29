@@ -21,7 +21,7 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %       spect: FxT matrix of spectral power
 %       stimes: 1xT vector of times for the center of the spectral bins
 %        sfreqs: 1xF vector of frequency bins for the spectrogram
-%  
+%
 %   Example:
 %   In this example we create some chirp data and run the multitaper spectrogram on it.
 %       Fs=200; %Sampling Frequency
@@ -41,7 +41,7 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %
 %       %Compute the multitaper spectrogram
 %       [spect,stimes,sfreqs] = multitaper_spectrogram(data,Fs,frequency_range, taper_params, window_params, min_nfft, detrend_opt, weighting, plot_on, verbose);
-%    
+%
 %   This code is companion to the paper:
 %         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
 %         Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon
@@ -62,7 +62,7 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 
 %Process user input
 [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, ...
-weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
+    weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
 
 %Set up and display spectrogram parameters
 [window_idxs, stimes, sfreqs, freq_inds] = get_windows(Fs, nfft, frequency_range, window_start, winsize_samples);
@@ -104,28 +104,28 @@ end
 parfor n = 1:num_windows
     %Grab the data for the given window
     data_segment = data_segments(:,n);
-    
+
     %Skip empty segments
     if all(data_segment == 0)
         continue;
     end
-    
+
     if any(isnan(data_segment))
         mt_spectrogram(:,n) = nan;
         continue;
     end
-    
+
     %Option to detrend_opt data to remove low frequency DC component
     if detrend_opt
         data_segment = detrend(data_segment, detrend_opt);
     end
-    
+
     %Multiply the data by the tapers (STEP 2)
     tapered_data = repmat(data_segment,1,num_tapers) .* DPSS_tapers;
-    
+
     %Compute the FFT (STEP 3)
     fft_data = fft(tapered_data, nfft);
-    
+
     %Compute the weighted mean spectral power across tapers (STEP 4)
     Spower = imag(fft_data).^2 + real(fft_data).^2;
     if weighting == 2
@@ -147,13 +147,13 @@ parfor n = 1:num_windows
         % eigenvalue or uniform weights
         mt_spectrum = Spower * wt;
     end
-        
+
     %Add the spectrum to the spectrogram
     mt_spectrogram(:,n) = mt_spectrum(freq_inds);
 end
 
 
-%Compute one-sided PSD spectrum 
+%Compute one-sided PSD spectrum
 DC_select = find(sfreqs==0);
 Nyquist_select = find(sfreqs==Fs/2);
 select = setdiff(1:length(sfreqs), [DC_select, Nyquist_select]);
@@ -181,15 +181,17 @@ if plot_on
     axis xy
     xlabel('Time (s)');
     ylabel('Frequency (Hz)');
-    
-    if isfolder('./helper_functions')
-        addpath('./helper_functions');
-        climscale;
-        c = colorbar_noresize;
-    else 
-        c = colorbar;
-    end
-    
+
+    % Scale color limits of colormap
+    climscale;
+
+    % Add colorbar without changing size of figure
+    ax = gca;
+    pos = ax.Position;
+    c = colorbar(ax);
+    ax.Position =pos;
+
+
     ylabel(c,'Power (dB)');
     axis tight
 end
@@ -204,7 +206,7 @@ end
 %% PROCESS THE USER INPUT
 
 function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, ...
-          detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin)
+    detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin)
 if length(varargin)<2
     error('Too few inputs. Need at least data and sampling rate');
 end
@@ -261,7 +263,7 @@ time_bandwidth = taper_params(1);
 
 %Set the number of tapers to 2 x floor(TW)-1 if none supplied
 if length(taper_params) == 1
-        num_tapers = floor(2*(time_bandwidth))-1;
+    num_tapers = floor(2*(time_bandwidth))-1;
     warning(['No taper number specified, setting number of tapers to ' num2str(num_tapers)]);
 else
     num_tapers = taper_params(2);
@@ -290,7 +292,7 @@ end
 %Total data length
 N=length(data);
 
-%Force data to be a column vector 
+%Force data to be a column vector
 if isrow(data)
     data = data(:);
 end
@@ -350,30 +352,121 @@ disp(' ');
 %disp(['Estimating multitaper spectrogram on ' num2str(my_pool.NumWorkers) ' workers...']);
 end
 
-function ydB = nanpow2db(y)
-%POW2DB   Power to dB conversion, setting all bad values to nan
-%   YDB = POW2DB(Y) convert the data Y into its corresponding dB value YDB
-%
-%   % Example:
-%   %   Calculate ratio of 2000W to 2W in decibels
-%
-%   y1 = pow2db(2000/2)     % Answer in db
+%% POWER TO dB CONVERSION HELPER
+function nan_dB = nanpow2db(y)
+% Convert power to dB and turn bad values to nan
 
-%   Copyright 2006-2014 The MathWorks, Inc.
-% EDITED BY MJP 2/7/2020
-
-%#codegenr
-% cond = all(y(:)>=0);
-% if ~cond
-%     coder.internal.assert(cond,'signal:pow2db:InvalidInput');
-% end
-
-%ydB = 10*log10(y);
-%ydB = db(y,'power');
 % We want to guarantee that the result is an integer
 % if y is a negative power of 10.  To do so, we force
 % some rounding of precision by adding 300-300.
-
-ydB = (10.*log10(y)+300)-300;
-ydB(y(:)<=0) = nan;
+nan_dB = (10.*log10(y)+300)-300;
+nan_dB(y(:)<=0) = nan;
 end
+
+%% COLOR LIMIT SCALING HELPER FUNCTION
+%CLIMSCALE Rescale the color limits of an image to remove outliers with percentiles
+%
+%   Usage:
+%       clim = climscale(hObj, ptiles, outliers)
+%       clim(outliers)
+%       clim(ptiles)
+%
+%   Input:
+%       hObj: handle to axis or image object -- required
+%       ptiles: 1x2 double - scaling percentiles (default: [5 98])
+%       outliers: logical - remove outliers prior to scaling using isoutlier (default: true)
+%
+%   Output:
+%       clims: 1x2 double - scaled caxis limits
+%
+%   Example:
+%      ax = gca;
+%      imagesc(peaks(500);
+%      climscale;
+%
+%   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
+%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+%
+%   Last modified 10/23/2020
+%% ********************************************************************
+function clim = climscale(hObj, ptiles, outliers)
+if nargin == 1
+    if isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes')
+        ptiles =[5 98];
+        outliers = true;
+    elseif issorted(hObj) && isnumeric(hObj)
+        ptiles = hObj;
+        hObj = gca;
+        outliers = true;
+    elseif islogical(hObj)
+        outliers = hObj;
+        hObj = gca;
+        ptiles =[5 98];
+    else
+        error('Single input must be object, ptiles, or logical');
+    end
+else
+    %Set default current axis
+    if nargin==0 || isempty(hObj)
+        hObj=gca;
+    end
+
+    %Set default percentiles
+    if nargin<2 || isempty(ptiles)
+        ptiles=[5 98];
+    end
+
+    %Set default percentils
+    if nargin<3 || isempty(outliers)
+        outliers = true;
+    end
+end
+
+assert(ishandle(hObj) || isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes'),['First input must be axis or image handle. Input was ' class(hObj)])
+assert(issorted(ptiles) && isnumeric(ptiles), 'Percentiles must be monotically increasing and numeric');
+assert(islogical(outliers), 'Outliers must be logical');
+
+
+%Get color data
+if isa(hObj,'matlab.graphics.primitive.Image')
+    hIm = hObj;
+    hAx = get(hIm, 'parent');
+else
+    hAx = hObj;
+    hIm = findall(hAx,'type','image');
+    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
+end
+
+%Get color data
+data = hIm.CData(:);
+
+%Make sure it is not a flat image
+assert(range(data)>0,'Image data are all equal');
+
+%Handle massive images
+N = length(data);
+if N > 1e9
+    warning('Data too large to efficiently compute percentile. Using random sampling.');
+    data = data(randi(N, 1, min(100000, N)));
+end
+
+%Find poorly formed data
+if ~outliers
+    bad_inds = isnan(data) | isinf(data);
+else %Remove outliers if selected
+    bad_inds = isnan(data) | isinf(data) | isoutlier(data);
+end
+
+%Compute color limits
+clim = prctile(data(~bad_inds), ptiles);
+
+if clim(1) == clim(2)
+    return;
+end
+
+%Update axis scale
+set(hAx,'clim',clim);
+
+end
+
