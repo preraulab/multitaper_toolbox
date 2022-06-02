@@ -257,7 +257,7 @@ def process_input(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=N
     if detrend_opt != 'linear':
         if detrend_opt in ['const', 'constant']:
             detrend_opt = 'constant'
-        elif detrend_opt in ['none', 'false']:
+        elif detrend_opt in ['none', 'false', 'off']:
             detrend_opt = 'off'
         else:
             raise ValueError("'" + str(detrend_opt) + "' is not a valid argument for detrend_opt. The choices " +
