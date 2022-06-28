@@ -1,7 +1,6 @@
 ## Package installation and library initializing ##
-packages_req <- c("waveslim", "pracma", "fields")
-not_installed <- packages_req[!(packages_req %in% installed.packages()[ , "Package"])]    # Extract not installed packages
-if(length(not_installed)) install.packages(not_installed)                               # Install not installed packages
+packages <- c("waveslim", "pracma", "fields")
+install.packages(setdiff(packages, rownames(installed.packages()))) # Install packages if they aren't already installed
 
 library(waveslim)
 library(pracma)
@@ -10,8 +9,11 @@ library(fields)
 
 # Multitaper Spectrogram #
 multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_tapers=NULL, window_params=c(5,1),
-                                     min_nfft=0, detrend_opt='linear', plot_on=TRUE, verbose=TRUE){
+                                   min_nfft=0, detrend_opt='linear', plot_on=TRUE, verbose=TRUE){
   # Compute multitaper spectrogram of timeseries data
+  # 
+  # Results tend to agree with Prerau Lab python implementation of multitaper spectrogram with precision on the order of at most 
+  # 10^-7 with SD of at most 10^-5
   #
   # params:
   #         data (numeric vector): time series data -- required
@@ -32,62 +34,11 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   #         mt_spectrogram (matrix): spectral power matrix
   #         stimes (numeric vector): timepoints (s) in mt_spectrogram
   #         sfreqs (numeric vector): frequency values (Hz) in mt_spectrogram
-  #
-  # 
-  # Example:
-  # In ths example we create some chirp data and compute the multitaper spectrogram on it.
-  #
-  #     install.packages("signal")
-  #     library(signal)  # get signal library for chirp function
-  #
-  #     # Set spectrogram params
-  #     fs = 200  # Sampling Frequency
-  #     frequency_range = c(0, 25)  # Limit frequencies from 0 to 25 Hz
-  #     time_bandwidth = 3  # Set time-half bandwidth
-  #     num_tapers = 5  # Set number of tapers (optimal is time_bandwidth*2 - 1)
-  #     window_params = c(4, 1)  # Window size is 4s with step size of 1s
-  #     min_nfft = 0  # No minimum nfft
-  #     weighting = 'unity'  # weight each taper at 1
-  #     detrend_opt = 'constant'  # detrend each window by subtracting the average
-  #     parallel = TRUE  # use multiprocessing
-  #     num_workers = 3  # use 3 cores in multiprocessing
-  #     plot_on = TRUE  # plot spectrogram
-  #     verbose = TRUE  # print extra info
-  #     xyflip = FALSE  # do not transpose spect output matrix
-  #
-  #     # Generate sample chirp data
-  #     t = seq(1/fs, 600, by=1/fs)  # Create 10 min time array from 1/fs to 600 stepping by 1/fs
-  #     f_start = 1  # Set chirp freq range min (Hz)
-  #     f_end = 20  # Set chirp freq range max (Hz)
-  #     data = chirp(t, f_start, tail(t,n=1), f_end, 'logarithmic')
-  #
-  #     # Compute the multitaper spectrogram
-  #     results = multitaper_spectrogram_R(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, 
-  #                                        weighting, detrend_opt, parallel, num_workers, plot_on, verbose, xyflip)
-  #     spect = results[[1]]
-  #     stimes = results[[2]]
-  #     sfreqs = results[[3]]
-  #
-  #
-  #   This code is companion to the paper:
-  #         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
-  #         Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon
-  #         December 7, 2016 : 60-92
-  #         DOI: 10.1152/physiol.00062.2015
-  #   which should be cited for academic use of this code.
-  #
-  #   A full tutorial on the multitaper spectrogram can be found at:
-  #   http://www.sleepEEG.org/multitaper
-  #
-  #   Copyright 2021 Michael Prerau Laboratory - http://www.sleepEEG.org
-  #   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-  #   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-  #__________________________________________________________________________________________________________________
   
   # Process user input
   res <- process_input(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, 
                        plot_on, verbose)
-  
+
   data <- res[[1]]
   fs <- res[[2]]
   frequency_range <- res[[3]]
@@ -117,7 +68,7 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   
   # Split data into window segments
   data_segments <- t(sapply(window_idxs, split_data_helper, data=data))
-  
+
   # COMPUTE THE MULTITAPER SPECTROGRAM
   #     STEP 1: Compute DPSS tapers based on desired spectral properties
   #     STEP 2: Multiply the data segment by the DPSS Tapers
@@ -131,7 +82,7 @@ multitaper_spectrogram_R <- function(data, fs, frequency_range=NULL, time_bandwi
   # Compute multitaper
   mt_spectrogram = apply(data_segments, 1, calc_mts_segment, dpss_tapers=dpss_tapers, nfft=nfft, 
                          freq_inds=freq_inds, detrend_opt=detrend_opt)
-  
+
   # Compute mean fft magnitude (STEP 4.2)
   mt_spectrogram = Conj(t(mt_spectrogram)) / fs^2 / num_tapers
   
@@ -196,7 +147,7 @@ process_input <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_
   #         plot_on (logical): same as input or default if not given
   #         verbose (logical): same as input or default if not given
   
-  
+
   # Make sure data is 1D atomic vector
   if((is.atomic(data) == FALSE) | is.list(data)){
     stop("data must be a 1D atomic vector")
@@ -210,22 +161,22 @@ process_input <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_
   # Set detrend method
   detrend_opt = tolower(detrend_opt)
   if(detrend_opt != 'linear'){
-    if(detrend_opt == 'const'){
+    if(sum(str_detect(c('const', 'constant'), detrend_opt)) > 0){
       detrend_opt <- 'constant'
-    } else if(detrend_opt == 'none' || detrend_opt == 'false'){
+    } else if(sum(str_detect(c('none', 'false', 'off'), detrend_opt)) > 0){
       detrend_opt <- 'off'
     }else{
       stop(paste("'", toString(detrend_opt), "' is not a valid detrend_opt argument. The",
                  " choices are: 'constant', 'linear', or 'off'.", sep=""))
-    } 
+      } 
   }
   
   # Check if frequency range is valid
   if(frequency_range[2] > fs/2){
     frequency_range[2] <- fs/2
     warning(paste("Upper frequency range greater than Nyquist, setting range to [",
-                  toString(frequency_range[1]), ",", toString(frequency_range[2]), "].",
-                  sep=""))
+              toString(frequency_range[1]), ",", toString(frequency_range[2]), "].",
+              sep=""))
   }
   
   # Set number of tapers if none provided
@@ -248,8 +199,8 @@ process_input <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_
                   " size to ", toString(winsize_samples/fs), " seconds.", sep=""))
   } else{
     winsize_samples <- window_params[1]*fs
-  }
-  
+    }
+
   # Check if window step size is valid, fix if not
   if((window_params[2]*fs) %% 1 != 0){
     winstep_samples <- round(window_params[2]*fs)
@@ -275,7 +226,7 @@ process_input <- function(data, fs, frequency_range=NULL, time_bandwidth=5, num_
   
   # Get num points in FFT
   nfft = max(max(2^ceiling(log2(abs(winsize_samples))), winsize_samples), 2^ceiling(log2(abs(min_nfft))))
-  
+
   return(list(data, fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, 
               window_start, num_windows, nfft, detrend_opt, plot_on, verbose))
 }
@@ -303,7 +254,7 @@ process_spectrogram_params <- function(fs, nfft, frequency_range, window_start, 
   # Create frequency vector
   df <- fs/nfft
   sfreqs <- seq(df/2, fs-(df/2), by=df)
-  
+
   # Get frequencies for given frequency range
   freq_inds <- (sfreqs >= frequency_range[1]) & (sfreqs <= frequency_range[2])
   sfreqs <- sfreqs[freq_inds]
@@ -314,7 +265,7 @@ process_spectrogram_params <- function(fs, nfft, frequency_range, window_start, 
   
   # Get indices for each window
   window_idxs <- lapply(window_start, window_index_helper, datawin_size=datawin_size) # list of indices for n windows
-  
+
   
   return(list(window_idxs, stimes, sfreqs, freq_inds))
   
@@ -368,9 +319,9 @@ nanpow2db <- function(y){
   #         ydB: dB (with 0s and negativs set to NaN)
   
   if(length(y)==1){
-    if(y==0){
-      return(NaN)
-    } else(ydB <- 10*log10(y))
+   if(y==0){
+     return(NaN)
+   } else(ydB <- 10*log10(y))
   }else{
     y[y==0] <- NaN
     ydB <- 10*log10(y)
@@ -395,24 +346,24 @@ calc_mts_segment <- function(data_segment, dpss_tapers, nfft, freq_inds, detrend
   #
   # returns:
   #         mt_spectrum (numeric matrix): spectral power for single window
-  
+
   # If segment has all zeros, return vector of zeros
   if(all(data_segment==0)){
     ret <- rep(0, sum(freq_inds))
     return(ret)
   }
-  
-  # Optionally detrend data to remove low freq DC component
+
+    # Optionally detrend data to remove low freq DC component
   if(detrend_opt != 'off'){
     data_segment <- detrend(data_segment, tt=detrend_opt)
   }
-  
-  # Multiply data by dpss tapers (STEP 2)
+
+    # Multiply data by dpss tapers (STEP 2)
   tapered_data <- sweep(dpss_tapers, 1, data_segment, '*')
   
   # Manually add nfft zero-padding (R's fft function does not support)
   tapered_padded_data <- rbind(tapered_data, matrix(0, nrow=nfft-nrow(tapered_data), ncol=ncol(tapered_data)))
-  
+
   # Compute the FFT (STEP 3)
   fft_data <- apply(tapered_padded_data, 2, fft)
   fft_range = fft_data[freq_inds,]
@@ -423,4 +374,5 @@ calc_mts_segment <- function(data_segment, dpss_tapers, nfft, freq_inds, detrend
   
   return(mt_spectrum)
 }
+
 
