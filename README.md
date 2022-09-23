@@ -8,6 +8,7 @@
 * [Python Implementation](#python-implementation)
 * [R Implementation](#r-implementation)
 * [Parameters](#parameters)
+* [Matlab Requirements](#matlab-requirements)
 * [Numerical Differences Between Implementations](#numerical-differences-between-implementations)
 * [Status](#status)
 * [References](#references)
@@ -68,6 +69,17 @@ The spectral parameters used in all implementations of the multitaper spectrogra
 * In data point comparisons R and Python implementation results tend to agree on average with precision on the order of at most 10^-11 with SD of at most 10^-9.
 
 <br/>
+
+## Matlab Requirements
+For the toolbox we currently require:
+* Signal Processing Toolbox
+* Image Processing Toolbox
+* Statistics and Machine Learning Toolbox
+
+For parallel (optional)
+* Parallel Computing Toolbox
+* MATLAB Parallel Server
+
 
 ## Citations
 The code contained in this repository for multitaper spectral analysis is companion to the paper:  
