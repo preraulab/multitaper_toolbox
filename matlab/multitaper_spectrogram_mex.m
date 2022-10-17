@@ -61,27 +61,33 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 try
     %Process user input
     [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, ~, ~, min_NFFT, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
-
+    
     if verbose
         display_spectrogram_props([time_bandwidth num_tapers], [winsize_samples winstep_samples], frequency_range, detrend_opt, Fs);
     end
-
+    
     %Generate DPSS tapers (STEP 1)
     [DPSS_tapers, DPSS_eigen] = dpss(winsize_samples, time_bandwidth, num_tapers);
-
+    
     start_time = tic;
     %Compute the multitaper spectrogram
-    [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder_mex(single(data), Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, min_NFFT, detrend_opt, weighting);
+    if verLessThan('matlab', '2018a')
+        warning(['Matlab version is ', version('-release'), '. Matlab version must be 2018a or later to run multitaper spectrogram mex. Reverting to matlab version']);
+        [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin{:});
+    else
+        [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder_mex(single(data), Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, min_NFFT, detrend_opt, weighting);
+    end
+    
     if xyflip; mt_spectrogram = mt_spectrogram'; end
-
+    
     %% PLOT THE SPECTROGRAM
-
+    
     %Show timing if verbose
     if verbose
         disp(' ');
         disp(['Estimation time: ' datestr(toc(start_time)*datenum([0 0 0 0 0 1]), 'HH:MM:SS.FFF')]);
     end
-
+    
     %Plot the spectrogram
     if plot_on
         if xyflip
@@ -90,22 +96,17 @@ try
             imagesc(stimes, sfreqs, nanpow2db(mt_spectrogram));
         end
         axis xy
+        
         xlabel('Time (s)');
         ylabel('Frequency (Hz)');
-
-        % Scale color limits of colormap
+        
         climscale;
-
-        % Add colorbar without changing size of figure
-        ax = gca;
-        pos = ax.Position;
-        c = colorbar(ax);
-        ax.Position =pos;
-
+        c = colorbar_noresize;
         ylabel(c,'Power (dB)');
+        
         axis tight
     end
-
+    
 catch ME
     warning(ME.message)
     warning(['Mex file execution error for system: ' computer ' . Reverting to matlab version']);
@@ -203,7 +204,7 @@ end
 %Total data length
 N=length(data);
 
-%Force data to be a column vector
+%Force data to be a column vector 
 if isrow(data)
     data = data(:);
 end
@@ -246,121 +247,32 @@ disp(' ');
 %disp(['Estimating multitaper spectrogram on ' num2str(my_pool.NumWorkers) ' workers...']);
 end
 
-%% NONPOW2DB HELPER
-function nan_dB = nanpow2db(y)
-% Convert power to dB and turn bad values to nan
+%% POW2DB FOR NAN ENTRIES
 
+function ydB = nanpow2db(y)
+%POW2DB   Power to dB conversion, setting all bad values to nan
+%   YDB = POW2DB(Y) convert the data Y into its corresponding dB value YDB
+%
+%   % Example:
+%   %   Calculate ratio of 2000W to 2W in decibels
+%
+%   y1 = pow2db(2000/2)     % Answer in db
+
+%   Copyright 2006-2014 The MathWorks, Inc.
+% EDITED BY MJP 2/7/2020
+
+% #codegen
+% cond = all(y(:)>=0);
+% if ~cond
+%     coder.internal.assert(cond,'signal:pow2db:InvalidInput');
+% end
+
+%ydB = 10*log10(y);
+%ydB = db(y,'power');
 % We want to guarantee that the result is an integer
 % if y is a negative power of 10.  To do so, we force
 % some rounding of precision by adding 300-300.
-nan_dB = (10.*log10(y)+300)-300;
-nan_dB(y(:)<=0) = nan;
+
+ydB = (10.*log10(y)+300)-300;
+ydB(y(:)<=0) = nan;
 end
-
-%% COLOR LIMIT SCALING HELPER FUNCTION
-%CLIMSCALE Rescale the color limits of an image to remove outliers with percentiles
-%
-%   Usage:
-%       clim = climscale(hObj, ptiles, outliers)
-%       clim(outliers)
-%       clim(ptiles)
-%
-%   Input:
-%       hObj: handle to axis or image object -- required
-%       ptiles: 1x2 double - scaling percentiles (default: [5 98])
-%       outliers: logical - remove outliers prior to scaling using isoutlier (default: true)
-%
-%   Output:
-%       clims: 1x2 double - scaled caxis limits
-%
-%   Example:
-%      ax = gca;
-%      imagesc(peaks(500);
-%      climscale;
-%
-%   Copyright 2021 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%
-%   Last modified 10/23/2020
-%% ********************************************************************
-function clim = climscale(hObj, ptiles, outliers)
-if nargin == 1
-    if isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes')
-        ptiles =[5 98];
-        outliers = true;
-    elseif issorted(hObj) && isnumeric(hObj)
-        ptiles = hObj;
-        hObj = gca;
-        outliers = true;
-    elseif islogical(hObj)
-        outliers = hObj;
-        hObj = gca;
-        ptiles =[5 98];
-    else
-        error('Single input must be object, ptiles, or logical');
-    end
-else
-    %Set default current axis
-    if nargin==0 || isempty(hObj)
-        hObj=gca;
-    end
-
-    %Set default percentiles
-    if nargin<2 || isempty(ptiles)
-        ptiles=[5 98];
-    end
-
-    %Set default percentils
-    if nargin<3 || isempty(outliers)
-        outliers = true;
-    end
-end
-
-assert(ishandle(hObj) || isa(hObj,'matlab.graphics.primitive.Image') || isa(hObj,'matlab.graphics.axis.Axes'),['First input must be axis or image handle. Input was ' class(hObj)])
-assert(issorted(ptiles) && isnumeric(ptiles), 'Percentiles must be monotically increasing and numeric');
-assert(islogical(outliers), 'Outliers must be logical');
-
-
-%Get color data
-if isa(hObj,'matlab.graphics.primitive.Image')
-    hIm = hObj;
-    hAx = get(hIm, 'parent');
-else
-    hAx = hObj;
-    hIm = findall(hAx,'type','image');
-    assert(length(hIm) == 1,'More than one image found in axis. Use specific image handle');
-end
-
-%Get color data
-data = hIm.CData(:);
-
-%Make sure it is not a flat image
-assert(range(data)>0,'Image data are all equal');
-
-%Handle massive images
-N = length(data);
-if N > 1e9
-    warning('Data too large to efficiently compute percentile. Using random sampling.');
-    data = data(randi(N, 1, min(100000, N)));
-end
-
-%Find poorly formed data
-if ~outliers
-    bad_inds = isnan(data) | isinf(data);
-else %Remove outliers if selected
-    bad_inds = isnan(data) | isinf(data) | isoutlier(data);
-end
-
-%Compute color limits
-clim = prctile(data(~bad_inds), ptiles);
-
-if clim(1) == clim(2)
-    return;
-end
-
-%Update axis scale
-set(hAx,'clim',clim);
-
-end
-
