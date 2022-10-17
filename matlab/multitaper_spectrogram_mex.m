@@ -71,7 +71,13 @@ try
     
     start_time = tic;
     %Compute the multitaper spectrogram
-    [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder_mex(single(data), Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, min_NFFT, detrend_opt, weighting);
+    if verLessThan('matlab', '2018a')
+        warning(['Matlab version is ', version('-release'), '. Matlab version must be 2018a or later to run multitaper spectrogram mex. Reverting to matlab version']);
+        [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin{:});
+    else
+        [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder_mex(single(data), Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, min_NFFT, detrend_opt, weighting);
+    end
+    
     if xyflip; mt_spectrogram = mt_spectrogram'; end
     
     %% PLOT THE SPECTROGRAM
