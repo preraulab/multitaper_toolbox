@@ -6,8 +6,7 @@ from scipy.signal import detrend
 # Logistical Imports
 import warnings
 import timeit
-from functools import partial
-from multiprocessing import Pool, cpu_count
+from joblib import Parallel, delayed, cpu_count
 # Visualization imports
 import matplotlib.pyplot as plt
 import librosa.display
@@ -15,15 +14,15 @@ import librosa.display
 
 # MULTITAPER SPECTROGRAM #
 def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=None, window_params=None,
-                           min_nfft=0, detrend_opt='linear', multiprocess=False, cpus=False, weighting='unity',
-                           plot_on=True, clim_scale = True, verbose=True, xyflip=False):
+                           min_nfft=0, detrend_opt='linear', multiprocess=False, n_jobs=None, weighting='unity',
+                           plot_on=True, clim_scale=True, verbose=True, xyflip=False):
     """ Compute multitaper spectrogram of timeseries data
     Usage:
     mt_spectrogram, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5,
                                                                    num_tapers=None, window_params=None, min_nfft=0,
                                                                    detrend_opt='linear', multiprocess=False, cpus=False,
-                                                                    weighting='unity', plot_on=True, clim_scale=true, 
-                                                                    verbose=True, xyflip=False):
+                                                                    weighting='unity', plot_on=True, verbose=True,
+                                                                    xyflip=False):
         Arguments:
                 data (1d np.array): time series data -- required
                 fs (float): sampling frequency in Hz  -- required
@@ -38,8 +37,8 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
                 min_nfft (int): minimum allowable NFFT size, adds zero padding for interpolation (closest 2^x)
                                 (default: 0)
                 multiprocess (bool): Use multiprocessing to compute multitaper spectrogram (default: False)
-                cpus (int): Number of cpus to use if multiprocess = True (default: False). Note: if default is left
-                            as False and multiprocess = True, the number of cpus used for multiprocessing will be
+                n_jobs (int): Number of cpus to use if multiprocess = True (default: False). Note: if default is left
+                            as None and multiprocess = True, the number of cpus used for multiprocessing will be
                             all available - 1.
                 weighting (str): weighting of tapers ('unity' (default), 'eigen', 'adapt');
                 plot_on (bool): plot results (default: True)
@@ -78,7 +77,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
             # Compute the multitaper spectrogram
             spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers,
                                                            window_params, min_nfft, detrend_opt, multiprocess,
-                                                           cpus, weighting, plot_on, clim_scale, verbose, xyflip):
+                                                           cpus, weighting, plot_on, verbose, xyflip):
 
         This code is companion to the paper:
         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
@@ -87,12 +86,11 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
            DOI: 10.1152/physiol.00062.2015
          which should be cited for academic use of this code.
 
-         A full tutorial on the multitaper spectrogram can be found at:  #   http://www.sleepEEG.org/multitaper
+         A full tutorial on the multitaper spectrogram can be found at:  #   https://www.sleepEEG.org/multitaper
 
-        Copyright 2021 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-        Authors: Michael J. Prerau, Ph.D., Thomas Possidente
-        
-        Last modified - 2/18/2021 Thomas Possidente
+        Copyright 2021 Michael J. Prerau Laboratory. - https://www.sleepEEG.org
+        Authors: Michael J. Prerau, Ph.D., Thomas Possidente, Mingjian He
+
   __________________________________________________________________________________________________________________
     """
 
@@ -135,27 +133,18 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
 
     tic = timeit.default_timer()  # start timer
 
-    # set all but 1 arg of calc_mts_segment to constant (so we only have to supply one argument later)
-    calc_mts_segment_plus_args = partial(calc_mts_segment, dpss_tapers=dpss_tapers, nfft=nfft, freq_inds=freq_inds,
-                                         detrend_opt=detrend_opt, num_tapers=num_tapers, dpss_eigen=dpss_eigen,
-                                         weighting=weighting, wt=wt)
+    # Set up calc_mts_segment() input arguments
+    mts_params = (dpss_tapers, nfft, freq_inds, detrend_opt, num_tapers, dpss_eigen, weighting, wt)
 
     if multiprocess:  # use multiprocessing
-        if not cpus:  # if cpus not specfied, use all but 1
-            pool = Pool(cpu_count()-1)
-        else:  # else us specified number
-            pool = Pool(cpus)
-
-        # Compute multiprocess multitaper spect.
-        mt_spectrogram = pool.map(calc_mts_segment_plus_args, data_segments)
-        pool.close()
-        pool.join()
+        n_jobs = max(cpu_count() - 1, 1) if n_jobs is None else n_jobs
+        mt_spectrogram = np.vstack(Parallel(n_jobs=n_jobs)(delayed(calc_mts_segment)(
+            data_segments[num_window, :], *mts_params) for num_window in range(num_windows)))
 
     else:  # if no multiprocessing, compute normally
-        mt_spectrogram = np.apply_along_axis(calc_mts_segment_plus_args, 1, data_segments)
+        mt_spectrogram = np.apply_along_axis(calc_mts_segment, 1, data_segments, *mts_params)
 
     # Compute one-sided PSD spectrum
-    mt_spectrogram = np.asarray(mt_spectrogram)
     mt_spectrogram = mt_spectrogram.T
     dc_select = np.where(sfreqs == 0)
     nyquist_select = np.where(sfreqs == fs/2)
@@ -166,13 +155,12 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
 
     # Flip if requested
     if xyflip:
-        mt_spectrogram = np.transpose(mt_spectrogram)
+        mt_spectrogram = mt_spectrogram.T
 
     # End timer and get elapsed compute time
     toc = timeit.default_timer()
-    elapsed_time = toc - tic
     if verbose:
-        print("\n Multitaper compute time: " + str(elapsed_time) + " seconds")
+        print("\n Multitaper compute time: " + "%.2f" % (toc - tic) + " seconds")
 
     # Plot multitaper spectrogram
     if plot_on:
@@ -190,10 +178,6 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
         if clim_scale:
             plt.clim(clim)  # actually change colorbar scale
         plt.show()
-
-    # Put outputs into better format for output
-    #stimes = np.mat(stimes)
-    #sfreqs = np.mat(sfreqs)
 
     if all(mt_spectrogram.flatten() == 0):
         print("\n Data was all zeros, no output")
@@ -257,7 +241,7 @@ def process_input(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=N
     if detrend_opt != 'linear':
         if detrend_opt in ['const', 'constant']:
             detrend_opt = 'constant'
-        elif detrend_opt in ['none', 'false', 'off']:
+        elif detrend_opt in ['none', 'false']:
             detrend_opt = 'off'
         else:
             raise ValueError("'" + str(detrend_opt) + "' is not a valid argument for detrend_opt. The choices " +
@@ -328,7 +312,7 @@ def process_spectrogram_params(fs, nfft, frequency_range, window_start, datawin_
              fs (float): sampling frequency in Hz  -- required
              nfft (int): length of signal to calculate fft on -- required
              frequency_range (list): 1x2 list - [<min frequency>, <max frequency>] -- required
-             window_start (1xm np.array): array of timestamps representing the beginning time for each
+             window_start (1xm np array): array of timestamps representing the beginning time for each
                                           window -- required
              datawin_size (float): seconds in one window -- required
         Returns:

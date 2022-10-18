@@ -17,10 +17,10 @@
 <br/>
 <br/>
 
-## General Information 
-This folder contains the Python implementations of the multitaper spectrogram analysis described in the paper ["Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"](https://prerau.bwh.harvard.edu/publications/Physiology_Bethesda_2017_Prerau.pdf)<sup>1</sup>. Multitaper spectral estimation, which was developed in the early 1980s by David Thomson<sup>2</sup> and has been shown to have superior statistical properties compared with single-taper spectral estimates<sup>3,4</sup>. The multitaper method works by averaging together multiple independent spectra estimated from a single segment of data. The innovation of the multitaper method is that, instead of using a single-taper function to compute the spectrum, it uses multiple taper functions called discrete prolate spheroidal sequences (DPSS). Because DPSS tapers are uncorrelated with each other, they can be averaged together as if they were independent trials of the same condition, producing a spectrum with reduced variance compared to periodogram and single-taper estimation. 
+## General Information
+This folder contains the Python implementations of the multitaper spectrogram analysis described in the paper ["Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"](https://prerau.bwh.harvard.edu/publications/Physiology_Bethesda_2017_Prerau.pdf)<sup>1</sup>. Multitaper spectral estimation, which was developed in the early 1980s by David Thomson<sup>2</sup> and has been shown to have superior statistical properties compared with single-taper spectral estimates<sup>3,4</sup>. The multitaper method works by averaging together multiple independent spectra estimated from a single segment of data. The innovation of the multitaper method is that, instead of using a single-taper function to compute the spectrum, it uses multiple taper functions called discrete prolate spheroidal sequences (DPSS). Because DPSS tapers are uncorrelated with each other, they can be averaged together as if they were independent trials of the same condition, producing a spectrum with reduced variance compared to periodogram and single-taper estimation.
 
-Find videos describing the theory of spectral estimation and demonstrating how multitaper spectral estimation works [http://sleepeeg.org/multitaper](http://sleepeeg.org/multitaper) on the Prerau Lab website. 
+Find videos describing the theory of spectral estimation and demonstrating how multitaper spectral estimation works [http://sleepeeg.org/multitaper](http://sleepeeg.org/multitaper) on the Prerau Lab website.
 
 <br/>
 
@@ -60,7 +60,7 @@ window_params = [4, 1]  # Window size is 4s with step size of 1s
 min_nfft = 0  # No minimum nfft
 detrend_opt = 'constant'  # detrend each window by subtracting the average
 multiprocess = True  # use multiprocessing
-cpus = 3  # use 3 cores in multiprocessing
+n_jobs = 3  # use 3 cores in multiprocessing
 weighting = 'unity'  # weight each taper at 1
 plot_on = True  # plot spectrogram
 clim_scale = False # do not auto-scale colormap
@@ -74,8 +74,8 @@ f_end = 20  # Set chirp freq range max (Hz)
 data = chirp(t, f_start, t[-1], f_end, 'logarithmic')
 
 # Compute the multitaper spectrogram
-spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, multiprocess, cpus,
-                                               weighting, plot_on, clim_scale, verbose, xyflip):
+spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, multiprocess, n_jobs,
+                                               weighting, plot_on, clim_scale, verbose, xyflip)
 ```
 Here is the resulting spectrogram
 
@@ -89,8 +89,8 @@ Many times, medical signal data are stored in EDF files. There are several packa
 
 
 ```
-from pyedflib import highlevel  # to install this package using pip: 'pip install pyEDFlib' 
-                                # to install this package using conda: 'conda install -c conda-forge pyedflib' 
+from pyedflib import highlevel  # to install this package using pip: 'pip install pyEDFlib'
+                                # to install this package using conda: 'conda install -c conda-forge pyedflib'
 
 signals, signal_headers, header = highlevel.read_edf('test.edf')  # reads in the signal data, header for each signal, and the overall edf header from test.edf
 
@@ -119,8 +119,8 @@ The code contained in this repository for multitaper spectral analysis is compan
 which should be cited for academic use of this code.  
 <br/>
 
-## Status 
-This code is complete and functional but may receive occasional updates. 
+## Status
+This code is complete and functional but may receive occasional updates.
 <br/>
 
 ## References
@@ -133,4 +133,3 @@ This code is complete and functional but may receive occasional updates.
 ## Contact
 For questions or suggestions please contact Thomas Possidente at tpossidente@bwh.harvard.edu
 <br/>
-
