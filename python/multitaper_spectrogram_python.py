@@ -107,7 +107,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
     # Display spectrogram parameters
     if verbose:
         display_spectrogram_props(fs, time_bandwidth, num_tapers, [winsize_samples, winstep_samples], frequency_range,
-                                  detrend_opt)
+                                  nfft, detrend_opt)
 
     # Split data into segments and preallocate
     data_segments = data[window_idxs]
@@ -344,7 +344,7 @@ def process_spectrogram_params(fs, nfft, frequency_range, window_start, datawin_
 
 
 # DISPLAY SPECTROGRAM PROPERTIES
-def display_spectrogram_props(fs, time_bandwidth, num_tapers, data_window_params, frequency_range, detrend_opt):
+def display_spectrogram_props(fs, time_bandwidth, num_tapers, data_window_params, frequency_range, nfft, detrend_opt):
     """ Prints spectrogram properties
         Arguments:
             fs (float): sampling frequency in Hz  -- required
@@ -367,6 +367,7 @@ def display_spectrogram_props(fs, time_bandwidth, num_tapers, data_window_params
     print('     Time Half-Bandwidth Product: ' + str(time_bandwidth))
     print('     Number of Tapers: ' + str(num_tapers))
     print('     Frequency Range: ' + str(frequency_range[0]) + "-" + str(frequency_range[1]) + 'Hz')
+    print('     NFFT: ' + str(nfft))
     print('     Detrend: ' + detrend_opt + '\n')
 
 
