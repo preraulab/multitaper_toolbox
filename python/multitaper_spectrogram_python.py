@@ -146,12 +146,12 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
 
     # Compute one-sided PSD spectrum
     mt_spectrogram = mt_spectrogram.T
-    dc_select = np.where(sfreqs == 0)
-    nyquist_select = np.where(sfreqs == fs/2)
-    select = np.setdiff1d(np.arange(0, len(sfreqs)), [dc_select, nyquist_select])
+    dc_select = np.where(sfreqs == 0)[0]
+    nyquist_select = np.where(sfreqs == fs/2)[0]
+    select = np.setdiff1d(np.arange(0, len(sfreqs)), np.concatenate((dc_select, nyquist_select)))
 
-    mt_spectrogram = np.vstack([mt_spectrogram[dc_select[0], :], 2*mt_spectrogram[select, :],
-                               mt_spectrogram[nyquist_select[0], :]]) / fs
+    mt_spectrogram = np.vstack([mt_spectrogram[dc_select, :], 2*mt_spectrogram[select, :],
+                               mt_spectrogram[nyquist_select, :]]) / fs
 
     # Flip if requested
     if xyflip:
