@@ -71,7 +71,7 @@ try
     
     start_time = tic;
     %Compute the multitaper spectrogram
-    if verLessThan('matlab', '2018a')
+    if verLessThan('matlab', '9.4') % 9.4 is 2018a
         warning(['Matlab version is ', version('-release'), '. Matlab version must be 2018a or later to run multitaper spectrogram mex. Reverting to matlab version']);
         [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin{:});
     else
