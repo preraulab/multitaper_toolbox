@@ -428,6 +428,11 @@ def calc_mts_segment(data_segment, dpss_tapers, nfft, freq_inds, detrend_opt, nu
         ret.fill(0)
         return ret
 
+    if any(np.isnan(data_segment)):
+        ret = np.empty(sum(freq_inds))
+        ret.fill(np.nan)
+        return ret
+
     # Option to detrend data to remove low frequency DC component
     if detrend_opt != 'off':
         data_segment = detrend(data_segment, type=detrend_opt)
