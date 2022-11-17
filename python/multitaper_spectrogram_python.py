@@ -8,8 +8,8 @@ import warnings
 import timeit
 from joblib import Parallel, delayed, cpu_count
 # Visualization imports
+import colorcet
 import matplotlib.pyplot as plt
-import librosa.display
 
 
 # MULTITAPER SPECTROGRAM #
@@ -69,6 +69,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
             clim_scale = False # don't auto-scale the colormap
             verbose = True  # print extra info
             xyflip = False  # do not transpose spect output matrix
+
             # Generate sample chirp data
             t = np.arange(1/fs, 600, 1/fs)  # Create 10 min time array from 1/fs to 600 stepping by 1/fs
             f_start = 1  # Set chirp freq range min (Hz)
@@ -164,19 +165,27 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
 
     # Plot multitaper spectrogram
     if plot_on:
+        # convert from power to dB
+        spect_data = nanpow2db(mt_spectrogram)
 
-        # Eliminate bad data from colormap scaling
-        spect_data = mt_spectrogram
-        clim = np.percentile(spect_data, [5, 95])  # Scale colormap from 5th percentile to 95th
+        # Set x and y axes
+        dx = stimes[1] - stimes[0]
+        dy = sfreqs[1] - sfreqs[0]
+        extent = [stimes[0]-dx, stimes[-1]+dx, sfreqs[-1]+dy, sfreqs[0]-dy]
 
-        plt.figure(1, figsize=(10, 5))
-        librosa.display.specshow(nanpow2db(mt_spectrogram), x_axis='time', y_axis='linear',
-                                 x_coords=stimes, y_coords=sfreqs, shading='auto', cmap="jet")
-        plt.colorbar(label='Power (dB)')
-        plt.xlabel("Time (HH:MM:SS)")
-        plt.ylabel("Frequency (Hz)")
+        # Plot spectrogramm
+        fig, ax = plt.subplots()
+        im = ax.imshow(spect_data, extent=extent, aspect='auto')
+        #librosa.display.specshow(spect_data, x_axis='time', y_axis='linear',
+        #                         x_coords=stimes, y_coords=sfreqs, shading='auto', cmap="jet")
+        fig.colorbar(im, ax=ax, label='Power (dB)', shrink=0.8)
+        ax.set_xlabel("Time (HH:MM:SS)")
+        ax.set_ylabel("Frequency (Hz)")
+        im.set_cmap(plt.cm.get_cmap('cet_rainbow4'))
+        ax.invert_yaxis()
+
         if clim_scale:
-            plt.clim(clim)  # actually change colorbar scale
+            clim = np.percentile(spect_data, [5, 98])  # Scale colormap from 5th percentile to 98th
         plt.show()
 
     if all(mt_spectrogram.flatten() == 0):

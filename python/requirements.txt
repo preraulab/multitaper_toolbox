@@ -1,5 +1,4 @@
 joblib
-librosa
 matplotlib
 numpy
 scipy
