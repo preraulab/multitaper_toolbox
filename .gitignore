@@ -1,5 +1,5 @@
-*.idea #pycharm files
-*.log #ignore all logs
+.idea/ #pycharm files
+.log #ignore all logs
 
 #compiled codes
 .o
@@ -12,4 +12,4 @@ Thumbs.db
 .Rproj.user
 
 #file copies 
-*._*
+._*
