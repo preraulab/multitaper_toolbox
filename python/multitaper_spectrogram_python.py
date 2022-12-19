@@ -8,7 +8,7 @@ import warnings
 import timeit
 from joblib import Parallel, delayed, cpu_count
 # Visualization imports
-import colorcet
+import colorcet  # this import is necessary to add rainbow colormap to matplotlib
 import matplotlib.pyplot as plt
 
 
@@ -173,19 +173,20 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
         dy = sfreqs[1] - sfreqs[0]
         extent = [stimes[0]-dx, stimes[-1]+dx, sfreqs[-1]+dy, sfreqs[0]-dy]
 
-        # Plot spectrogramm
+        # Plot spectrogram
         fig, ax = plt.subplots()
         im = ax.imshow(spect_data, extent=extent, aspect='auto')
-        #librosa.display.specshow(spect_data, x_axis='time', y_axis='linear',
-        #                         x_coords=stimes, y_coords=sfreqs, shading='auto', cmap="jet")
         fig.colorbar(im, ax=ax, label='Power (dB)', shrink=0.8)
         ax.set_xlabel("Time (HH:MM:SS)")
         ax.set_ylabel("Frequency (Hz)")
         im.set_cmap(plt.cm.get_cmap('cet_rainbow4'))
         ax.invert_yaxis()
 
+        # Scale colormap
         if clim_scale:
-            clim = np.percentile(spect_data, [5, 98])  # Scale colormap from 5th percentile to 98th
+            clim = np.percentile(spect_data, [5, 98])  # from 5th percentile to 98th
+            plt.clim(clim)  # actually change colorbar scale
+
         plt.show()
 
     if all(mt_spectrogram.flatten() == 0):
@@ -361,7 +362,8 @@ def display_spectrogram_props(fs, time_bandwidth, num_tapers, data_window_params
             num_tapers (int): number of DPSS tapers to use -- required
             data_window_params (list): 1x2 list - [window length(s), window step size(s)] -- required
             frequency_range (list): 1x2 list - [<min frequency>, <max frequency>] -- required
-            detrend_opt (str): detrend data window ('linear' (default), 'constant', 'off')
+            nfft(float): number of fast fourier transform samples -- required
+            detrend_opt (str): detrend data window ('linear' (default), 'constant', 'off') -- required
         Returns:
             This function does not return anything
     """
