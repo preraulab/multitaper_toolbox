@@ -76,9 +76,9 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
             f_end = 20  # Set chirp freq range max (Hz)
             data = chirp(t, f_start, t[-1], f_end, 'logarithmic')
             # Compute the multitaper spectrogram
-            spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers,
-                                                           window_params, min_nfft, detrend_opt, multiprocess,
-                                                           cpus, weighting, plot_on, verbose, xyflip):
+            spect, stimes, sfreqs, _ = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers,
+                                                              window_params, min_nfft, detrend_opt, multiprocess,
+                                                              cpus, weighting, plot_on, verbose, xyflip):
 
         This code is companion to the paper:
         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
@@ -163,6 +163,9 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
     if verbose:
         print("\n Multitaper compute time: " + "%.2f" % (toc - tic) + " seconds")
 
+    if all(mt_spectrogram.flatten() == 0):
+        print("\n Data was all zeros, no output")
+
     # Plot multitaper spectrogram
     if plot_on:
         # convert from power to dB
@@ -176,7 +179,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
         # Plot spectrogram
         fig, ax = plt.subplots()
         im = ax.imshow(spect_data, extent=extent, aspect='auto')
-        fig.colorbar(im, ax=ax, label='Power (dB)', shrink=0.8)
+        fig.colorbar(im, ax=ax, label='PSD (dB)', shrink=0.8)
         ax.set_xlabel("Time (HH:MM:SS)")
         ax.set_ylabel("Frequency (Hz)")
         im.set_cmap(plt.cm.get_cmap('cet_rainbow4'))
@@ -185,12 +188,10 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
         # Scale colormap
         if clim_scale:
             clim = np.percentile(spect_data, [5, 98])  # from 5th percentile to 98th
-            plt.clim(clim)  # actually change colorbar scale
+            im.set_clim(clim)  # actually change colorbar scale
 
-        plt.show()
-
-    if all(mt_spectrogram.flatten() == 0):
-        print("\n Data was all zeros, no output")
+        fig.show()
+        return mt_spectrogram, stimes, sfreqs, (fig, ax)
 
     return mt_spectrogram, stimes, sfreqs
 

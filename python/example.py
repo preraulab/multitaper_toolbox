@@ -14,7 +14,7 @@ multiprocess = True  # use multiprocessing
 cpus = 3  # use 3 cores in multiprocessing
 weighting = 'unity'  # weight each taper at 1
 plot_on = True  # plot spectrogram
-clim_scale = False # do not auto-scale colormap
+clim_scale = False  # do not auto-scale colormap
 verbose = True  # print extra info
 xyflip = False  # do not transpose spect output matrix
 
@@ -25,5 +25,5 @@ f_end = 20  # Set chirp freq range max (Hz)
 data = chirp(t, f_start, t[-1], f_end, 'logarithmic')
 
 # Compute the multitaper spectrogram
-spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, multiprocess, cpus,
-                                               weighting, plot_on, clim_scale, verbose, xyflip)
+spect, stimes, sfreqs, _ = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers, window_params, min_nfft, detrend_opt, multiprocess, cpus,
+                                                  weighting, plot_on, clim_scale, verbose, xyflip)
