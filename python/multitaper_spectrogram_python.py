@@ -67,7 +67,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
             cpus = 3  # use 3 cores in multiprocessing
             weighting = 'unity'  # weight each taper at 1
             plot_on = True  # plot spectrogram
-            return_fig = False  # return plotted spectrogram
+            return_fig = False  # do not return plotted spectrogram
             clim_scale = False # don't auto-scale the colormap
             verbose = True  # print extra info
             xyflip = False  # do not transpose spect output matrix
