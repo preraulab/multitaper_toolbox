@@ -77,7 +77,7 @@ mt_spectrogram = zeros(sum(freq_inds), num_windows, data_type);
 data_segments = data(window_idxs)';
 
 %Start timing
-start_time = tic;
+start_time = datetime('now');
 
 %% COMPUTE THE MULTITAPER SPECTROGRAM
 %
@@ -168,7 +168,7 @@ if xyflip; mt_spectrogram = mt_spectrogram'; end
 %Show timing if verbose
 if verbose
     disp(' ');
-    disp(['Estimation time: ' datestr(toc(start_time)*datenum([0 0 0 0 0 1]), 'HH:MM:SS.FFF')]);
+    disp(['Estimation time: ' char(datetime('now') - start_time)]);
 end
 
 %Plot the spectrogram

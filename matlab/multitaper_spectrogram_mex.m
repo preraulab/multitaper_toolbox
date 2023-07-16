@@ -69,7 +69,7 @@ try
     %Generate DPSS tapers (STEP 1)
     [DPSS_tapers, DPSS_eigen] = dpss(winsize_samples, time_bandwidth, num_tapers);
     
-    start_time = tic;
+    start_time = datetime('now');
     %Compute the multitaper spectrogram
     if verLessThan('matlab', '9.4') % 9.4 is 2018a
         warning(['Matlab version is ', version('-release'), '. Matlab version must be 2018a or later to run multitaper spectrogram mex. Reverting to matlab version']);
@@ -85,7 +85,7 @@ try
     %Show timing if verbose
     if verbose
         disp(' ');
-        disp(['Estimation time: ' datestr(toc(start_time)*datenum([0 0 0 0 0 1]), 'HH:MM:SS.FFF')]);
+        disp(['Estimation time: ' char(datetime('now')-start_time)]);
     end
     
     %Plot the spectrogram
