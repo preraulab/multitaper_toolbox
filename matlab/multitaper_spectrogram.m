@@ -52,7 +52,7 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %   A full tutorial on the multitaper spectrogram can be found at:
 %   http://www.sleepEEG.org/multitaper
 %
-%    Copyright 2021 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%    Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %    Authors: Michael J. Prerau, Ph.D., Mingjian He
 %
 %   Last modified 1/11/2019
