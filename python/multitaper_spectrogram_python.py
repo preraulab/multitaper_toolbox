@@ -8,6 +8,7 @@ import warnings
 import timeit
 from joblib import Parallel, delayed, cpu_count
 # Visualization imports
+# noinspection PyUnresolvedReferences
 import colorcet  # this import is necessary to add rainbow colormap to matplotlib
 import matplotlib.pyplot as plt
 
@@ -166,7 +167,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
     if verbose:
         print("\n Multitaper compute time: " + "%.2f" % (toc - tic) + " seconds")
 
-    if all(mt_spectrogram.flatten() == 0):
+    if np.all(mt_spectrogram.flatten() == 0):
         print("\n Data was all zeros, no output")
 
     # Plot multitaper spectrogram
