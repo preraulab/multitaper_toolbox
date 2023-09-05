@@ -2,7 +2,6 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %MULTITAPER_SPECTROGRAM  Compute the multitaper spectrogram for time series data
 %
 %   Usage:
-%   Direct input:
 %       [spect,stimes,sfreqs] = multitaper_spectrogram(data, Fs, frequency_range, taper_params, window_params, min_NFFT, detrend_opt, weighting, plot_on, verbose)
 %
 %   Input:
