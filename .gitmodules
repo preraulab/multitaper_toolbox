@@ -1,0 +1,3 @@
+[submodule "colormaps"]
+	path = colormaps
+	url = git@github.com:preraulab/colormaps.git
