@@ -61,14 +61,14 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 try
     %Process user input
     [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, ~, ~, min_NFFT, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
-    
+
     if verbose
         display_spectrogram_props([time_bandwidth num_tapers], [winsize_samples winstep_samples], frequency_range, detrend_opt, Fs);
     end
-    
+
     %Generate DPSS tapers (STEP 1)
     [DPSS_tapers, DPSS_eigen] = dpss(winsize_samples, time_bandwidth, num_tapers);
-    
+
     start_time = datetime('now');
     %Compute the multitaper spectrogram
     if verLessThan('matlab', '9.4') % 9.4 is 2018a
@@ -77,17 +77,17 @@ try
     else
         [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder_mex(single(data), Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, min_NFFT, detrend_opt, weighting);
     end
-    
+
     if xyflip; mt_spectrogram = mt_spectrogram'; end
-    
+
     %% PLOT THE SPECTROGRAM
-    
+
     %Show timing if verbose
     if verbose
         disp(' ');
         disp(['Estimation time: ' char(datetime('now')-start_time)]);
     end
-    
+
     %Plot the spectrogram
     if plot_on
         if xyflip
@@ -96,17 +96,17 @@ try
             imagesc(stimes, sfreqs, nanpow2db(mt_spectrogram));
         end
         axis xy
-        
+
         xlabel('Time (s)');
         ylabel('Frequency (Hz)');
-        
+
         climscale;
         c = colorbar_noresize;
         ylabel(c,'Power (dB)');
-        
+
         axis tight
     end
-    
+
 catch ME
     warning(ME.message)
     warning(['Mex file execution error for system: ' computer ' . Reverting to matlab version']);
@@ -125,8 +125,9 @@ if length(varargin)<2
     error('Too few inputs. Need at least data and sampling rate');
 end
 
+
 %Set default values for inputs
-default={[],[],[0 varargin{2}/2],[5 9],[30 5],0,'linear','unity',true,true,false};
+default={[],[],[0 varargin{2}/2],[5 9],[min(5,length(varargin{1})/varargin{2}) 1],0,'linear','unity',true,true,false};
 
 %Allow the third input to be ploton
 if nargin == 3 && islogical(varargin{3})
@@ -172,6 +173,7 @@ end
 
 %Set the number of tapers if none supplied
 time_bandwidth = taper_params(1);
+assert(time_bandwidth>0,'TW must be positive');
 
 %Set the number of tapers to 2 x floor(TW)-1 if none supplied
 if length(taper_params) == 1
@@ -189,22 +191,31 @@ end
 %Compute the data window and step size in samples
 if mod(data_window_params(1)*Fs,1)
     winsize_samples=round(data_window_params(1)*Fs);
-    warning(['Window size is not clearly divisible by sampling frequency. Adjusting window size to ' num2str(winsize_samples/Fs) ' seconds']);
+    if mod(data_window_params(1)*Fs,1)>1e-10 %Do not output error if precision issue
+        warning(['Window size is not clearly divisible by sampling frequency. Adjusting window size to ' num2str(winsize_samples/Fs) ' seconds']);
+    end
 else
     winsize_samples=data_window_params(1)*Fs;
 end
 
+assert(winsize_samples<=length(data),['Window size is ' num2str(winsize_samples) ' samples but data is only ' num2str(length(data)) ' samples'])
+assert(winsize_samples>0, 'Window size must be positive');
+
 if mod(data_window_params(2)*Fs,1)
     winstep_samples=round(data_window_params(2)*Fs);
-    warning(['Window step size is not clearly divisible by sampling frequency. Adjusting window size to ' num2str(winstep_samples/Fs) ' seconds']);
+    if mod(data_window_params(2)*Fs,1)>1e-10 %Do not output error if precision issue
+        warning(['Window step size is not clearly divisible by sampling frequency. Adjusting window size to ' num2str(winstep_samples/Fs) ' seconds']);
+    end
 else
     winstep_samples=data_window_params(2)*Fs;
 end
 
+assert(winstep_samples>0, 'Window step must be positive');
+
 %Total data length
 N=length(data);
 
-%Force data to be a column vector 
+%Force data to be a column vector
 if isrow(data)
     data = data(:);
 end
