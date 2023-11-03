@@ -1,9 +1,9 @@
-function [mt_spectrum, sfreqs] = multitaper_spectrum_mex(data, Fs, frequency_range, taper_params, varargin)
-%MULTITAPER_SPECTRUM_MEX  Compute the multitaper spectrum for time series data
+function [mt_spectrum, sfreqs] = multitaper_spectrum(data, Fs, frequency_range, taper_params, varargin)
+%MULTITAPER_SPECTRUM  Compute the multitaper spectrum for time series data
 %
 %   Usage:
 %   Direct input:
-%   [spect,stimes,sfreqs] = multitaper_spectrum_mex(data, Fs, frequency_range, taper_params, min_NFFT, detrend_opt, weighting, plot_on, verbose)
+%   [spect,stimes,sfreqs] = multitaper_spectrum(data, Fs, frequency_range, taper_params, min_NFFT, detrend_opt, weighting, plot_on, verbose)
 %
 %   Input:
 %   data: <number of samples> x 1 vector - time series data -- required
@@ -24,7 +24,7 @@ function [mt_spectrum, sfreqs] = multitaper_spectrum_mex(data, Fs, frequency_ran
 %       Fs = 200;
 %       t = (1/Fs):(1/Fs):100;
 %       y = 2*sin(2*pi*t*15) + sin(2*pi*t*10) + .3*sin(2*pi*t*5);
-%       [spect, sfreqs] = multitaper_spectrum_mex(y,Fs,[.5 30],[5 9]);
+%       [spect, sfreqs] = multitaper_spectrum(y,Fs,[.5 30],[5 9]);
 %
 %   This code is companion to the paper:
 %         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
@@ -64,7 +64,7 @@ end
 %Do not do the spectrogram plotting
 varargin{4} = false;
 
-[mt_spectrum, ~, sfreqs]= multitaper_spectrogram_mex(data,Fs, frequency_range, taper_params, window_params, varargin{:});
+[mt_spectrum, ~, sfreqs]= multitaper_spectrogram(data, Fs, frequency_range, taper_params, window_params, varargin{:});
 
 if plot_on
     plot(sfreqs,nanpow2db(mt_spectrum));

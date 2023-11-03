@@ -97,7 +97,9 @@ else
     wt = 0;
 end
 
-%temp_reg = zeros(1024,3,num_windows);
+if num_windows == 1
+    data_segments = data_segments(:);
+end
 
 %Loop in parallel over all of the windows
 parfor n = 1:num_windows
@@ -198,14 +200,14 @@ end
 % ********************************************
 %% PROCESS THE USER INPUT
 
-function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, ...
-          detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin)
+function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin)
 if length(varargin)<2
     error('Too few inputs. Need at least data and sampling rate');
 end
 
+
 %Set default values for inputs
-default={[],[],[0 varargin{2}/2],[5 9], [5 1], 0, 'linear', 'unity', true, true, false};
+default={[],[],[0 varargin{2}/2],[5 9],[min(5,length(varargin{1})/varargin{2}) 1],0,'linear','unity',true,true,false};
 
 %Allow the third input to be ploton
 if nargin == 3 && islogical(varargin{3})
@@ -221,15 +223,13 @@ inputs(setdiff(1:length(varargin), find(cellfun(@isempty,varargin)))) = varargin
 [data, Fs, frequency_range, taper_params, data_window_params, min_NFFT, detrend_opt, weighting, plot_on, verbose, xyflip] = deal(inputs{:});
 
 %Set either linear or constant detrending
-if detrend_opt ~= false
-    switch lower(detrend_opt)
-        case {'const','constant'}
-            detrend_opt = 'constant';
-        case {'none', 'off'}
-            detrend_opt = false;
-        otherwise
-            detrend_opt = 'linear';
-    end
+switch lower(detrend_opt)
+    case {'const','constant'}
+        detrend_opt = 1;
+    case {'none', 'off'}
+        detrend_opt = 0;
+    otherwise
+        detrend_opt = 2;
 end
 
 %Set taper weighting options
@@ -243,20 +243,21 @@ switch lower(weighting)
 end
 
 %Fix error in frequency range
-if length(frequency_range) == 1 %Set max frequency to nyquist if only lower bound specified
+%Set max frequency to nyquist if only lower bound specified
+if length(frequency_range) == 1
     frequency_range(2) = Fs/2;
-elseif frequency_range(2) > Fs/2 % updated on 05/18/2020 to remove floor on (Fs/2)
+elseif frequency_range(2) > Fs/2
     frequency_range(2) = Fs/2;
     warning(['Upper frequency range greater than Nyquist, setting range to [' num2str(frequency_range(1)) ' ' num2str(frequency_range(2)) ']']);
 end
 
-
 %Set the number of tapers if none supplied
 time_bandwidth = taper_params(1);
+assert(time_bandwidth>0,'TW must be positive');
 
 %Set the number of tapers to 2 x floor(TW)-1 if none supplied
 if length(taper_params) == 1
-        num_tapers = floor(2*(time_bandwidth))-1;
+    num_tapers = floor(2*(time_bandwidth))-1;
     warning(['No taper number specified, setting number of tapers to ' num2str(num_tapers)]);
 else
     num_tapers = taper_params(2);
@@ -270,22 +271,31 @@ end
 %Compute the data window and step size in samples
 if mod(data_window_params(1)*Fs,1)
     winsize_samples=round(data_window_params(1)*Fs);
-    warning(['Window size is not clearly divisible by sampling frequency. Adjusting window size to ' num2str(winsize_samples/Fs) ' seconds']);
+    if mod(data_window_params(1)*Fs,1)>1e-10 %Do not output error if precision issue
+        warning(['Window size is not clearly divisible by sampling frequency. Adjusting window size to ' num2str(winsize_samples/Fs) ' seconds']);
+    end
 else
     winsize_samples=data_window_params(1)*Fs;
 end
 
+assert(winsize_samples<=length(data),['Window size is ' num2str(winsize_samples) ' samples but data is only ' num2str(length(data)) ' samples'])
+assert(winsize_samples>0, 'Window size must be positive');
+
 if mod(data_window_params(2)*Fs,1)
     winstep_samples=round(data_window_params(2)*Fs);
-    warning(['Window step size is not clearly divisible by sampling frequency. Adjusting window size to ' num2str(winstep_samples/Fs) ' seconds']);
+    if mod(data_window_params(2)*Fs,1)>1e-10 %Do not output error if precision issue
+        warning(['Window step size is not clearly divisible by sampling frequency. Adjusting window size to ' num2str(winstep_samples/Fs) ' seconds']);
+    end
 else
     winstep_samples=data_window_params(2)*Fs;
 end
 
+assert(winstep_samples>0, 'Window step must be positive');
+
 %Total data length
 N=length(data);
 
-%Force data to be a column vector 
+%Force data to be a column vector
 if isrow(data)
     data = data(:);
 end
