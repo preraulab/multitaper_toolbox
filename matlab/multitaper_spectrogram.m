@@ -223,13 +223,15 @@ inputs(setdiff(1:length(varargin), find(cellfun(@isempty,varargin)))) = varargin
 [data, Fs, frequency_range, taper_params, data_window_params, min_NFFT, detrend_opt, weighting, plot_on, verbose, xyflip] = deal(inputs{:});
 
 %Set either linear or constant detrending
-switch lower(detrend_opt)
-    case {'const','constant'}
-        detrend_opt = 1;
-    case {'none', 'off'}
-        detrend_opt = 0;
-    otherwise
-        detrend_opt = 2;
+if detrend_opt ~= false
+    switch lower(detrend_opt)
+        case {'const','constant'}
+            detrend_opt = 'constant';
+        case {'none', 'off'}
+            detrend_opt = false;
+        otherwise
+            detrend_opt = 'linear';
+    end
 end
 
 %Set taper weighting options
