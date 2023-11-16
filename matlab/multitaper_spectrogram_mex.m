@@ -56,8 +56,6 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %
 %   Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %   Authors: Michael J. Prerau, Ph.D., Mingjian He
-%
-%   Last modified 2/16/2021
 %% ********************************************************************
 %% PROCESS DATA AND PARAMETERS
 try
