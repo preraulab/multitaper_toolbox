@@ -7,6 +7,8 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %   Input:
 %       data: <number of samples> x 1  vector - time series data-- required
 %       Fs: double - sampling frequency in Hz  -- required
+%
+%       (Can be positional or name-value pair arguments)
 %       frequency_range: 1x2 vector - [<min frequency>, <max frequency>] (default: [0 nyquist])
 %       taper_params: 1x2 vector - [<time-halfbandwidth product>, <number of tapers>] (default: [5 9])
 %       window_params: 1x2 vector - [window size (seconds), step size (seconds)] (default: [5 1])
