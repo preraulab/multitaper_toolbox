@@ -3,7 +3,7 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %
 %   Usage:
 %   Direct input:
-%   [spect,stimes,sfreqs] = multitaper_spectrogram_mex(data, Fs, frequency_range, taper_params, window_params, min_NFFT, detrend_opt, weighting, plot_on, verbose)
+%   [spect,stimes,sfreqs] = multitaper_spectrogram_mex(data, Fs, frequency_range, taper_params, window_params, NFFT, detrend_opt, weighting, plot_on, verbose)
 %
 %   Input:
 %   data: <number of samples> x 1 vector - time series data -- required
@@ -11,7 +11,7 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %   frequency_range: 1x2 vector - [<min frequency>, <max frequency>] (default: [0 nyquist])
 %   taper_params: 1x2 vector - [<time-halfbandwidth product>, <number of tapers>] (default: [5 9])
 %   window_params: 1x2 vector - [window size (seconds), step size (seconds)] (default: [30 5])
-%   min_NFFT: double - minimum allowable NFFT size, adds zero padding for interpolation (closest 2^x) (default: 0)
+%   NFFT: double - NFFT size, adds zero padding for interpolation (closest 2^x) (default: 2^(nextpow2(<window samples>))
 %   detrend_opt: string - detrend data window ('linear' (default), 'constant', 'off');
 %   weighting: string - weighting of tapers ('unity' (default), 'eigen', 'adapt');
 %   plot_on: boolean to plot results (default: true)
@@ -28,7 +28,7 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %       frequency_range=[0 25]; %Limit frequencies from 0 to 25 Hz
 %       taper_params=[3 5]; %Time bandwidth and number of tapers
 %       window_params=[4 1]; %Window size is 4s with step size of 1s
-%       min_nfft=0; %No minimum nfft
+%       nfft=[]; %Use default
 %       detrend_opt='constant' %detrend each window by subtracting the average
 %       weighting='unity' %weight each taper at 1
 %       plot_on=true; %plot spectrogram
@@ -40,7 +40,7 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %       data=chirp(t,f_start,t(end),f_end,'logarithmic');
 %
 %       %Compute the multitaper spectrogram
-%       [spect,stimes,sfreqs] = multitaper_spectrogram(data,Fs,frequency_range, taper_params, window_params, min_nfft, detrend_opt, weighting, plot_on, verbose);
+%       [spect,stimes,sfreqs] = multitaper_spectrogram(data,Fs,frequency_range, taper_params, window_params, nfft, detrend_opt, weighting, plot_on, verbose);
 %
 %   This code is companion to the paper:
 %         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
@@ -140,7 +140,7 @@ inputs = default;
 inputs(setdiff(1:length(varargin), find(cellfun(@isempty,varargin)))) = varargin(~cellfun(@isempty,(varargin)));
 
 %Transfer input vector to parameters
-[data, Fs, frequency_range, taper_params, data_window_params, min_NFFT, detrend_opt, weighting, plot_on, verbose, xyflip] = deal(inputs{:});
+[data, Fs, frequency_range, taper_params, data_window_params, NFFT_val, detrend_opt, weighting, plot_on, verbose, xyflip] = deal(inputs{:});
 
 %Set either linear or constant detrending
 switch lower(detrend_opt)
@@ -226,7 +226,11 @@ window_start = 1:winstep_samples:N-winsize_samples+1;
 num_windows = length(window_start);
 
 %Number of points in the FFT
-nfft = max(max(2^(nextpow2(winsize_samples)),winsize_samples), 2^nextpow2(min_NFFT));
+if NFFT_val ==0
+    nfft = 2^(nextpow2(winsize_samples));
+else
+    nfft = 2^nextpow2(NFFT_val);
+end
 end
 
 %% DISPLAY SPECTROGRAM PROPERTIES
@@ -255,7 +259,6 @@ disp(['    Number of Tapers: ' num2str(taper_params(2))]);
 disp(['    Frequency Range: ' num2str(frequency_range(1)) 'Hz - ' num2str(frequency_range(2)) 'Hz']);
 disp(['    Detrending: ' det_string]);
 disp(' ');
-%disp(['Estimating multitaper spectrogram on ' num2str(my_pool.NumWorkers) ' workers...']);
 end
 
 %% POW2DB FOR NAN ENTRIES
