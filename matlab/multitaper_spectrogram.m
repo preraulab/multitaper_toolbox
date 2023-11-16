@@ -20,7 +20,7 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %       spect: FxT matrix of spectral power
 %       stimes: 1xT vector of times for the center of the spectral bins
 %       sfreqs: 1xF vector of frequency bins for the spectrogram
-%  
+%
 %   Example:
 %   In this example we create some chirp data and run the multitaper spectrogram on it.
 %       Fs=200; %Sampling Frequency
@@ -40,7 +40,7 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 %
 %       %Compute the multitaper spectrogram
 %       [spect,stimes,sfreqs] = multitaper_spectrogram(data,Fs,frequency_range, taper_params, window_params, nfft, detrend_opt, weighting, plot_on, verbose);
-%    
+%
 %   This code is companion to the paper:
 %         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
 %         Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon
@@ -59,8 +59,7 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 % PROCESS DATA AND PARAMETERS
 
 %Process user input
-[data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, ...
-weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
+[data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
 
 %Set up and display spectrogram parameters
 [window_idxs, stimes, sfreqs, freq_inds] = get_windows(Fs, nfft, frequency_range, window_start, winsize_samples);
@@ -104,28 +103,28 @@ end
 parfor n = 1:num_windows
     %Grab the data for the given window
     data_segment = data_segments(:,n);
-    
+
     %Skip empty segments
     if all(data_segment == 0)
         continue;
     end
-    
+
     if any(isnan(data_segment))
         mt_spectrogram(:,n) = nan;
         continue;
     end
-    
+
     %Option to detrend_opt data to remove low frequency DC component
     if detrend_opt
         data_segment = detrend(data_segment, detrend_opt);
     end
-    
+
     %Multiply the data by the tapers (STEP 2)
     tapered_data = repmat(data_segment,1,num_tapers) .* DPSS_tapers;
-    
+
     %Compute the FFT (STEP 3)
     fft_data = fft(tapered_data, nfft);
-    
+
     %Compute the weighted mean spectral power across tapers (STEP 4)
     Spower = imag(fft_data).^2 + real(fft_data).^2;
     if weighting == 2
@@ -147,13 +146,13 @@ parfor n = 1:num_windows
         % eigenvalue or uniform weights
         mt_spectrum = Spower * wt;
     end
-        
+
     %Add the spectrum to the spectrogram
     mt_spectrogram(:,n) = mt_spectrum(freq_inds);
 end
 
 
-%Compute one-sided PSD spectrum 
+%Compute one-sided PSD spectrum
 DC_select = find(sfreqs==0);
 Nyquist_select = find(sfreqs==Fs/2);
 select = setdiff(1:length(sfreqs), [DC_select, Nyquist_select]);
@@ -179,14 +178,14 @@ if plot_on
         imagesc(stimes, sfreqs, nanpow2db(mt_spectrogram));
     end
     axis xy
-    
+
     xlabel('Time (s)');
     ylabel('Frequency (Hz)');
-    
-    climscale; 
+
+    climscale;
     c = colorbar_noresize;
     ylabel(c,'Power (dB)');
-    
+
     axis tight
 end
 
@@ -199,38 +198,79 @@ end
 % ********************************************
 %% PROCESS THE USER INPUT
 
-function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin)
-if length(varargin)<2
-    error('Too few inputs. Need at least data and sampling rate');
+function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples,...
+    window_start, num_windows, nfft, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(data, Fs, varargin)
+
+% Default values
+default_frequency_range = [0 Fs/2];
+default_taper_params = [5 9];
+default_window_params = [5 1];
+default_NFFT_val = 0;
+default_detrend_opt = 'linear';
+default_weighting = 'unity';
+default_plot_on = true;
+default_verbose = true;
+default_xyflip = false;
+
+% Parse inputs
+p = inputParser;
+p.addRequired('data', @(x) validateattributes(x, {'numeric','1d'}, {'vector'}));
+p.addRequired('Fs', @(x) validateattributes(x, {'numeric'}, {'scalar', 'positive'}));
+p.addOptional('frequency_range', default_frequency_range, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
+p.addOptional('taper_params', default_taper_params, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
+p.addOptional('window_params', default_window_params, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
+p.addOptional('NFFT_val', default_NFFT_val, @(x) isempty(x) || (isnumeric(x) && isscalar(x) && x > 0 && mod(x, 1) == 0));
+p.addOptional('detrend_opt', default_detrend_opt, @(x) isempty(x) || ismember(x, {'linear', 'constant', 'off'}));
+p.addOptional('weighting', default_weighting, @(x) isempty(x) || ismember(x, {'unity', 'eigen', 'adapt'}));
+p.addOptional('plot_on', default_plot_on, @(x) isempty(x) || (islogical(x) && isscalar(x)));
+p.addOptional('verbose', default_verbose, @(x) isempty(x) || (islogical(x) && isscalar(x)));
+p.addOptional('xyflip', default_xyflip, @(x) isempty(x) || (islogical(x) && isscalar(x)));
+
+parse(p, data, Fs, varargin{:});
+
+% Access parsed values
+data = p.Results.data;
+Fs = p.Results.Fs;
+
+% Replace empty values with default values
+if isempty(p.Results.frequency_range)
+    frequency_range = default_frequency_range;
+else
+    frequency_range = p.Results.frequency_range;
 end
 
-
-%Set default values for inputs
-default={[],[],[0 varargin{2}/2],[5 9],[min(5,length(varargin{1})/varargin{2}) 1],0,'linear','unity',true,true,false};
-
-%Allow the third input to be ploton
-if nargin == 3 && islogical(varargin{3})
-    default{6} = varargin{3};
-    varargin = varargin(1:2);
+if isempty(p.Results.taper_params)
+    taper_params = default_taper_params;
+else
+    taper_params = p.Results.taper_params;
 end
 
-%Handle defaults
-inputs = default;
-inputs(setdiff(1:length(varargin), find(cellfun(@isempty,varargin)))) = varargin(~cellfun(@isempty,(varargin)));
+if isempty(p.Results.window_params)
+    data_window_params = default_window_params;
+else
+    data_window_params = p.Results.window_params;
+end
 
-%Transfer input vector to parameters
-[data, Fs, frequency_range, taper_params, data_window_params, NFFT_val, detrend_opt, weighting, plot_on, verbose, xyflip] = deal(inputs{:});
+if isempty(p.Results.NFFT_val)
+    NFFT_val = default_NFFT_val;
+else
+    NFFT_val = p.Results.NFFT_val;
+end
+
+detrend_opt = p.Results.detrend_opt;
+weighting = p.Results.weighting;
+plot_on = p.Results.plot_on;
+verbose = p.Results.verbose;
+xyflip = p.Results.xyflip;
 
 %Set either linear or constant detrending
-if detrend_opt ~= false
-    switch lower(detrend_opt)
-        case {'const','constant'}
-            detrend_opt = 'constant';
-        case {'none', 'off'}
-            detrend_opt = false;
-        otherwise
-            detrend_opt = 'linear';
-    end
+switch lower(detrend_opt)
+    case {'const','constant'}
+        detrend_opt = 1;
+    case {'none', 'off'}
+        detrend_opt = 0;
+    otherwise
+        detrend_opt = 2;
 end
 
 %Set taper weighting options

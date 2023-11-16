@@ -120,27 +120,70 @@ end
 % ********************************************
 %% PROCESS THE USER INPUT
 
-function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin)
-if length(varargin)<2
-    error('Too few inputs. Need at least data and sampling rate');
+function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples,...
+    window_start, num_windows, nfft, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(data, Fs, varargin)
+
+% Default values
+default_frequency_range = [0 Fs/2];
+default_taper_params = [5 9];
+default_window_params = [5 1];
+default_NFFT_val = 0;
+default_detrend_opt = 'linear';
+default_weighting = 'unity';
+default_plot_on = true;
+default_verbose = true;
+default_xyflip = false;
+
+% Parse inputs
+p = inputParser;
+p.addRequired('data', @(x) validateattributes(x, {'numeric','1d'}, {'vector'}));
+p.addRequired('Fs', @(x) validateattributes(x, {'numeric'}, {'scalar', 'positive'}));
+p.addOptional('frequency_range', default_frequency_range, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
+p.addOptional('taper_params', default_taper_params, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
+p.addOptional('window_params', default_window_params, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
+p.addOptional('NFFT_val', default_NFFT_val, @(x) isempty(x) || (isnumeric(x) && isscalar(x) && x > 0 && mod(x, 1) == 0));
+p.addOptional('detrend_opt', default_detrend_opt, @(x) isempty(x) || ismember(x, {'linear', 'constant', 'off'}));
+p.addOptional('weighting', default_weighting, @(x) isempty(x) || ismember(x, {'unity', 'eigen', 'adapt'}));
+p.addOptional('plot_on', default_plot_on, @(x) isempty(x) || (islogical(x) && isscalar(x)));
+p.addOptional('verbose', default_verbose, @(x) isempty(x) || (islogical(x) && isscalar(x)));
+p.addOptional('xyflip', default_xyflip, @(x) isempty(x) || (islogical(x) && isscalar(x)));
+
+parse(p, data, Fs, varargin{:});
+
+% Access parsed values
+data = p.Results.data;
+Fs = p.Results.Fs;
+
+% Replace empty values with default values
+if isempty(p.Results.frequency_range)
+    frequency_range = default_frequency_range;
+else
+    frequency_range = p.Results.frequency_range;
 end
 
-
-%Set default values for inputs
-default={[],[],[0 varargin{2}/2],[5 9],[min(5,length(varargin{1})/varargin{2}) 1],0,'linear','unity',true,true,false};
-
-%Allow the third input to be ploton
-if nargin == 3 && islogical(varargin{3})
-    default{6} = varargin{3};
-    varargin = varargin(1:2);
+if isempty(p.Results.taper_params)
+    taper_params = default_taper_params;
+else
+    taper_params = p.Results.taper_params;
 end
 
-%Handle defaults
-inputs = default;
-inputs(setdiff(1:length(varargin), find(cellfun(@isempty,varargin)))) = varargin(~cellfun(@isempty,(varargin)));
+if isempty(p.Results.window_params)
+    data_window_params = default_window_params;
+else
+    data_window_params = p.Results.window_params;
+end
 
-%Transfer input vector to parameters
-[data, Fs, frequency_range, taper_params, data_window_params, NFFT_val, detrend_opt, weighting, plot_on, verbose, xyflip] = deal(inputs{:});
+if isempty(p.Results.NFFT_val)
+    NFFT_val = default_NFFT_val;
+else
+    NFFT_val = p.Results.NFFT_val;
+end
+
+detrend_opt = p.Results.detrend_opt;
+weighting = p.Results.weighting;
+plot_on = p.Results.plot_on;
+verbose = p.Results.verbose;
+xyflip = p.Results.xyflip;
 
 %Set either linear or constant detrending
 switch lower(detrend_opt)
