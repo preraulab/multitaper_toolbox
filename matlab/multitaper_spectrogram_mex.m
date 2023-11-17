@@ -182,11 +182,35 @@ else
     NFFT_val = p.Results.NFFT_val;
 end
 
-detrend_opt = p.Results.detrend_opt;
-weighting = p.Results.weighting;
-plot_on = p.Results.plot_on;
-verbose = p.Results.verbose;
-xyflip = p.Results.xyflip;
+if isempty(p.Results.detrend_opt)
+    detrend_opt = 'linear';
+else
+    detrend_opt = p.Results.detrend_opt;
+end
+
+if isempty(p.Results.weighting)
+    weighting = 'unity';
+else
+    weighting = p.Results.weighting;
+end
+
+if isempty(p.Results.plot_on)
+    plot_on = true;
+else
+    plot_on = p.Results.plot_on;
+end
+
+if isempty(p.Results.verbose)
+    verbose = true;
+else
+    verbose = p.Results.verbose;
+end
+
+if isempty(p.Results.xyflip)
+    xyflip = false;
+else
+    xyflip = p.Results.xyflip;
+end
 
 %Set either linear or constant detrending
 switch lower(detrend_opt)
