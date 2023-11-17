@@ -192,7 +192,7 @@ xyflip = p.Results.xyflip;
 switch lower(detrend_opt)
     case {'const','constant'}
         detrend_opt = 1;
-    case {'none', 'off'}
+    case 'off'
         detrend_opt = 0;
     otherwise
         detrend_opt = 2;
