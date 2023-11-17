@@ -44,6 +44,9 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %       %Compute the multitaper spectrogram
 %       [spect,stimes,sfreqs] = multitaper_spectrogram(data,Fs,frequency_range, taper_params, window_params, nfft, detrend_opt, weighting, plot_on, verbose);
 %
+%       %Example of name-value pair call
+%       [spect,stimes,sfreqs] = multitaper_spectrogram(data, Fs,'nfft', nfft, 'plot_on', true);
+%
 %   This code is companion to the paper:
 %         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
 %         Michael J. Prerau, Ritchie E. Brown, Matt T. Bianchi, Jeffrey M. Ellenbogen, Patrick L. Purdon
