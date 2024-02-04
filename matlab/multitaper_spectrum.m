@@ -36,7 +36,7 @@ function [mt_spectrum, sfreqs] = multitaper_spectrum(data, Fs, frequency_range, 
 %   A full tutorial on the multitaper spectrogram can be found at:
 %   http://www.sleepEEG.org/multitaper
 %
-%   Copyright 2023 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
+%   Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %   Authors: Michael J. Prerau, Ph.D., Mingjian He
 %
 %% ********************************************************************
