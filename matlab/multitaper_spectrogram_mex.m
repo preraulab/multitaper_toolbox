@@ -12,7 +12,7 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %   (Can be positional or name-value pair arguments)
 %   frequency_range: 1x2 vector - [<min frequency>, <max frequency>] (default: [0 nyquist])
 %   taper_params: 1x2 vector - [<time-halfbandwidth product>, <number of tapers>] (default: [5 9])
-%   window_params: 1x2 vector - [window size (seconds), step size (seconds)] (default: [30 5])
+%   window_params: 1x2 vector - [window size (seconds), step size (seconds)] (default: [5 1])
 %   NFFT: double - NFFT size, adds zero padding for interpolation (closest 2^x) (default: 2^(nextpow2(<window samples>))
 %   detrend_opt: string - detrend data window ('linear' (default), 'constant', 'off');
 %   weighting: string - weighting of tapers ('unity' (default), 'eigen', 'adapt');
