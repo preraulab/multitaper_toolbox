@@ -63,10 +63,10 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %% PROCESS DATA AND PARAMETERS
 try
     %Process user input
-    [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, ~, ~, min_NFFT, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
+    [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, ~, ~, NFFT, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
 
     if verbose
-        display_spectrogram_props([time_bandwidth num_tapers], [winsize_samples winstep_samples], frequency_range, detrend_opt, Fs);
+        display_spectrogram_props([time_bandwidth num_tapers], [winsize_samples winstep_samples], frequency_range, detrend_opt, Fs, NFFT);
     end
 
     %Generate DPSS tapers (STEP 1)
@@ -78,7 +78,7 @@ try
         warning(['Matlab version is ', version('-release'), '. Matlab version must be 2018a or later to run multitaper spectrogram mex. Reverting to matlab version']);
         [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin{:});
     else
-        [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder_mex(single(data), Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, min_NFFT, detrend_opt, weighting);
+        [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder_mex(single(data), Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, NFFT, detrend_opt, weighting);
     end
 
     if xyflip; mt_spectrogram = mt_spectrogram'; end
@@ -234,7 +234,7 @@ end
 
 %Fix error in frequency range
 %Set max frequency to nyquist if only lower bound specified
-if length(frequency_range) == 1
+if isscalar(frequency_range)
     frequency_range(2) = Fs/2;
 elseif frequency_range(2) > Fs/2
     frequency_range(2) = Fs/2;
@@ -246,7 +246,7 @@ time_bandwidth = taper_params(1);
 assert(time_bandwidth>0,'TW must be positive');
 
 %Set the number of tapers to 2 x floor(TW)-1 if none supplied
-if length(taper_params) == 1
+if isscalar(taper_params)
     num_tapers = floor(2*(time_bandwidth))-1;
     warning(['No taper number specified, setting number of tapers to ' num2str(num_tapers)]);
 else
@@ -305,7 +305,7 @@ end
 
 %% DISPLAY SPECTROGRAM PROPERTIES
 
-function display_spectrogram_props(taper_params, data_window_params, frequency_range, detrend_opt, Fs)
+function display_spectrogram_props(taper_params, data_window_params, frequency_range, detrend_opt, Fs, NFFT)
 data_window_params = data_window_params/Fs;
 %my_pool = gcp;
 switch detrend_opt
@@ -327,6 +327,7 @@ disp(['    Window Step: ' num2str(data_window_params(2)) 's']);
 disp(['    Time Half-Bandwidth Product: ' num2str(taper_params(1))]);
 disp(['    Number of Tapers: ' num2str(taper_params(2))]);
 disp(['    Frequency Range: ' num2str(frequency_range(1)) 'Hz - ' num2str(frequency_range(2)) 'Hz']);
+disp(['    Frequency Bin Size: ' num2str(Fs/NFFT) 'Hz']);
 disp(['    Detrending: ' det_string]);
 disp(' ');
 end
