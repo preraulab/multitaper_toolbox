@@ -65,10 +65,10 @@ function [mt_spectrogram,stimes,sfreqs] = multitaper_spectrogram(varargin)
 [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples, window_start, num_windows, nfft, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(varargin{:});
 
 %Set up and display spectrogram parameters
-[window_idxs, stimes, sfreqs, freq_inds] = get_windows(Fs, nfft, frequency_range, window_start, winsize_samples, nfft);
+[window_idxs, stimes, sfreqs, freq_inds] = get_windows(Fs, nfft, frequency_range, window_start, winsize_samples);
 
 if verbose
-    display_spectrogram_props([time_bandwidth num_tapers], [winsize_samples winstep_samples], frequency_range, detrend_opt, Fs);
+    display_spectrogram_props([time_bandwidth num_tapers], [winsize_samples winstep_samples], frequency_range, detrend_opt, Fs, nfft);
 end
 
 %Preallocate spectrogram and slice data for efficient parallel computing
