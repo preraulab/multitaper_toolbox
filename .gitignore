@@ -16,5 +16,4 @@ Thumbs.db
 
 #large files 
 mtspectrogram_monitor
-multitaper_spectrogram_mex
 matlab/multitaper_spectrogram.asv
