@@ -16,13 +16,13 @@
 #include "rtwtypes.h"
 #include "emlrt.h"
 #include "mex.h"
-#include "omp.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 /* Function Declarations */
-void mean(const emlrtStack *sp, const emxArray_real32_T *x, emxArray_real32_T *y);
+void mean(const emlrtStack *sp, const emxArray_real32_T *x,
+          emxArray_real32_T *y);
 
 /* End of code generation (mean.h) */

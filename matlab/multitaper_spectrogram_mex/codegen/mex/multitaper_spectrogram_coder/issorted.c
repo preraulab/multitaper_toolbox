@@ -18,28 +18,26 @@
 /* Function Definitions */
 boolean_T issorted(const emxArray_real_T *x)
 {
-  real_T v_idx_1;
-  int32_T k;
-  boolean_T exitg1;
+  const real_T *x_data;
   boolean_T y;
+  x_data = x->data;
   y = true;
   if ((x->size[1] != 0) && (x->size[1] != 1)) {
+    int32_T k;
+    boolean_T exitg1;
     k = 0;
     exitg1 = false;
     while ((!exitg1) && (k <= x->size[1] - 2)) {
-      v_idx_1 = x->data[k + 1];
-      if ((!(x->data[k] <= v_idx_1)) && (!muDoubleScalarIsNaN(v_idx_1))) {
-        y = false;
-      }
-
-      if (!y) {
-        exitg1 = true;
-      } else {
+      real_T v_idx_1;
+      v_idx_1 = x_data[k + 1];
+      if ((x_data[k] <= v_idx_1) || muDoubleScalarIsNaN(v_idx_1)) {
         k++;
+      } else {
+        y = false;
+        exitg1 = true;
       }
     }
   }
-
   return y;
 }
 

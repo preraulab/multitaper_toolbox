@@ -18,32 +18,42 @@
 #include "rt_nonfinite.h"
 
 /* Variable Definitions */
-static emlrtRSInfo hf_emlrtRSI = { 144,/* lineNo */
-  "eml_find",                          /* fcnName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pathName */
+static emlrtRSInfo pe_emlrtRSI = {
+    138,        /* lineNo */
+    "eml_find", /* fcnName */
+    "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/elmat/find.m" /* pathName
+                                                                           */
 };
 
-static emlrtRSInfo if_emlrtRSI = { 382,/* lineNo */
-  "find_first_indices",                /* fcnName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pathName */
+static emlrtRSInfo qe_emlrtRSI = {
+    376,                  /* lineNo */
+    "find_first_indices", /* fcnName */
+    "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/elmat/find.m" /* pathName
+                                                                           */
 };
 
-static emlrtRTEInfo r_emlrtRTEI = { 392,/* lineNo */
-  1,                                   /* colNo */
-  "find_first_indices",                /* fName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pName */
+static emlrtRTEInfo p_emlrtRTEI = {
+    386,                  /* lineNo */
+    1,                    /* colNo */
+    "find_first_indices", /* fName */
+    "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/elmat/find.m" /* pName
+                                                                           */
 };
 
-static emlrtRTEInfo nd_emlrtRTEI = { 364,/* lineNo */
-  24,                                  /* colNo */
-  "find",                              /* fName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pName */
+static emlrtRTEInfo kd_emlrtRTEI = {
+    358,    /* lineNo */
+    24,     /* colNo */
+    "find", /* fName */
+    "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/elmat/find.m" /* pName
+                                                                           */
 };
 
-static emlrtRTEInfo od_emlrtRTEI = { 144,/* lineNo */
-  9,                                   /* colNo */
-  "find",                              /* fName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/find.m"/* pName */
+static emlrtRTEInfo ld_emlrtRTEI = {
+    138,    /* lineNo */
+    9,      /* colNo */
+    "find", /* fName */
+    "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/elmat/find.m" /* pName
+                                                                           */
 };
 
 /* Function Definitions */
@@ -55,7 +65,9 @@ void eml_find(const emlrtStack *sp, const emxArray_boolean_T *x,
   emlrtStack st;
   int32_T idx;
   int32_T ii;
-  int32_T nx;
+  int32_T nx_tmp;
+  int32_T *i_data;
+  const boolean_T *x_data;
   boolean_T exitg1;
   st.prev = sp;
   st.tls = sp->tls;
@@ -63,26 +75,27 @@ void eml_find(const emlrtStack *sp, const emxArray_boolean_T *x,
   b_st.tls = st.tls;
   c_st.prev = &b_st;
   c_st.tls = b_st.tls;
-  nx = x->size[1];
-  st.site = &hf_emlrtRSI;
+  x_data = x->data;
+  nx_tmp = x->size[1];
+  st.site = &pe_emlrtRSI;
   idx = 0;
   ii = i->size[0] * i->size[1];
   i->size[0] = 1;
   i->size[1] = x->size[1];
-  emxEnsureCapacity_int32_T(&st, i, ii, &nd_emlrtRTEI);
-  b_st.site = &if_emlrtRSI;
-  if ((1 <= x->size[1]) && (x->size[1] > 2147483646)) {
+  emxEnsureCapacity_int32_T(&st, i, ii, &kd_emlrtRTEI);
+  i_data = i->data;
+  b_st.site = &qe_emlrtRSI;
+  if (x->size[1] > 2147483646) {
     c_st.site = &ab_emlrtRSI;
     check_forloop_overflow_error(&c_st);
   }
-
   ii = 0;
   exitg1 = false;
-  while ((!exitg1) && (ii <= nx - 1)) {
-    if (x->data[ii]) {
+  while ((!exitg1) && (ii <= nx_tmp - 1)) {
+    if (x_data[ii]) {
       idx++;
-      i->data[idx - 1] = ii + 1;
-      if (idx >= nx) {
+      i_data[idx - 1] = ii + 1;
+      if (idx >= nx_tmp) {
         exitg1 = true;
       } else {
         ii++;
@@ -91,12 +104,11 @@ void eml_find(const emlrtStack *sp, const emxArray_boolean_T *x,
       ii++;
     }
   }
-
   if (idx > x->size[1]) {
-    emlrtErrorWithMessageIdR2018a(&st, &r_emlrtRTEI,
-      "Coder:builtins:AssertionFailed", "Coder:builtins:AssertionFailed", 0);
+    emlrtErrorWithMessageIdR2018a(&st, &p_emlrtRTEI,
+                                  "Coder:builtins:AssertionFailed",
+                                  "Coder:builtins:AssertionFailed", 0);
   }
-
   if (x->size[1] == 1) {
     if (idx == 0) {
       i->size[0] = 1;
@@ -104,13 +116,12 @@ void eml_find(const emlrtStack *sp, const emxArray_boolean_T *x,
     }
   } else {
     ii = i->size[0] * i->size[1];
-    if (1 > idx) {
+    if (idx < 1) {
       i->size[1] = 0;
     } else {
       i->size[1] = idx;
     }
-
-    emxEnsureCapacity_int32_T(&st, i, ii, &od_emlrtRTEI);
+    emxEnsureCapacity_int32_T(&st, i, ii, &ld_emlrtRTEI);
   }
 }
 

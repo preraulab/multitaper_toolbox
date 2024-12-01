@@ -24,24 +24,18 @@
 /* Variable Declarations */
 extern emlrtCTX emlrtRootTLSGlobal;
 extern const volatile char_T *emlrtBreakCheckR2012bFlagVar;
-extern omp_lock_t emlrtLockGlobal;
-extern omp_nest_lock_t emlrtNestLockGlobal;
 extern emlrtContext emlrtContextGlobal;
 extern emlrtRSInfo ab_emlrtRSI;
-extern emlrtRSInfo gb_emlrtRSI;
-extern emlrtRSInfo hb_emlrtRSI;
+extern emlrtRSInfo bb_emlrtRSI;
+extern emlrtRSInfo cb_emlrtRSI;
+extern emlrtRSInfo eb_emlrtRSI;
 extern emlrtRSInfo jb_emlrtRSI;
-extern emlrtRSInfo ob_emlrtRSI;
-extern emlrtRSInfo xc_emlrtRSI;
-extern emlrtRSInfo yc_emlrtRSI;
-extern emlrtRSInfo td_emlrtRSI;
-extern emlrtRSInfo te_emlrtRSI;
-extern emlrtRSInfo ue_emlrtRSI;
-extern emlrtRSInfo ve_emlrtRSI;
-extern emlrtRSInfo we_emlrtRSI;
-extern emlrtRTEInfo p_emlrtRTEI;
-extern emlrtRTEInfo q_emlrtRTEI;
-extern emlrtRTEInfo id_emlrtRTEI;
-extern emlrtRTEInfo jd_emlrtRTEI;
+extern emlrtRSInfo pd_emlrtRSI;
+extern emlrtRSInfo qd_emlrtRSI;
+extern emlrtRSInfo rd_emlrtRSI;
+extern emlrtRSInfo sd_emlrtRSI;
+extern omp_lock_t emlrtLockGlobal;
+extern omp_nest_lock_t multitaper_spectrogram_coder_nestLockGlobal;
+extern emlrtRTEInfo fd_emlrtRTEI;
 
 /* End of code generation (multitaper_spectrogram_coder_data.h) */

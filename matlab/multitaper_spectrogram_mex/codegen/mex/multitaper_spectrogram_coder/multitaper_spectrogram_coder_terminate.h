@@ -15,7 +15,6 @@
 #include "rtwtypes.h"
 #include "emlrt.h"
 #include "mex.h"
-#include "omp.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +22,7 @@
 
 /* Function Declarations */
 void multitaper_spectrogram_coder_atexit(void);
+
 void multitaper_spectrogram_coder_terminate(void);
 
 /* End of code generation (multitaper_spectrogram_coder_terminate.h) */

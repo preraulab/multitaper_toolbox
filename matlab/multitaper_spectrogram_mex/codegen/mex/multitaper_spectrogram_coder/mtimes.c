@@ -22,16 +22,20 @@ real32_T mtimes(const emxArray_real32_T *A, const emxArray_real32_T *B)
   ptrdiff_t incx_t;
   ptrdiff_t incy_t;
   ptrdiff_t n_t;
+  const real32_T *A_data;
+  const real32_T *B_data;
   real32_T C;
+  B_data = B->data;
+  A_data = A->data;
   if (A->size[0] < 1) {
     C = 0.0F;
   } else {
     n_t = (ptrdiff_t)A->size[0];
     incx_t = (ptrdiff_t)1;
     incy_t = (ptrdiff_t)1;
-    C = sdot(&n_t, &A->data[0], &incx_t, &B->data[0], &incy_t);
+    C = sdot(&n_t, (real32_T *)&A_data[0], &incx_t, (real32_T *)&B_data[0],
+             &incy_t);
   }
-
   return C;
 }
 

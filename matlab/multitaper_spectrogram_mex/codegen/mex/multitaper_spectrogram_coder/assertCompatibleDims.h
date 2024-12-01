@@ -3,9 +3,9 @@
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
  *
- * repmat.h
+ * assertCompatibleDims.h
  *
- * Code generation for function 'repmat'
+ * Code generation for function 'assertCompatibleDims'
  *
  */
 
@@ -22,7 +22,10 @@
 #include <string.h>
 
 /* Function Declarations */
-void repmat(const emlrtStack *sp, const emxArray_real32_T *a, real_T varargin_2,
-            emxArray_real32_T *b);
+void assertCompatibleDims(const emlrtStack *sp, const emxArray_real32_T *x,
+                          const emxArray_real32_T *y);
 
-/* End of code generation (repmat.h) */
+void b_assertCompatibleDims(const emlrtStack *sp, const emxArray_real32_T *x,
+                            const emxArray_real32_T *y);
+
+/* End of code generation (assertCompatibleDims.h) */

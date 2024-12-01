@@ -18,24 +18,30 @@
 #include "rt_nonfinite.h"
 
 /* Variable Definitions */
-static emlrtRSInfo se_emlrtRSI = { 49, /* lineNo */
-  "mean",                              /* fcnName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/mean.m"/* pathName */
+static emlrtRSInfo
+    od_emlrtRSI =
+        {
+            112,    /* lineNo */
+            "mean", /* fcnName */
+            "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/datafun/"
+            "mean.m" /* pathName */
 };
 
 /* Function Definitions */
-void mean(const emlrtStack *sp, const emxArray_real32_T *x, emxArray_real32_T *y)
+void mean(const emlrtStack *sp, const emxArray_real32_T *x,
+          emxArray_real32_T *y)
 {
   emlrtStack b_st;
   emlrtStack c_st;
   emlrtStack d_st;
   emlrtStack e_st;
   emlrtStack st;
-  int32_T vstride;
+  int32_T vstride_tmp;
   int32_T xj;
+  const real32_T *x_data;
+  real32_T *y_data;
   st.prev = sp;
   st.tls = sp->tls;
-  st.site = &se_emlrtRSI;
   b_st.prev = &st;
   b_st.tls = st.tls;
   c_st.prev = &b_st;
@@ -44,39 +50,35 @@ void mean(const emlrtStack *sp, const emxArray_real32_T *x, emxArray_real32_T *y
   d_st.tls = c_st.tls;
   e_st.prev = &d_st;
   e_st.tls = d_st.tls;
-  b_st.site = &te_emlrtRSI;
+  y_data = y->data;
+  x_data = x->data;
+  st.site = &od_emlrtRSI;
+  b_st.site = &pd_emlrtRSI;
   if (x->size[0] == 0) {
     y->size[0] = 0;
   } else {
-    c_st.site = &ue_emlrtRSI;
-    vstride = x->size[0];
+    c_st.site = &qd_emlrtRSI;
+    vstride_tmp = x->size[0];
     xj = y->size[0];
     y->size[0] = x->size[0];
-    emxEnsureCapacity_real32_T(&c_st, y, xj, &jd_emlrtRTEI);
-    d_st.site = &ve_emlrtRSI;
+    emxEnsureCapacity_real32_T(&c_st, y, xj, &fd_emlrtRTEI);
+    y_data = y->data;
+    d_st.site = &rd_emlrtRSI;
     if (x->size[0] > 2147483646) {
       e_st.site = &ab_emlrtRSI;
       check_forloop_overflow_error(&e_st);
     }
-
-    for (xj = 0; xj < vstride; xj++) {
-      y->data[xj] = x->data[xj];
+    for (xj = 0; xj < vstride_tmp; xj++) {
+      y_data[xj] = x_data[xj];
     }
-
-    d_st.site = &we_emlrtRSI;
-    if (x->size[0] > 2147483646) {
-      e_st.site = &ab_emlrtRSI;
-      check_forloop_overflow_error(&e_st);
-    }
-
-    for (xj = 0; xj < vstride; xj++) {
-      y->data[xj] += x->data[vstride + xj];
+    d_st.site = &sd_emlrtRSI;
+    for (xj = 0; xj < vstride_tmp; xj++) {
+      y_data[xj] += x_data[vstride_tmp + xj];
     }
   }
-
-  vstride = y->size[0];
-  for (xj = 0; xj < vstride; xj++) {
-    y->data[xj] /= 2.0F;
+  vstride_tmp = y->size[0];
+  for (xj = 0; xj < vstride_tmp; xj++) {
+    y_data[xj] /= 2.0F;
   }
 }
 

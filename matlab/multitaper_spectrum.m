@@ -37,7 +37,7 @@ function [mt_spectrum, sfreqs] = multitaper_spectrum(data, Fs, frequency_range, 
 %   http://www.sleepEEG.org/multitaper
 %
 %   Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%   Authors: Michael J. Prerau, Ph.D., Mingjian He
+%   Authors: Michael J. Prerau, Ph.D., Mingjian He, Ph.D.
 %
 %% ********************************************************************
 %% PROCESS DATA AND PARAMETERS
@@ -64,7 +64,7 @@ end
 %Do not do the spectrogram plotting
 varargin{4} = false;
 
-[mt_spectrum, ~, sfreqs]= multitaper_spectrogram(data, Fs, frequency_range, taper_params, window_params, varargin{:});
+[mt_spectrum, ~, sfreqs] = multitaper_spectrogram(data, Fs, frequency_range, taper_params, window_params, varargin{:});
 
 if plot_on
     plot(sfreqs,nanpow2db(mt_spectrum));

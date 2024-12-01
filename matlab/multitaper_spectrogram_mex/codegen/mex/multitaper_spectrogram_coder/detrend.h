@@ -16,7 +16,6 @@
 #include "rtwtypes.h"
 #include "emlrt.h"
 #include "mex.h"
-#include "omp.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,7 +23,8 @@
 
 /* Function Declarations */
 void b_detrend(const emlrtStack *sp, emxArray_real32_T *x);
-void detrend(const emlrtStack *sp, const emxArray_real32_T *x, emxArray_real32_T
-             *y);
+
+void detrend(const emlrtStack *sp, const emxArray_real32_T *x,
+             emxArray_real32_T *y);
 
 /* End of code generation (detrend.h) */

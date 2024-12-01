@@ -1,188 +1,188 @@
 [
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  multitaper_spectrogram_coder_data.c -o build/glnxa64/multitaper_spectrogram_coder_data.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  multitaper_spectrogram_coder_data.c -o build/maca64/multitaper_spectrogram_coder_data.o",
     "file": "multitaper_spectrogram_coder_data.c",
-    "output": "build/glnxa64/multitaper_spectrogram_coder_data.o"
+    "output": "build/maca64/multitaper_spectrogram_coder_data.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  rt_nonfinite.c -o build/glnxa64/rt_nonfinite.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  rt_nonfinite.c -o build/maca64/rt_nonfinite.o",
     "file": "rt_nonfinite.c",
-    "output": "build/glnxa64/rt_nonfinite.o"
+    "output": "build/maca64/rt_nonfinite.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  multitaper_spectrogram_coder_initialize.c -o build/glnxa64/multitaper_spectrogram_coder_initialize.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  multitaper_spectrogram_coder_initialize.c -o build/maca64/multitaper_spectrogram_coder_initialize.o",
     "file": "multitaper_spectrogram_coder_initialize.c",
-    "output": "build/glnxa64/multitaper_spectrogram_coder_initialize.o"
+    "output": "build/maca64/multitaper_spectrogram_coder_initialize.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  multitaper_spectrogram_coder_terminate.c -o build/glnxa64/multitaper_spectrogram_coder_terminate.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  multitaper_spectrogram_coder_terminate.c -o build/maca64/multitaper_spectrogram_coder_terminate.o",
     "file": "multitaper_spectrogram_coder_terminate.c",
-    "output": "build/glnxa64/multitaper_spectrogram_coder_terminate.o"
+    "output": "build/maca64/multitaper_spectrogram_coder_terminate.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  multitaper_spectrogram_coder.c -o build/glnxa64/multitaper_spectrogram_coder.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  multitaper_spectrogram_coder.c -o build/maca64/multitaper_spectrogram_coder.o",
     "file": "multitaper_spectrogram_coder.c",
-    "output": "build/glnxa64/multitaper_spectrogram_coder.o"
+    "output": "build/maca64/multitaper_spectrogram_coder.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  colon.c -o build/glnxa64/colon.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  colon.c -o build/maca64/colon.o",
     "file": "colon.c",
-    "output": "build/glnxa64/colon.o"
+    "output": "build/maca64/colon.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  eml_int_forloop_overflow_check.c -o build/glnxa64/eml_int_forloop_overflow_check.o",
-    "file": "eml_int_forloop_overflow_check.c",
-    "output": "build/glnxa64/eml_int_forloop_overflow_check.o"
-  },
-  {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  nextpow2.c -o build/glnxa64/nextpow2.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  nextpow2.c -o build/maca64/nextpow2.o",
     "file": "nextpow2.c",
-    "output": "build/glnxa64/nextpow2.o"
+    "output": "build/maca64/nextpow2.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  combineVectorElements.c -o build/glnxa64/combineVectorElements.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  combineVectorElements.c -o build/maca64/combineVectorElements.o",
     "file": "combineVectorElements.c",
-    "output": "build/glnxa64/combineVectorElements.o"
+    "output": "build/maca64/combineVectorElements.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  indexShapeCheck.c -o build/glnxa64/indexShapeCheck.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  indexShapeCheck.c -o build/maca64/indexShapeCheck.o",
     "file": "indexShapeCheck.c",
-    "output": "build/glnxa64/indexShapeCheck.o"
+    "output": "build/maca64/indexShapeCheck.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  all.c -o build/glnxa64/all.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  all.c -o build/maca64/all.o",
     "file": "all.c",
-    "output": "build/glnxa64/all.o"
+    "output": "build/maca64/all.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  any.c -o build/glnxa64/any.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  any.c -o build/maca64/any.o",
     "file": "any.c",
-    "output": "build/glnxa64/any.o"
+    "output": "build/maca64/any.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  detrend.c -o build/glnxa64/detrend.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  detrend.c -o build/maca64/detrend.o",
     "file": "detrend.c",
-    "output": "build/glnxa64/detrend.o"
+    "output": "build/maca64/detrend.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  qr.c -o build/glnxa64/qr.o",
-    "file": "qr.c",
-    "output": "build/glnxa64/qr.o"
-  },
-  {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  warning.c -o build/glnxa64/warning.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  warning.c -o build/maca64/warning.o",
     "file": "warning.c",
-    "output": "build/glnxa64/warning.o"
+    "output": "build/maca64/warning.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  repmat.c -o build/glnxa64/repmat.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  repmat.c -o build/maca64/repmat.o",
     "file": "repmat.c",
-    "output": "build/glnxa64/repmat.o"
+    "output": "build/maca64/repmat.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  fft.c -o build/glnxa64/fft.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  fft.c -o build/maca64/fft.o",
     "file": "fft.c",
-    "output": "build/glnxa64/fft.o"
+    "output": "build/maca64/fft.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  power.c -o build/glnxa64/power.o",
-    "file": "power.c",
-    "output": "build/glnxa64/power.o"
-  },
-  {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  eml_mtimes_helper.c -o build/glnxa64/eml_mtimes_helper.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  eml_mtimes_helper.c -o build/maca64/eml_mtimes_helper.o",
     "file": "eml_mtimes_helper.c",
-    "output": "build/glnxa64/eml_mtimes_helper.o"
+    "output": "build/maca64/eml_mtimes_helper.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  mtimes.c -o build/glnxa64/mtimes.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  mtimes.c -o build/maca64/mtimes.o",
     "file": "mtimes.c",
-    "output": "build/glnxa64/mtimes.o"
+    "output": "build/maca64/mtimes.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  mean.c -o build/glnxa64/mean.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  mean.c -o build/maca64/mean.o",
     "file": "mean.c",
-    "output": "build/glnxa64/mean.o"
+    "output": "build/maca64/mean.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  sum.c -o build/glnxa64/sum.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  assertCompatibleDims.c -o build/maca64/assertCompatibleDims.o",
+    "file": "assertCompatibleDims.c",
+    "output": "build/maca64/assertCompatibleDims.o"
+  },
+  {
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  sum.c -o build/maca64/sum.o",
     "file": "sum.c",
-    "output": "build/glnxa64/sum.o"
+    "output": "build/maca64/sum.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  find.c -o build/glnxa64/find.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  sumMatrixIncludeNaN.c -o build/maca64/sumMatrixIncludeNaN.o",
+    "file": "sumMatrixIncludeNaN.c",
+    "output": "build/maca64/sumMatrixIncludeNaN.o"
+  },
+  {
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  find.c -o build/maca64/find.o",
     "file": "find.c",
-    "output": "build/glnxa64/find.o"
+    "output": "build/maca64/find.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  eml_setop.c -o build/glnxa64/eml_setop.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  eml_setop.c -o build/maca64/eml_setop.o",
     "file": "eml_setop.c",
-    "output": "build/glnxa64/eml_setop.o"
+    "output": "build/maca64/eml_setop.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  issorted.c -o build/glnxa64/issorted.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  issorted.c -o build/maca64/issorted.o",
     "file": "issorted.c",
-    "output": "build/glnxa64/issorted.o"
+    "output": "build/maca64/issorted.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  interface/_coder_multitaper_spectrogram_coder_api.c -o build/glnxa64/_coder_multitaper_spectrogram_coder_api.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  interface/_coder_multitaper_spectrogram_coder_api.c -o build/maca64/_coder_multitaper_spectrogram_coder_api.o",
     "file": "interface/_coder_multitaper_spectrogram_coder_api.c",
-    "output": "build/glnxa64/_coder_multitaper_spectrogram_coder_api.o"
+    "output": "build/maca64/_coder_multitaper_spectrogram_coder_api.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  interface/_coder_multitaper_spectrogram_coder_mex.c -o build/glnxa64/_coder_multitaper_spectrogram_coder_mex.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  interface/_coder_multitaper_spectrogram_coder_mex.c -o build/maca64/_coder_multitaper_spectrogram_coder_mex.o",
     "file": "interface/_coder_multitaper_spectrogram_coder_mex.c",
-    "output": "build/glnxa64/_coder_multitaper_spectrogram_coder_mex.o"
+    "output": "build/maca64/_coder_multitaper_spectrogram_coder_mex.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  trisolve.c -o build/glnxa64/trisolve.o",
-    "file": "trisolve.c",
-    "output": "build/glnxa64/trisolve.o"
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  eml_int_forloop_overflow_check.c -o build/maca64/eml_int_forloop_overflow_check.o",
+    "file": "eml_int_forloop_overflow_check.c",
+    "output": "build/maca64/eml_int_forloop_overflow_check.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  multitaper_spectrogram_coder_emxutil.c -o build/glnxa64/multitaper_spectrogram_coder_emxutil.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  div.c -o build/maca64/div.o",
+    "file": "div.c",
+    "output": "build/maca64/div.o"
+  },
+  {
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  multitaper_spectrogram_coder_emxutil.c -o build/maca64/multitaper_spectrogram_coder_emxutil.o",
     "file": "multitaper_spectrogram_coder_emxutil.c",
-    "output": "build/glnxa64/multitaper_spectrogram_coder_emxutil.o"
+    "output": "build/maca64/multitaper_spectrogram_coder_emxutil.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  interface/_coder_multitaper_spectrogram_coder_info.c -o build/glnxa64/_coder_multitaper_spectrogram_coder_info.o",
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  interface/_coder_multitaper_spectrogram_coder_info.c -o build/maca64/_coder_multitaper_spectrogram_coder_info.o",
     "file": "interface/_coder_multitaper_spectrogram_coder_info.c",
-    "output": "build/glnxa64/_coder_multitaper_spectrogram_coder_info.o"
+    "output": "build/maca64/_coder_multitaper_spectrogram_coder_info.o"
   },
   {
-    "directory": "/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
-    "command": "/usr/bin/gcc -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -O2 -fwrapv -DNDEBUG -std=c99 -I \".\" -I \"/data/preraugp/code/labcode/multitaper/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/apps/software/MATLAB/R2020b/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fopenmp -DOMPLIBNAME=\"/apps/software/MATLAB/R2020b/sys/os/glnxa64/libiomp5.so\"  /apps/software/MATLAB/R2020b/extern/version/c_mexapi_version.c -o build/glnxa64/c_mexapi_version.o",
-    "file": "/apps/software/MATLAB/R2020b/extern/version/c_mexapi_version.c",
-    "output": "build/glnxa64/c_mexapi_version.o"
+    "directory": "/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex/codegen/mex/multitaper_spectrogram_coder",
+    "command": "/usr/bin/xcrun -sdk macosx15.1 clang -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I \".\" -I \"/Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex\" -I \"./interface\" -I \"/Applications/MATLAB_R2024b.app/extern/include\" -I \".\" -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I \"/Applications/MATLAB_R2024b.app/toolbox/eml/externalDependency/omp/maca64/include\" -DOpenMP_omp_LIBRARY=\"/Applications/MATLAB_R2024b.app/sys/os/maca64/libiomp5.dylib\"  /Applications/MATLAB_R2024b.app/extern/version/c_mexapi_version.c -o build/maca64/c_mexapi_version.o",
+    "file": "/Applications/MATLAB_R2024b.app/extern/version/c_mexapi_version.c",
+    "output": "build/maca64/c_mexapi_version.o"
   }
 ]

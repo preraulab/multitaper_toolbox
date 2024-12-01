@@ -14,20 +14,24 @@
 #include "rt_nonfinite.h"
 
 /* Variable Definitions */
-static emlrtRSInfo mb_emlrtRSI = { 43, /* lineNo */
-  "indexShapeCheck",                   /* fcnName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/indexShapeCheck.m"/* pathName */
+static emlrtRSInfo hb_emlrtRSI = {
+    42,                /* lineNo */
+    "indexShapeCheck", /* fcnName */
+    "/Applications/MATLAB_R2024b.app/toolbox/eml/eml/+coder/+internal/"
+    "indexShapeCheck.m" /* pathName */
 };
 
-static emlrtRTEInfo g_emlrtRTEI = { 121,/* lineNo */
-  5,                                   /* colNo */
-  "errOrWarnIf",                       /* fName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/indexShapeCheck.m"/* pName */
+static emlrtRTEInfo e_emlrtRTEI = {
+    122,           /* lineNo */
+    5,             /* colNo */
+    "errOrWarnIf", /* fName */
+    "/Applications/MATLAB_R2024b.app/toolbox/eml/eml/+coder/+internal/"
+    "indexShapeCheck.m" /* pName */
 };
 
 /* Function Definitions */
-void indexShapeCheck(const emlrtStack *sp, int32_T matrixSize, const int32_T
-                     indexSize[2])
+void indexShapeCheck(const emlrtStack *sp, int32_T matrixSize,
+                     const int32_T indexSize[2])
 {
   emlrtStack st;
   boolean_T c;
@@ -38,11 +42,11 @@ void indexShapeCheck(const emlrtStack *sp, int32_T matrixSize, const int32_T
   } else {
     c = false;
   }
-
-  st.site = &mb_emlrtRSI;
+  st.site = &hb_emlrtRSI;
   if (c) {
-    emlrtErrorWithMessageIdR2018a(&st, &g_emlrtRTEI,
-      "Coder:FE:PotentialVectorVector", "Coder:FE:PotentialVectorVector", 0);
+    emlrtErrorWithMessageIdR2018a(&st, &e_emlrtRTEI,
+                                  "Coder:FE:PotentialVectorVector",
+                                  "Coder:FE:PotentialVectorVector", 0);
   }
 }
 

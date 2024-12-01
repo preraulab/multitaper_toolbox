@@ -1,0 +1,74 @@
+# CompilerName=clang
+# Mode=optim
+ninja_required_version = 1.3
+
+# Basic folders
+root = .
+builddir = $root/build/maca64
+matlabdir = /Applications/MATLAB_R2024b.app
+startdir = /Users/alexhe/Dropbox (Personal)/Active_projects/preraulab_code/multitaper/matlab/multitaper_spectrogram_mex
+
+# Toolchain information
+cc = /usr/bin/xcrun -sdk macosx15.1 clang
+cxx = /usr/bin/xcrun -sdk macosx15.1 clang++
+linker = /usr/bin/xcrun -sdk macosx15.1 clang
+linkerxx = /usr/bin/xcrun -sdk macosx15.1 clang++
+
+cflags =  -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -DMATLAB_MEX_FILE -O2 -DNDEBUG -std=c99 -I "$root" -I "$startdir" -I "$root/interface" -I "$matlabdir/extern/include" -I "." -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I "$matlabdir/toolbox/eml/externalDependency/omp/maca64/include" -DOpenMP_omp_LIBRARY="$matlabdir/sys/os/maca64/libiomp5.dylib" 
+
+cxxflags =  -fno-common -arch arm64 -mmacosx-version-min=12.0 -fexceptions -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -fwrapv -ffp-contract=off  -fobjc-arc -std=c++14 -stdlib=libc++ -DMATLAB_MEX_FILE  -O2 -DNDEBUG -std=c++11 -I "$root" -I "$startdir" -I "$root/interface" -I "$matlabdir/extern/include" -I "." -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=multitaper_spectrogram_coder_mex -c -fPIC -Xpreprocessor -fopenmp -I "$matlabdir/toolbox/eml/externalDependency/omp/maca64/include" -DOpenMP_omp_LIBRARY="$matlabdir/sys/os/maca64/libiomp5.dylib" 
+
+ldflags =  -Wl,-twolevel_namespace  -arch arm64 -mmacosx-version-min=12.0 -Wl,-syslibroot,/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -bundle   -L"$matlabdir/bin/maca64" -weak-lmx -weak-lmex -weak-lmat -lc++  -Wl,-rpath,@loader_path -o multitaper_spectrogram_coder_mex.mexmaca64 -L"$matlabdir/bin/maca64" -L"$matlabdir/sys/os/maca64" -lmwlapack -lmwblas -lemlrt -lcovrt -lut -lmwmathutil -lomp -fPIC -Wl,-exported_symbols_list,multitaper_spectrogram_coder.map
+
+ldxxflags =  -Wl,-twolevel_namespace  -arch arm64 -mmacosx-version-min=12.0 -Wl,-syslibroot,/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -framework Cocoa -bundle  -stdlib=libc++ -L"$matlabdir/bin/maca64" -weak-lmx -weak-lmex -weak-lmat -L"$matlabdir/extern/bin/maca64" -weak-lMatlabDataArray  -Wl,-rpath,@loader_path -o multitaper_spectrogram_coder_mex.mexmaca64 -L"$matlabdir/bin/maca64" -L"$matlabdir/sys/os/maca64" -lmwlapack -lmwblas -lemlrt -lcovrt -lut -lmwmathutil -lomp -fPIC -Wl,-exported_symbols_list,multitaper_spectrogram_coder.map
+
+linkobjs = 
+
+# Build Rules
+rule cc
+    command = $cc $cflags $in -o $out
+
+rule cxx
+    command = $cxx $cxxflags $in -o $out
+
+rule link
+    command = $linker $in $linkobjs $ldflags
+
+rule linkxx
+    command = $linkerxx $in $linkobjs $ldxxflags
+
+# Build
+build $builddir/multitaper_spectrogram_coder_data.o : cc $root/multitaper_spectrogram_coder_data.c
+build $builddir/rt_nonfinite.o : cc $root/rt_nonfinite.c
+build $builddir/multitaper_spectrogram_coder_initialize.o : cc $root/multitaper_spectrogram_coder_initialize.c
+build $builddir/multitaper_spectrogram_coder_terminate.o : cc $root/multitaper_spectrogram_coder_terminate.c
+build $builddir/multitaper_spectrogram_coder.o : cc $root/multitaper_spectrogram_coder.c
+build $builddir/colon.o : cc $root/colon.c
+build $builddir/nextpow2.o : cc $root/nextpow2.c
+build $builddir/combineVectorElements.o : cc $root/combineVectorElements.c
+build $builddir/indexShapeCheck.o : cc $root/indexShapeCheck.c
+build $builddir/all.o : cc $root/all.c
+build $builddir/any.o : cc $root/any.c
+build $builddir/detrend.o : cc $root/detrend.c
+build $builddir/warning.o : cc $root/warning.c
+build $builddir/repmat.o : cc $root/repmat.c
+build $builddir/fft.o : cc $root/fft.c
+build $builddir/eml_mtimes_helper.o : cc $root/eml_mtimes_helper.c
+build $builddir/mtimes.o : cc $root/mtimes.c
+build $builddir/mean.o : cc $root/mean.c
+build $builddir/assertCompatibleDims.o : cc $root/assertCompatibleDims.c
+build $builddir/sum.o : cc $root/sum.c
+build $builddir/sumMatrixIncludeNaN.o : cc $root/sumMatrixIncludeNaN.c
+build $builddir/find.o : cc $root/find.c
+build $builddir/eml_setop.o : cc $root/eml_setop.c
+build $builddir/issorted.o : cc $root/issorted.c
+build $builddir/_coder_multitaper_spectrogram_coder_api.o : cc $root/interface/_coder_multitaper_spectrogram_coder_api.c
+build $builddir/_coder_multitaper_spectrogram_coder_mex.o : cc $root/interface/_coder_multitaper_spectrogram_coder_mex.c
+build $builddir/eml_int_forloop_overflow_check.o : cc $root/eml_int_forloop_overflow_check.c
+build $builddir/div.o : cc $root/div.c
+build $builddir/multitaper_spectrogram_coder_emxutil.o : cc $root/multitaper_spectrogram_coder_emxutil.c
+build $builddir/_coder_multitaper_spectrogram_coder_info.o : cc $root/interface/_coder_multitaper_spectrogram_coder_info.c
+build $builddir/c_mexapi_version.o : cc $matlabdir/extern/version/c_mexapi_version.c
+
+# Link
+build $root/multitaper_spectrogram_coder_mex.mexmaca64 : link $builddir/multitaper_spectrogram_coder_data.o $builddir/rt_nonfinite.o $builddir/multitaper_spectrogram_coder_initialize.o $builddir/multitaper_spectrogram_coder_terminate.o $builddir/multitaper_spectrogram_coder.o $builddir/colon.o $builddir/nextpow2.o $builddir/combineVectorElements.o $builddir/indexShapeCheck.o $builddir/all.o $builddir/any.o $builddir/detrend.o $builddir/warning.o $builddir/repmat.o $builddir/fft.o $builddir/eml_mtimes_helper.o $builddir/mtimes.o $builddir/mean.o $builddir/assertCompatibleDims.o $builddir/sum.o $builddir/sumMatrixIncludeNaN.o $builddir/find.o $builddir/eml_setop.o $builddir/issorted.o $builddir/_coder_multitaper_spectrogram_coder_api.o $builddir/_coder_multitaper_spectrogram_coder_mex.o $builddir/eml_int_forloop_overflow_check.o $builddir/div.o $builddir/multitaper_spectrogram_coder_emxutil.o $builddir/_coder_multitaper_spectrogram_coder_info.o $builddir/c_mexapi_version.o 

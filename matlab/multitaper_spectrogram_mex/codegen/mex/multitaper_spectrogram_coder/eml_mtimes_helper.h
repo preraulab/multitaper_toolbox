@@ -16,7 +16,6 @@
 #include "rtwtypes.h"
 #include "emlrt.h"
 #include "mex.h"
-#include "omp.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,8 +23,11 @@
 
 /* Function Declarations */
 void b_dynamic_size_checks(const emlrtStack *sp, const emxArray_real32_T *a,
-  const emxArray_real_T *b, int32_T innerDimA, int32_T innerDimB);
-void dynamic_size_checks(const emlrtStack *sp, const emxArray_real32_T *a, const
-  emxArray_real32_T *b, int32_T innerDimA, int32_T innerDimB);
+                           const emxArray_real_T *b, int32_T innerDimA,
+                           int32_T innerDimB);
+
+void dynamic_size_checks(const emlrtStack *sp, const emxArray_real32_T *a,
+                         const emxArray_real32_T *b, int32_T innerDimA,
+                         int32_T innerDimB);
 
 /* End of code generation (eml_mtimes_helper.h) */

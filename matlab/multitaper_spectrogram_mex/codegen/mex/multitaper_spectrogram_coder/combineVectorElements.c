@@ -17,14 +17,18 @@
 #include "rt_nonfinite.h"
 
 /* Variable Definitions */
-static emlrtRSInfo kb_emlrtRSI = { 133,/* lineNo */
-  "combineVectorElements",             /* fcnName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/combineVectorElements.m"/* pathName */
+static emlrtRSInfo fb_emlrtRSI = {
+    149,                     /* lineNo */
+    "combineVectorElements", /* fcnName */
+    "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/datafun/private/"
+    "combineVectorElements.m" /* pathName */
 };
 
-static emlrtRSInfo lb_emlrtRSI = { 194,/* lineNo */
-  "colMajorFlatIter",                  /* fcnName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/datafun/private/combineVectorElements.m"/* pathName */
+static emlrtRSInfo gb_emlrtRSI = {
+    209,                /* lineNo */
+    "colMajorFlatIter", /* fcnName */
+    "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/datafun/private/"
+    "combineVectorElements.m" /* pathName */
 };
 
 /* Function Definitions */
@@ -36,29 +40,29 @@ int32_T combineVectorElements(const emlrtStack *sp, const emxArray_boolean_T *x)
   int32_T k;
   int32_T vlen;
   int32_T y;
+  const boolean_T *x_data;
   st.prev = sp;
   st.tls = sp->tls;
   b_st.prev = &st;
   b_st.tls = st.tls;
   c_st.prev = &b_st;
   c_st.tls = b_st.tls;
+  x_data = x->data;
   vlen = x->size[1];
   if (x->size[1] == 0) {
     y = 0;
   } else {
-    st.site = &kb_emlrtRSI;
-    y = x->data[0];
-    b_st.site = &lb_emlrtRSI;
-    if ((2 <= x->size[1]) && (x->size[1] > 2147483646)) {
+    st.site = &fb_emlrtRSI;
+    y = x_data[0];
+    b_st.site = &gb_emlrtRSI;
+    if (x->size[1] > 2147483646) {
       c_st.site = &ab_emlrtRSI;
       check_forloop_overflow_error(&c_st);
     }
-
     for (k = 2; k <= vlen; k++) {
-      y += x->data[k - 1];
+      y += x_data[k - 1];
     }
   }
-
   return y;
 }
 

@@ -19,6 +19,7 @@ real_T mex_rtNaN;
 real32_T mex_rtInfF;
 real32_T mex_rtMinusInfF;
 real32_T mex_rtNaNF;
+
 void mex_InitInfAndNan(void)
 {
   mex_rtInf = mxGetInf();
@@ -28,5 +29,4 @@ void mex_InitInfAndNan(void)
   mex_rtNaN = mxGetNaN();
   mex_rtNaNF = (real32_T)rtNaN;
 }
-
 /* End of code generation (rt_nonfinite.c) */

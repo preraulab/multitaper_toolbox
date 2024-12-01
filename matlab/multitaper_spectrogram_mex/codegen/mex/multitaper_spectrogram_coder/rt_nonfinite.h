@@ -22,16 +22,16 @@ extern real32_T mex_rtInfF;
 extern real32_T mex_rtMinusInfF;
 extern real32_T mex_rtNaNF;
 
-#define rtInf                          mex_rtInf
-#define rtMinusInf                     mex_rtMinusInf
-#define rtNaN                          mex_rtNaN
-#define rtInfF                         mex_rtInfF
-#define rtMinusInfF                    mex_rtMinusInfF
-#define rtNaNF                         mex_rtNaNF
-#define rtIsNaN(X)                     mxIsNaN(X)
-#define rtIsInf(X)                     mxIsInf(X)
-#define rtIsNaNF(X)                    mxIsNaN(X)
-#define rtIsInfF(X)                    mxIsInf(X)
+#define rtInf mex_rtInf
+#define rtMinusInf mex_rtMinusInf
+#define rtNaN mex_rtNaN
+#define rtInfF mex_rtInfF
+#define rtMinusInfF mex_rtMinusInfF
+#define rtNaNF mex_rtNaNF
+#define rtIsNaN(X) mxIsNaN(X)
+#define rtIsInf(X) mxIsInf(X)
+#define rtIsNaNF(X) mxIsNaN(X)
+#define rtIsInfF(X) mxIsInf(X)
 
 extern void mex_InitInfAndNan(void);
 

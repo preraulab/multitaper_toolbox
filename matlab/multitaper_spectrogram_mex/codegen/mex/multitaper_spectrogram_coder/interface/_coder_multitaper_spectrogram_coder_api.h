@@ -3,16 +3,15 @@
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
  *
- * repmat.h
+ * _coder_multitaper_spectrogram_coder_api.h
  *
- * Code generation for function 'repmat'
+ * Code generation for function '_coder_multitaper_spectrogram_coder_api'
  *
  */
 
 #pragma once
 
 /* Include files */
-#include "multitaper_spectrogram_coder_types.h"
 #include "rtwtypes.h"
 #include "emlrt.h"
 #include "mex.h"
@@ -22,7 +21,7 @@
 #include <string.h>
 
 /* Function Declarations */
-void repmat(const emlrtStack *sp, const emxArray_real32_T *a, real_T varargin_2,
-            emxArray_real32_T *b);
+void c_multitaper_spectrogram_coder_(const mxArray *const prhs[9], int32_T nlhs,
+                                     const mxArray *plhs[3]);
 
-/* End of code generation (repmat.h) */
+/* End of code generation (_coder_multitaper_spectrogram_coder_api.h) */

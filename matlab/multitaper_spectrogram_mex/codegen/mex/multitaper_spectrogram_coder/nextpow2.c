@@ -18,18 +18,17 @@
 /* Function Definitions */
 real_T nextpow2(real_T n)
 {
-  real_T f;
   real_T p;
   int32_T eint;
   p = muDoubleScalarAbs(n);
   if ((!muDoubleScalarIsInf(p)) && (!muDoubleScalarIsNaN(p))) {
+    real_T f;
     f = frexp(p, &eint);
     p = eint;
     if (f == 0.5) {
       p = (real_T)eint - 1.0;
     }
   }
-
   return p;
 }
 

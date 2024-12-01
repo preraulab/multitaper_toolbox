@@ -19,31 +19,49 @@
 #include "mwmathutil.h"
 
 /* Variable Definitions */
-static emlrtRSInfo ge_emlrtRSI = { 28, /* lineNo */
-  "repmat",                            /* fcnName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/repmat.m"/* pathName */
+static emlrtRSInfo
+    cd_emlrtRSI =
+        {
+            34,       /* lineNo */
+            "repmat", /* fcnName */
+            "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/elmat/"
+            "repmat.m" /* pathName */
 };
 
-static emlrtRSInfo he_emlrtRSI = { 64, /* lineNo */
-  "repmat",                            /* fcnName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/repmat.m"/* pathName */
+static emlrtRSInfo
+    dd_emlrtRSI =
+        {
+            70,       /* lineNo */
+            "repmat", /* fcnName */
+            "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/elmat/"
+            "repmat.m" /* pathName */
 };
 
-static emlrtRSInfo ie_emlrtRSI = { 71, /* lineNo */
-  "repmat",                            /* fcnName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/repmat.m"/* pathName */
+static emlrtRSInfo
+    ed_emlrtRSI =
+        {
+            77,       /* lineNo */
+            "repmat", /* fcnName */
+            "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/elmat/"
+            "repmat.m" /* pathName */
 };
 
-static emlrtRTEInfo l_emlrtRTEI = { 58,/* lineNo */
-  23,                                  /* colNo */
-  "assertValidSizeArg",                /* fName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/eml/+coder/+internal/assertValidSizeArg.m"/* pName */
+static emlrtRTEInfo h_emlrtRTEI = {
+    58,                   /* lineNo */
+    23,                   /* colNo */
+    "assertValidSizeArg", /* fName */
+    "/Applications/MATLAB_R2024b.app/toolbox/eml/eml/+coder/+internal/"
+    "assertValidSizeArg.m" /* pName */
 };
 
-static emlrtRTEInfo fd_emlrtRTEI = { 59,/* lineNo */
-  28,                                  /* colNo */
-  "repmat",                            /* fName */
-  "/apps/software/MATLAB/R2020b/toolbox/eml/lib/matlab/elmat/repmat.m"/* pName */
+static emlrtRTEInfo
+    cd_emlrtRTEI =
+        {
+            65,       /* lineNo */
+            28,       /* colNo */
+            "repmat", /* fName */
+            "/Applications/MATLAB_R2024b.app/toolbox/eml/lib/matlab/elmat/"
+            "repmat.m" /* pName */
 };
 
 /* Function Definitions */
@@ -52,44 +70,45 @@ void repmat(const emlrtStack *sp, const emxArray_real32_T *a, real_T varargin_2,
 {
   emlrtStack b_st;
   emlrtStack st;
+  int32_T i;
+  int32_T i1;
   int32_T ibtile;
   int32_T jtilecol;
   int32_T k;
-  int32_T nrows;
-  int32_T ntilecols;
+  const real32_T *a_data;
+  real32_T *b_data;
   st.prev = sp;
   st.tls = sp->tls;
-  st.site = &ge_emlrtRSI;
   b_st.prev = &st;
   b_st.tls = st.tls;
+  a_data = a->data;
+  st.site = &cd_emlrtRSI;
   if ((varargin_2 != varargin_2) || muDoubleScalarIsInf(varargin_2)) {
-    emlrtErrorWithMessageIdR2018a(&st, &l_emlrtRTEI,
-      "Coder:MATLAB:NonIntegerInput", "Coder:MATLAB:NonIntegerInput", 4, 12,
-      MIN_int32_T, 12, MAX_int32_T);
+    emlrtErrorWithMessageIdR2018a(
+        &st, &h_emlrtRTEI, "Coder:MATLAB:NonIntegerInput",
+        "Coder:MATLAB:NonIntegerInput", 4, 12, MIN_int32_T, 12, MAX_int32_T);
   }
-
-  nrows = b->size[0] * b->size[1];
+  i = a->size[0];
+  ibtile = b->size[0] * b->size[1];
   b->size[0] = a->size[0];
+  i1 = (int32_T)varargin_2;
   b->size[1] = (int32_T)varargin_2;
-  emxEnsureCapacity_real32_T(sp, b, nrows, &fd_emlrtRTEI);
-  nrows = a->size[0];
-  ntilecols = (int32_T)varargin_2;
-  st.site = &he_emlrtRSI;
-  if ((1 <= (int32_T)varargin_2) && ((int32_T)varargin_2 > 2147483646)) {
+  emxEnsureCapacity_real32_T(sp, b, ibtile, &cd_emlrtRTEI);
+  b_data = b->data;
+  st.site = &dd_emlrtRSI;
+  if ((int32_T)varargin_2 > 2147483646) {
     b_st.site = &ab_emlrtRSI;
     check_forloop_overflow_error(&b_st);
   }
-
-  for (jtilecol = 0; jtilecol < ntilecols; jtilecol++) {
-    ibtile = jtilecol * nrows;
-    st.site = &ie_emlrtRSI;
-    if ((1 <= nrows) && (nrows > 2147483646)) {
+  for (jtilecol = 0; jtilecol < i1; jtilecol++) {
+    ibtile = jtilecol * i;
+    st.site = &ed_emlrtRSI;
+    if (i > 2147483646) {
       b_st.site = &ab_emlrtRSI;
       check_forloop_overflow_error(&b_st);
     }
-
-    for (k = 0; k < nrows; k++) {
-      b->data[ibtile + k] = a->data[k];
+    for (k = 0; k < i; k++) {
+      b_data[ibtile + k] = a_data[k];
     }
   }
 }

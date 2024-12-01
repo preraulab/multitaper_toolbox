@@ -15,14 +15,13 @@
 #include "rtwtypes.h"
 #include "emlrt.h"
 #include "mex.h"
-#include "omp.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 /* Function Declarations */
-void indexShapeCheck(const emlrtStack *sp, int32_T matrixSize, const int32_T
-                     indexSize[2]);
+void indexShapeCheck(const emlrtStack *sp, int32_T matrixSize,
+                     const int32_T indexSize[2]);
 
 /* End of code generation (indexShapeCheck.h) */

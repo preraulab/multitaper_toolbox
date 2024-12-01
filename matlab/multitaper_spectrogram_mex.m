@@ -58,8 +58,9 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_mex(varargin)
 %   http://www.sleepEEG.org/multitaper
 %
 %   Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
-%   Authors: Michael J. Prerau, Ph.D., Mingjian He
+%   Authors: Michael J. Prerau, Ph.D., Mingjian He, Ph.D.
 %% ********************************************************************
+
 %% PROCESS DATA AND PARAMETERS
 try
     %Process user input
@@ -144,7 +145,7 @@ p.addRequired('Fs', @(x) validateattributes(x, {'numeric'}, {'scalar', 'positive
 p.addOptional('frequency_range', default_frequency_range, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
 p.addOptional('taper_params', default_taper_params, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
 p.addOptional('window_params', default_window_params, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
-p.addOptional('NFFT_val', default_NFFT_val, @(x) isempty(x) || (isnumeric(x) && isscalar(x) && x > 0 && mod(x, 1) == 0));
+p.addOptional('NFFT_val', default_NFFT_val, @(x) isempty(x) || (isnumeric(x) && isscalar(x) && x >= 0 && mod(x, 1) == 0));
 p.addOptional('detrend_opt', default_detrend_opt, @(x) isempty(x) || ismember(x, {'linear', 'constant', 'off'}));
 p.addOptional('weighting', default_weighting, @(x) isempty(x) || ismember(x, {'unity', 'eigen', 'adapt'}));
 p.addOptional('plot_on', default_plot_on, @(x) isempty(x) || (islogical(x) && isscalar(x)));
@@ -296,7 +297,7 @@ window_start = 1:winstep_samples:N-winsize_samples+1;
 num_windows = length(window_start);
 
 %Number of points in the FFT
-if NFFT_val ==0
+if NFFT_val == 0
     nfft = 2^(nextpow2(winsize_samples));
 else
     nfft = 2^nextpow2(NFFT_val);
