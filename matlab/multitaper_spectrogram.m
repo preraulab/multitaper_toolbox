@@ -203,6 +203,11 @@ end
 function [data, Fs, frequency_range, time_bandwidth, num_tapers, winsize_samples, winstep_samples,...
     window_start, num_windows, nfft, detrend_opt, weighting, plot_on, verbose, xyflip] = process_input(data, Fs, varargin)
 
+% Parse inputs
+p = inputParser;
+p.addRequired('data', @(x) validateattributes(x, {'numeric'}, {'real','vector'}));
+p.addRequired('Fs', @(x) validateattributes(x, {'numeric'}, {'real','finite','positive','scalar'}));
+
 % Default values
 default_frequency_range = [0 Fs/2];
 default_taper_params = [5 9];
@@ -214,16 +219,13 @@ default_plot_on = true;
 default_verbose = true;
 default_xyflip = false;
 
-% Parse inputs
-p = inputParser;
-p.addRequired('data', @(x) validateattributes(x, {'numeric','1d'}, {'vector'}));
-p.addRequired('Fs', @(x) validateattributes(x, {'numeric'}, {'scalar', 'positive'}));
+% Optional inputs
 p.addOptional('frequency_range', default_frequency_range, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
 p.addOptional('taper_params', default_taper_params, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
 p.addOptional('window_params', default_window_params, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
 p.addOptional('NFFT_val', default_NFFT_val, @(x) isempty(x) || (isnumeric(x) && isscalar(x) && x >= 0 && mod(x, 1) == 0));
-p.addOptional('detrend_opt', default_detrend_opt, @(x) isempty(x) || ismember(x, {'linear', 'constant', 'off'}));
-p.addOptional('weighting', default_weighting, @(x) isempty(x) || ismember(x, {'unity', 'eigen', 'adapt'}));
+p.addOptional('detrend_opt', default_detrend_opt, @(x) isempty(x) || any(validatestring(x, {'linear', 'constant', 'off'})));
+p.addOptional('weighting', default_weighting, @(x) isempty(x) || any(validatestring(x, {'unity', 'eigen', 'adapt'})));
 p.addOptional('plot_on', default_plot_on, @(x) isempty(x) || (islogical(x) && isscalar(x)));
 p.addOptional('verbose', default_verbose, @(x) isempty(x) || (islogical(x) && isscalar(x)));
 p.addOptional('xyflip', default_xyflip, @(x) isempty(x) || (islogical(x) && isscalar(x)));
@@ -404,11 +406,13 @@ end
 function display_spectrogram_props(taper_params, data_window_params, frequency_range, detrend_opt, Fs, NFFT)
 data_window_params = data_window_params/Fs;
 %my_pool = gcp;
-if detrend_opt
-    det_string=lower(detrend_opt);
-    det_string(1) = upper(det_string(1));
-else
-    det_string='Off';
+switch detrend_opt
+    case 1
+        det_string = 'Constant';
+    case 2
+        det_string = 'Linear';
+    otherwise
+        det_string='Off';
 end
 
 % Display spectrogram properties
@@ -425,6 +429,8 @@ disp(['    Frequency Bin Size: ' num2str(Fs/NFFT) 'Hz']);
 disp(['    Detrending: ' det_string]);
 disp(' ');
 end
+
+%% POW2DB FOR NAN ENTRIES
 
 function ydB = nanpow2db(y)
 %POW2DB   Power to dB conversion, setting all bad values to nan
