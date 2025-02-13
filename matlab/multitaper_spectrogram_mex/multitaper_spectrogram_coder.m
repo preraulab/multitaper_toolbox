@@ -36,8 +36,6 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder(data, F
 %   http://www.sleepEEG.org/multitaper
 %
 %   Copyright 2024 Michael J. Prerau, Ph.D. - http://www.sleepEEG.org
-%   This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
-%   (http://creativecommons.org/licenses/by-nc-sa/4.0/)
 %
 %   Last modified 2/16/2021
 %% ********************************************************************
