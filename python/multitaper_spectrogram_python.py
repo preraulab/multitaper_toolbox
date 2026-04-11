@@ -465,7 +465,7 @@ def calc_mts_segment(data_segment, dpss_tapers, nfft, freq_inds, detrend_opt, nu
     fft_data = np.fft.fft(tapered_data, nfft, axis=0)
 
     # Compute the weighted mean spectral power across tapers (STEP 4)
-    spower = np.power(np.imag(fft_data), 2) + np.power(np.real(fft_data), 2)
+    spower = np.imag(fft_data)**2 + np.real(fft_data)**2
     if weighting == 'adapt':
         # adaptive weights - for colored noise spectrum (Percival & Walden p368-370)
         tpower = np.dot(np.transpose(data_segment), (data_segment/len(data_segment)))
