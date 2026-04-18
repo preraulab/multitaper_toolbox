@@ -3,8 +3,8 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder(data, F
 %
 %   This is the coder portion for mex compilation. It takes processed
 %   multitaper parameters from multitaper_spectrogram_coder_mex.m as inputs
-%   and skips internal input processing. 
-%   
+%   and skips internal input processing.
+%
 %   Usage:
 %   Direct input:
 %   [spect,stimes,sfreqs] = multitaper_spectrogram_coder(data, Fs, frequency_range, DPSS_tapers, DPSS_eigen, winstep_samples, min_NFFT, detrend_opt, weighting)
@@ -12,10 +12,10 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder(data, F
 %   Input:
 %   data: <number of samples> x 1 vector - time series data -- required
 %   Fs: double - sampling frequency in Hz  -- required
-%   frequency_range: 1x2 vector - [<min frequency>, <max frequency>] -- required 
-%   DPSS_tapers: Nxk matrix - Slepian tapers -- required 
+%   frequency_range: 1x2 vector - [<min frequency>, <max frequency>] -- required
+%   DPSS_tapers: Nxk matrix - Slepian tapers -- required
 %   DPSS_eigen: 1xk vector - eigenvalues of the Slepian tapers -- required
-%   winstep_samples: double - number of samples in step size of windows -- required 
+%   winstep_samples: double - number of samples in step size of windows -- required
 %   min_NFFT: double - minimum allowable NFFT size, adds zero padding for interpolation (closest 2^x) -- required
 %   detrend_opt: double - how to detrend data window (2='linear', 1='constant', 0='off') -- required
 %   weighting: double - how to weight the tapers (0='unity', 1='eigen', 2='adapt') -- required
@@ -43,7 +43,7 @@ function [mt_spectrogram, stimes, sfreqs] = multitaper_spectrogram_coder(data, F
 %Generate DPSS tapers (STEP 1)
 % Done outside this _coder function.
 
-%Get taper matrix dimensions 
+%Get taper matrix dimensions
 [winsize_samples, num_tapers] = size(DPSS_tapers);
 
 %Total data length
@@ -93,31 +93,31 @@ end
 %Loop in parallel over all of the windows
 parfor n = 1:num_windows
     %Grab the data for the given window
-    data_segment = data(window_start(n) + (0:winsize_samples-1));
-    
+    data_segment = data(window_start(n) + (0:winsize_samples-1)); %#ok<PFBNS>
+
     %Skip empty segments
     if all(data_segment == 0)
         continue;
     end
-    
+
     if any(isnan(data_segment))
         mt_spectrogram(:,n) = nan;
         continue;
     end
-    
+
     %Option to detrend_opt data to remove low frequency DC component
     if detrend_opt == 1
         data_segment = detrend(data_segment, 'constant');
     elseif detrend_opt == 2
         data_segment = detrend(data_segment, 'linear');
     end
-    
+
     %Multiply the data by the tapers (STEP 2)
     tapered_data = repmat(data_segment,1,num_tapers) .* DPSS_tapers;
-    
+
     %Compute the FFT (STEP 3)
     fft_data = fft(tapered_data, nfft);
-    
+
     %Compute the weighted mean spectral power across tapers (STEP 4)
     Spower = imag(fft_data).^2 + real(fft_data).^2;
     if weighting == 2
@@ -139,12 +139,12 @@ parfor n = 1:num_windows
         % eigenvalue or uniform weights
         mt_spectrum = Spower * wt;
     end
-    
+
     %Append the spectrum to the spectrogram
     mt_spectrogram(:,n) = mt_spectrum(freq_inds);
 end
 
-%Compute one-sided PSD spectrum 
+%Compute one-sided PSD spectrum
 DC_select = find(sfreqs==0);
 Nyquist_select = find(sfreqs==Fs/2);
 select = setdiff(1:length(sfreqs), [DC_select, Nyquist_select]);
