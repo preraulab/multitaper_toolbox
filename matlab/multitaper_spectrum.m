@@ -39,7 +39,8 @@ function [mt_spectrum, sfreqs] = multitaper_spectrum(data, Fs, frequency_range, 
 %   Copyright 2024 Michael J. Prerau Laboratory. - http://www.sleepEEG.org
 %   Authors: Michael J. Prerau, Ph.D., Mingjian He, Ph.D.
 %
-%% ********************************************************************
+% ********************************************************************
+
 %% PROCESS DATA AND PARAMETERS
 assert(nargin>= 2, 'Must include data and sampling rate (Fs)');
 
