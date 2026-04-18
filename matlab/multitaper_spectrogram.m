@@ -386,7 +386,7 @@ end
 function [window_idxs, stimes, sfreqs, freq_inds] = get_windows(Fs, nfft, frequency_range, window_start, datawin_size)
 %Create the frequency vector
 df = Fs/nfft;
-sfreqs = 0:df:Fs; % all possible frequencies
+sfreqs = 0:df:Fs-df; % all possible frequencies
 
 %Get just the frequencies for the given frequency range
 freq_inds = (sfreqs >= frequency_range(1)) & (sfreqs <= frequency_range(2));
