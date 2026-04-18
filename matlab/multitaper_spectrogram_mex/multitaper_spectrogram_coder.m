@@ -60,7 +60,7 @@ nfft = max(max(2^(nextpow2(winsize_samples)),winsize_samples), 2^nextpow2(min_NF
 
 %Create the frequency vector
 df = Fs/nfft;
-sfreqs = 0:df:Fs; % all possible frequencies
+sfreqs = 0:df:Fs-df; % all possible frequencies
 
 %Get just the frequencies for the given frequency range
 freq_inds = (sfreqs >= frequency_range(1)) & (sfreqs <= frequency_range(2));
