@@ -119,7 +119,7 @@ parfor n = 1:num_windows
 
     %Option to detrend_opt data to remove low frequency DC component
     if detrend_opt
-        data_segment = detrend(data_segment, detrend_opt);
+        data_segment = detrend(data_segment, detrend_opt - 1); % 2->1 for 'linear', 1->0 for 'constant'
     end
 
     %Multiply the data by the tapers (STEP 2)
@@ -131,8 +131,7 @@ parfor n = 1:num_windows
     %Compute the weighted mean spectral power across tapers (STEP 4)
     Spower = imag(fft_data).^2 + real(fft_data).^2;
     if weighting == 2
-        % adaptive weights - for colored noise spectrum (Percival & Walden
-        % p368-p370)
+        % adaptive weights - for colored noise spectrum (Percival & Walden p368-p370)
         x = data_segment;
         Tpower = x'*x/length(x);
         Spower_iter = mean(Spower(:,1:2),2);
@@ -224,8 +223,8 @@ p.addOptional('frequency_range', default_frequency_range, @(x) isempty(x) || (is
 p.addOptional('taper_params', default_taper_params, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
 p.addOptional('window_params', default_window_params, @(x) isempty(x) || (isnumeric(x) && isvector(x) && numel(x) == 2));
 p.addOptional('NFFT_val', default_NFFT_val, @(x) isempty(x) || (isnumeric(x) && isscalar(x) && x >= 0 && mod(x, 1) == 0));
-p.addOptional('detrend_opt', default_detrend_opt, @(x) isempty(x) || any(validatestring(x, {'linear', 'constant', 'off'})));
-p.addOptional('weighting', default_weighting, @(x) isempty(x) || any(validatestring(x, {'unity', 'eigen', 'adapt'})));
+p.addOptional('detrend_opt', default_detrend_opt, @(x) isempty(x) || any(validatestring(lower(x), {'linear', 'constant', 'off'})));
+p.addOptional('weighting', default_weighting, @(x) isempty(x) || any(validatestring(lower(x), {'unity', 'eigen', 'adapt'})));
 p.addOptional('plot_on', default_plot_on, @(x) isempty(x) || (islogical(x) && isscalar(x)));
 p.addOptional('verbose', default_verbose, @(x) isempty(x) || (islogical(x) && isscalar(x)));
 p.addOptional('xyflip', default_xyflip, @(x) isempty(x) || (islogical(x) && isscalar(x)));
@@ -293,21 +292,21 @@ end
 
 %Set either linear or constant detrending
 switch lower(detrend_opt)
-    case {'const','constant'}
+    case 'linear'
+        detrend_opt = 2;
+    case 'constant'
         detrend_opt = 1;
     case 'off'
         detrend_opt = 0;
-    otherwise
-        detrend_opt = 2;
 end
 
 %Set taper weighting options
 switch lower(weighting)
-    case {'adapt','adaptive'}
+    case 'adapt'
         weighting = 2;
-    case {'eig', 'eigen'}
+    case 'eigen'
         weighting = 1;
-    otherwise
+    case 'unity'
         weighting = 0;
 end
 
@@ -407,12 +406,12 @@ function display_spectrogram_props(taper_params, data_window_params, frequency_r
 data_window_params = data_window_params/Fs;
 %my_pool = gcp;
 switch detrend_opt
-    case 1
-        det_string = 'Constant';
     case 2
         det_string = 'Linear';
-    otherwise
-        det_string='Off';
+    case 1
+        det_string = 'Constant';
+    case 0
+        det_string = 'Off';
 end
 
 % Display spectrogram properties
