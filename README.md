@@ -1,5 +1,5 @@
 # Prerau Lab Multitaper Spectrogram Code
-### Matlab, Python, and R implementations
+### Matlab, Python, Rust, and R implementations
 ---
 
 ## Table of Contents
@@ -15,7 +15,6 @@
 * [Citations](#citations)
 * [Contact](#contact)
 
-<br/>
 <br/>
 
 ## General Information 
