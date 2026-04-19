@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: "If you use this software, please also cite the associated paper (see preferred-citation)."
+title: "multitaper_toolbox"
+abstract: "A multitaper spectral estimation toolbox implemented in MATLAB, Python, and R."
+authors:
+  - family-names: Prerau
+    given-names: Michael J.
+    name-suffix: Ph.D.
+    affiliation: "Prerau Laboratory, Brigham and Women's Hospital, Harvard Medical School"
+    orcid: "https://orcid.org/0000-0002-9010-5273"
+  - family-names: He
+    given-names: Mingjian
+    affiliation: "Prerau Laboratory, Brigham and Women's Hospital, Harvard Medical School"
+    orcid: "https://orcid.org/0000-0002-6688-8693"
+  - family-names: Possidente
+    given-names: Thomas
+    affiliation: "Prerau Laboratory, Brigham and Women's Hospital, Harvard Medical School"
+    orcid: "https://orcid.org/0000-0002-6857-6247"
+type: software
+license: BSD-3-Clause
+url: "https://github.com/preraulab/multitaper_toolbox"
+repository-code: "https://github.com/preraulab/multitaper_toolbox"
+preferred-citation:
+  type: article
+  title: "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
+  authors:
+    - family-names: Prerau
+      given-names: Michael J.
+      orcid: "https://orcid.org/0000-0002-9010-5273"
+    - family-names: Brown
+      given-names: Ritchie E.
+      orcid: "https://orcid.org/0000-0002-7164-4132"
+    - family-names: Bianchi
+      given-names: Matt T.
+    - family-names: Ellenbogen
+      given-names: Jeffrey M.
+    - family-names: Purdon
+      given-names: Patrick L.
+  journal: "Physiology"
+  volume: 32
+  issue: 1
+  start: 60
+  end: 92
+  year: 2017
+  doi: "10.1152/physiol.00062.2015"
