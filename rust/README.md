@@ -55,3 +55,62 @@ tapers, eigen = dpss(winsize_samples, time_bandwidth, num_tapers, return_ratios=
 np.save("tapers.npy", tapers)          # shape (K, winsize)
 np.save("eigen.npy", eigen)            # only needed for --weighting eigen
 ```
+
+## Python bindings
+
+The same crate also builds as a Python extension (`multitaper_rs`) that
+`../python/multitaper_spectrogram_python.py` will transparently use when
+available. On machines without the extension installed the Python module
+falls back to its pure-Python path automatically.
+
+Build + install into the active Python environment:
+
+```
+cd multitaper/rust
+pip install maturin   # once per env, if not already on PATH
+maturin develop --release
+```
+
+`maturin develop --release` builds the cdylib with the `python` feature
+enabled (see `pyproject.toml`) and installs it as an editable package into
+the current interpreter. The crate is configured with `crate-type =
+["cdylib", "rlib"]` in `Cargo.toml` so the same source powers both the
+Python extension and the standalone CLI binary (`src/main.rs` links
+against it as an `rlib`). The CLI binary is unaffected by the Python
+build — `cargo build --release --bin multitaper_rs` still produces the
+standalone tool with no Python dependencies.
+
+### Using the backend from Python
+
+```python
+from multitaper_spectrogram_python import multitaper_spectrogram
+# use_rust=None (default) -> auto-select Rust when installed
+spec, stimes, sfreqs = multitaper_spectrogram(data, fs, use_rust=None)
+
+# Force pure Python (A/B comparisons):
+spec, stimes, sfreqs = multitaper_spectrogram(data, fs, use_rust=False)
+```
+
+Once per process a banner is printed to stderr:
+
+```
+multitaper: using Rust backend
+multitaper: Rust backend unavailable, using pure Python
+```
+
+### Equivalence + timing test
+
+```
+python multitaper/python/test_rust_equivalence.py
+```
+
+Checks that Rust and pure-Python paths agree to `atol=1e-8, rtol=1e-6`
+across three parameter sets, then benchmarks a 1-hour signal at 200 Hz.
+
+### Limitations
+
+- `weighting='adapt'` is not implemented in Rust; the Python wrapper
+  falls back automatically for that case.
+- DPSS tapers themselves are still computed by `scipy.signal.windows.dpss`
+  in Python and passed into Rust. (Porting the Slepian eigensolver would
+  require pulling in LAPACK.)
