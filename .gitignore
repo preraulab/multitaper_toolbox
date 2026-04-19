@@ -1,3 +1,10 @@
+python/venv/
+venv/
+.venv/
+
+# Matlab temp files
+*.asv
+
 .idea/ #pycharm files
 *.log #ignore all logs
 
@@ -17,7 +24,6 @@ Thumbs.db
 
 #large files 
 mtspectrogram_monitor
-matlab/multitaper_spectrogram.asv
 
 # Sphinx build output
 docs/_build/
