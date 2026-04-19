@@ -51,7 +51,8 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
                            use_rust=None):
     """ Compute multitaper spectrogram of timeseries data
     Usage:
-    mt_spectrogram, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5,
+    mt_spectrogram, stimes, sfreqs = multitaper_spectrogram(data, fs,
+                                                            frequency_range=None, time_bandwidth=5,
                                                             num_tapers=None, window_params=None, min_nfft=0,
                                                             detrend_opt='linear', multiprocess=False, n_jobs=None,
                                                             weighting='unity', plot_on=True, return_fig=False,
@@ -513,7 +514,7 @@ def display_spectrogram_props(fs, time_bandwidth, num_tapers, data_window_params
             data_window_params (list): 1x2 list - [window length(s), window step size(s)] -- required
             frequency_range (list): 1x2 list - [<min frequency>, <max frequency>] -- required
             nfft(float): number of fast fourier transform samples -- required
-            detrend_opt (str): detrend data window ('linear' (default), 'constant', 'off')
+            detrend_opt (str): detrend data window ('linear' (default), 'constant', 'off') -- required
         Returns:
             This function does not return anything
     """
