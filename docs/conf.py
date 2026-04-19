@@ -48,7 +48,7 @@ html_theme = "furo"
 html_static_path = ["_static"]
 html_title = f"{project}"
 
-# Intersphinx -- no peers for a standalone submodule; peers added in labcode_main.
+# Intersphinx -- no peers when built standalone.
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
 }
