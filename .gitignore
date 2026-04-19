@@ -17,3 +17,7 @@ Thumbs.db
 #large files 
 mtspectrogram_monitor
 matlab/multitaper_spectrogram.asv
+
+# Sphinx build output
+docs/_build/
+docs/_autosummary/

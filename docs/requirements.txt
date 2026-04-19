@@ -1,0 +1,6 @@
+sphinx>=7,<9
+sphinxcontrib-matlabdomain>=0.22
+myst-parser>=2
+furo
+sphinx-copybutton
+sphinx-design
