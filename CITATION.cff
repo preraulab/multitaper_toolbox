@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper below."
+title: "multitaper_toolbox"
+abstract: "MATLAB, Python, and R implementations of the multitaper spectrogram, with an optional Rust backend for the Python version. Companion to Prerau et al., Physiology 2017."
+authors:
+  - family-names: Prerau
+    given-names: Michael J.
+    name-suffix: Ph.D.
+    affiliation: "Prerau Laboratory, Brigham and Women's Hospital, Harvard Medical School"
+    orcid: "https://orcid.org/0000-0002-9010-5273"
+  - family-names: He
+    given-names: Mingjian
+    orcid: "https://orcid.org/0000-0002-6688-8693"
+  - family-names: Stokes
+    given-names: Patrick A.
+  - family-names: Purdon
+    given-names: Patrick L.
+    orcid: "https://orcid.org/0000-0003-0080-3340"
+type: software
+license: BSD-3-Clause
+url: "https://github.com/preraulab/multitaper_toolbox"
+repository-code: "https://github.com/preraulab/multitaper_toolbox"
+preferred-citation:
+  type: article
+  title: "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
+  authors:
+    - family-names: Prerau
+      given-names: Michael J.
+      orcid: "https://orcid.org/0000-0002-9010-5273"
+    - family-names: Brown
+      given-names: Ritchie E.
+      orcid: "https://orcid.org/0000-0002-7164-4132"
+    - family-names: Bianchi
+      given-names: Matt T.
+    - family-names: Ellenbogen
+      given-names: Jeffrey M.
+    - family-names: Purdon
+      given-names: Patrick L.
+      orcid: "https://orcid.org/0000-0003-0080-3340"
+  journal: "Physiology (Bethesda)"
+  year: 2017
+  volume: 32
+  issue: 1
+  start: 60
+  end: 92
+  doi: "10.1152/physiol.00062.2015"
