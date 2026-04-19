@@ -1,26 +1,56 @@
 # Analysis Imports
 import math
+import sys
 import numpy as np
 from scipy.signal.windows import dpss
 from scipy.signal import detrend
+from scipy.fft import rfft as scipy_rfft  # Tier D: multithreaded FFT
 # Logistical Imports
 import warnings
 import timeit
 from joblib import Parallel, delayed, cpu_count
 # Visualization imports
 import matplotlib.pyplot as plt
-import librosa.display
+
+# Optional Rust backend. If the compiled extension is unavailable we fall
+# back transparently to the pure-Python path. This import must never fail
+# the module load on machines without the Rust extension installed.
+try:
+    from multitaper_rs import compute_spectrogram as _rust_compute
+    _HAS_RUST = True
+except ImportError:
+    _rust_compute = None
+    _HAS_RUST = False
+
+# Guard so the "which backend" banner only prints once per process.
+_BACKEND_BANNER_PRINTED = False
+
+
+def _announce_backend(using_rust):
+    """Print a one-time banner to stderr indicating which backend is in use."""
+    global _BACKEND_BANNER_PRINTED
+    if _BACKEND_BANNER_PRINTED:
+        return
+    _BACKEND_BANNER_PRINTED = True
+    if using_rust:
+        print("multitaper: using Rust backend", file=sys.stderr)
+    elif _HAS_RUST:
+        print("multitaper: Rust backend available but disabled, using pure Python",
+              file=sys.stderr)
+    else:
+        print("multitaper: Rust backend unavailable, using pure Python",
+              file=sys.stderr)
 
 
 # MULTITAPER SPECTROGRAM #
 def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=None, window_params=None,
                            min_nfft=0, detrend_opt='linear', multiprocess=False, n_jobs=None, weighting='unity',
-                           plot_on=True, clim_scale=True, verbose=True, xyflip=False):
+                           plot_on=True, clim_scale=True, verbose=True, xyflip=False, use_rust=None):
     """ Compute multitaper spectrogram of timeseries data
     Usage:
     mt_spectrogram, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5,
                                                                    num_tapers=None, window_params=None, min_nfft=0,
-                                                                   detrend_opt='linear', multiprocess=False, cpus=False,
+                                                                   detrend_opt='linear', multiprocess=False, n_jobs=None,
                                                                     weighting='unity', plot_on=True, verbose=True,
                                                                     xyflip=False):
         Arguments:
@@ -63,7 +93,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
             min_nfft = 0  # No minimum nfft
             detrend_opt = 'constant'  # detrend each window by subtracting the average
             multiprocess = True  # use multiprocessing
-            cpus = 3  # use 3 cores in multiprocessing
+            n_jobs = 3  # use 3 cores in multiprocessing
             weighting = 'unity'  # weight each taper at 1
             plot_on = True  # plot spectrogram
             clim_scale = False # don't auto-scale the colormap
@@ -77,7 +107,7 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
             # Compute the multitaper spectrogram
             spect, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range, time_bandwidth, num_tapers,
                                                            window_params, min_nfft, detrend_opt, multiprocess,
-                                                           cpus, weighting, plot_on, verbose, xyflip):
+                                                           n_jobs, weighting, plot_on, verbose, xyflip):
 
         This code is companion to the paper:
         "Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"
@@ -133,21 +163,115 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
 
     tic = timeit.default_timer()  # start timer
 
+    # Precompute transpose of tapers (used every segment) - Tier 1a
+    dpss_tapers_T = dpss_tapers.T
+
+    # Decide whether to use the Rust backend. 'adapt' weighting is not yet
+    # implemented in Rust so it always falls back. use_rust=False forces the
+    # pure-Python path (for A/B testing / equivalence checks).
+    if use_rust is None:
+        use_rust_resolved = _HAS_RUST and weighting in ('unity', 'eigen')
+    elif use_rust:
+        if not _HAS_RUST:
+            raise RuntimeError("use_rust=True was requested but the multitaper_rs "
+                               "extension is not installed. Build it with "
+                               "`cd multitaper/rust && maturin develop --release`.")
+        if weighting == 'adapt':
+            raise NotImplementedError("Rust backend does not support weighting='adapt'. "
+                                      "Use use_rust=False or weighting='unity'/'eigen'.")
+        use_rust_resolved = True
+    else:
+        use_rust_resolved = False
+
+    _announce_backend(use_rust_resolved)
+
+    if use_rust_resolved:
+        # Rust path: pass the raw signal + tapers; Rust does the windowing,
+        # detrend, FFT, taper-weighted power sum, and one-sided PSD scaling.
+        # (DPSS itself is still computed by scipy above because porting the
+        # Slepian eigensolver to Rust would require pulling in LAPACK.)
+        winsize_samples_py = int(window_params[0] * fs) if window_params is not None else int(5 * fs)
+        # Recover actual window_params in seconds that Rust expects. We trust
+        # the (possibly adjusted) winsize_samples from process_input.
+        winsize_s = dpss_tapers.shape[1] / fs
+        # winstep in seconds = winstep_samples / fs; recover from window_start spacing.
+        if len(window_start) >= 2:
+            winstep_s = (window_start[1] - window_start[0]) / fs
+        elif window_params is not None:
+            winstep_s = window_params[1]
+        else:
+            winstep_s = 1.0
+
+        eigen_arr = None
+        if weighting == 'eigen':
+            eigen_arr = np.ascontiguousarray(dpss_eigen.reshape(-1), dtype=np.float64)
+
+        data_c = np.ascontiguousarray(data, dtype=np.float64)
+        tapers_c = np.ascontiguousarray(dpss_tapers, dtype=np.float64)
+
+        mt_spectrogram, stimes_rs, sfreqs_rs = _rust_compute(
+            data_c,
+            tapers_c,
+            float(fs),
+            (float(frequency_range[0]), float(frequency_range[1])),
+            (float(winsize_s), float(winstep_s)),
+            int(nfft),
+            detrend_opt,
+            weighting,
+            eigen_arr,
+        )
+        # Rust already applies one-sided PSD scaling and returns
+        # (nfreq_out, num_windows). Replace the Python-computed stimes/sfreqs
+        # with Rust's (they are algorithmically identical but keep alignment).
+        stimes = stimes_rs
+        sfreqs = sfreqs_rs
+
+        if xyflip:
+            mt_spectrogram = mt_spectrogram.T
+
+        toc = timeit.default_timer()
+        if verbose:
+            print("\n Multitaper compute time (Rust): " + "%.2f" % (toc - tic) + " seconds")
+
+        if plot_on:
+            spect_data = mt_spectrogram
+            clim = np.percentile(spect_data, [5, 95])
+            plt.figure(1, figsize=(10, 5))
+            plt.pcolormesh(stimes, sfreqs, nanpow2db(mt_spectrogram), shading='auto', cmap='jet')
+            plt.colorbar(label='Power (dB)')
+            plt.xlabel("Time (s)")
+            plt.ylabel("Frequency (Hz)")
+            if clim_scale:
+                plt.clim(clim)
+            plt.show()
+
+        if np.all(mt_spectrogram.flatten() == 0):
+            print("\n Data was all zeros, no output")
+
+        return mt_spectrogram, stimes, sfreqs
+
     # Set up calc_mts_segment() input arguments
-    mts_params = (dpss_tapers, nfft, freq_inds, detrend_opt, num_tapers, dpss_eigen, weighting, wt)
+    mts_params = (dpss_tapers, dpss_tapers_T, nfft, freq_inds, detrend_opt, num_tapers, dpss_eigen, weighting, wt)
 
-    if multiprocess:  # use multiprocessing
-        n_jobs = max(cpu_count() - 1, 1) if n_jobs is None else n_jobs
-        mt_spectrogram = np.vstack(Parallel(n_jobs=n_jobs)(delayed(calc_mts_segment)(
-            data_segments[num_window, :], *mts_params) for num_window in range(num_windows)))
-
-    else:  # if no multiprocessing, compute normally
-        mt_spectrogram = np.apply_along_axis(calc_mts_segment, 1, data_segments, *mts_params)
+    # Tier D: batched FFT path for 'unity'/'eigen'; 'adapt' keeps the per-window loop
+    # because its iterative convergence is per-window. Batched path uses scipy.fft
+    # with workers=-1 (threading), which scales without joblib's process overhead,
+    # so the `multiprocess` flag is ignored for non-adapt weighting.
+    if weighting == 'adapt':
+        if multiprocess:
+            n_jobs = max(cpu_count() - 1, 1) if n_jobs is None else n_jobs
+            mt_spectrogram = np.vstack(Parallel(n_jobs=n_jobs)(delayed(calc_mts_segment)(
+                data_segments[num_window, :], *mts_params) for num_window in range(num_windows)))
+        else:
+            mt_spectrogram = np.apply_along_axis(calc_mts_segment, 1, data_segments, *mts_params)
+    else:
+        mt_spectrogram = calc_mts_batch(data_segments, dpss_tapers_T, nfft, freq_inds,
+                                        detrend_opt, weighting, wt)
 
     # Compute one-sided PSD spectrum
     mt_spectrogram = mt_spectrogram.T
-    dc_select = np.where(sfreqs == 0)[0]
-    nyquist_select = np.where(sfreqs == fs/2)[0]
+    dc_select = np.where(np.isclose(sfreqs, 0))[0]
+    nyquist_select = np.where(np.isclose(sfreqs, fs/2))[0]
     select = np.setdiff1d(np.arange(0, len(sfreqs)), np.concatenate((dc_select, nyquist_select)))
 
     mt_spectrogram = np.vstack([mt_spectrogram[dc_select, :], 2*mt_spectrogram[select, :],
@@ -170,10 +294,9 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
         clim = np.percentile(spect_data, [5, 95])  # Scale colormap from 5th percentile to 95th
 
         plt.figure(1, figsize=(10, 5))
-        librosa.display.specshow(nanpow2db(mt_spectrogram), x_axis='time', y_axis='linear',
-                                 x_coords=stimes, y_coords=sfreqs, shading='auto', cmap="jet")
+        plt.pcolormesh(stimes, sfreqs, nanpow2db(mt_spectrogram), shading='auto', cmap='jet')
         plt.colorbar(label='Power (dB)')
-        plt.xlabel("Time (HH:MM:SS)")
+        plt.xlabel("Time (s)")
         plt.ylabel("Frequency (Hz)")
         if clim_scale:
             plt.clim(clim)  # actually change colorbar scale
@@ -248,6 +371,7 @@ def process_input(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=N
                              "are: 'constant', 'linear', or 'off'.")
     # Check if frequency range is valid
     if frequency_range[1] > fs / 2:
+        frequency_range = list(frequency_range)
         frequency_range[1] = fs / 2
         warnings.warn('Upper frequency range greater than Nyquist, setting range to [' +
                       str(frequency_range[0]) + ', ' + str(frequency_range[1]) + ']')
@@ -324,9 +448,9 @@ def process_spectrogram_params(fs, nfft, frequency_range, window_start, datawin_
                                       an array of frequencies from 0 to fs with steps of fs/nfft
     """
 
-    # create frequency vector
+    # create frequency vector (Tier 3c: one-sided via rfftfreq)
     df = fs / nfft
-    sfreqs = np.arange(0, fs, df)
+    sfreqs = np.fft.rfftfreq(nfft, d=1/fs)
 
     # Get frequencies for given frequency range
     freq_inds = (sfreqs >= frequency_range[0]) & (sfreqs <= frequency_range[1])
@@ -403,7 +527,7 @@ def is_outlier(data):
 
 
 # CALCULATE MULTITAPER SPECTRUM ON SINGLE SEGMENT
-def calc_mts_segment(data_segment, dpss_tapers, nfft, freq_inds, detrend_opt, num_tapers, dpss_eigen, weighting, wt):
+def calc_mts_segment(data_segment, dpss_tapers, dpss_tapers_T, nfft, freq_inds, detrend_opt, num_tapers, dpss_eigen, weighting, wt):
     """ Helper function to calculate the multitaper spectrum of a single segment of data
         Arguments:
             data_segment (1d np.array): One window worth of time-series data -- required
@@ -421,24 +545,25 @@ def calc_mts_segment(data_segment, dpss_tapers, nfft, freq_inds, detrend_opt, nu
             mt_spectrum (1d np.array): spectral power for single window
     """
 
-    # If segment has all zeros, return vector of zeros
+    # If segment has all zeros, return vector of zeros (Tier 1b: use np.zeros)
     if all(data_segment == 0):
-        ret = np.empty(sum(freq_inds))
-        ret.fill(0)
-        return ret
+        return np.zeros(int(freq_inds.sum()))
 
     # Option to detrend data to remove low frequency DC component
     if detrend_opt != 'off':
         data_segment = detrend(data_segment, type=detrend_opt)
 
-    # Multiply data by dpss tapers (STEP 2)
-    tapered_data = np.multiply(np.mat(data_segment).T, np.mat(dpss_tapers.T))
+    # Multiply data by dpss tapers (STEP 2) - Tier 1a: use precomputed transpose
+    tapered_data = dpss_tapers_T * data_segment[:, np.newaxis]
 
-    # Compute the FFT (STEP 3)
-    fft_data = np.fft.fft(tapered_data, nfft, axis=0)
+    # Compute the FFT (STEP 3) - Tier 3a: rfft (output length nfft//2+1)
+    fft_data = np.fft.rfft(tapered_data, nfft, axis=0)
 
-    # Compute the weighted mean spectral power across tapers (STEP 4)
-    spower = np.power(np.imag(fft_data), 2) + np.power(np.real(fft_data), 2)
+    # Compute the weighted mean spectral power across tapers (STEP 4) - Tier 2a
+    r = fft_data.real
+    i = fft_data.imag
+    spower = r * r + i * i
+    nfreq = spower.shape[0]  # Tier 3f: use spower length (one-sided)
     if weighting == 'adapt':
         # adaptive weights - for colored noise spectrum (Percival & Walden p368-370)
         tpower = np.dot(np.transpose(data_segment), (data_segment/len(data_segment)))
@@ -448,17 +573,82 @@ def calc_mts_segment(data_segment, dpss_tapers, nfft, freq_inds, detrend_opt, nu
         for i in range(3):  # 3 iterations only
             # Calc the MSE weights
             b = np.dot(spower_iter, np.ones((1, num_tapers))) / ((np.dot(spower_iter, np.transpose(dpss_eigen))) +
-                                                                 (np.ones((nfft, 1)) * np.transpose(a)))
+                                                                 (np.ones((nfreq, 1)) * np.transpose(a)))
             # Calc new spectral estimate
-            wk = (b**2) * np.dot(np.ones((nfft, 1)), np.transpose(dpss_eigen))
+            wk = (b**2) * np.dot(np.ones((nfreq, 1)), np.transpose(dpss_eigen))
             spower_iter = np.sum((np.transpose(wk) * np.transpose(spower)), 0) / np.sum(wk, 1)
             spower_iter = spower_iter[:, np.newaxis]
 
         mt_spectrum = np.squeeze(spower_iter)
 
+    elif weighting == 'unity':
+        # Tier 2b: uniform weights == mean across tapers
+        mt_spectrum = spower.mean(axis=1)
     else:
-        # eigenvalue or uniform weights
+        # eigenvalue weights
         mt_spectrum = np.dot(spower, wt)
-        mt_spectrum = np.reshape(mt_spectrum, nfft)  # reshape to 1D
+        mt_spectrum = np.reshape(mt_spectrum, nfreq)  # reshape to 1D
 
     return mt_spectrum[freq_inds]
+
+
+# BATCHED MULTITAPER SEGMENT (Tier D) #
+def calc_mts_batch(data_segments, dpss_tapers_T, nfft, freq_inds, detrend_opt, weighting, wt, batch_size=1024):
+    """Vectorized multitaper spectrum over many windows at once.
+
+    Replaces the per-window loop with chunked batched FFT (scipy.fft workers=-1).
+    Used for 'unity' and 'eigen' weighting; 'adapt' keeps the per-window path
+    because its iterative convergence is per-window.
+
+    Arguments:
+        data_segments (2d np.array): (W, winsize) — one row per window.
+        dpss_tapers_T (2d np.array): (winsize, K) — precomputed taper transpose.
+        nfft (int): FFT length (zero-padded).
+        freq_inds (1d bool np.array): mask selecting in-range frequency bins
+                                       (length nfft//2 + 1).
+        detrend_opt (str): 'linear', 'constant', or 'off'.
+        weighting (str): 'unity' or 'eigen'.
+        wt (np.array): taper weights, shape (K, 1).
+        batch_size (int): windows per chunk (bounds peak memory).
+
+    Returns:
+        mt_spectrogram (2d np.array): (W, freq_inds.sum()) — one row per window.
+    """
+    W = data_segments.shape[0]
+    nfreq_out = int(freq_inds.sum())
+    out = np.empty((W, nfreq_out), dtype=np.float64)
+
+    for start in range(0, W, batch_size):
+        end = min(start + batch_size, W)
+        batch = data_segments[start:end]  # (chunk, winsize)
+
+        # All-zero segment mask (captured before detrend, which cannot change all-zeros)
+        zero_mask = ~np.any(batch, axis=1)
+
+        # Row-wise detrend
+        if detrend_opt != 'off':
+            batch = detrend(batch, type=detrend_opt, axis=1)
+
+        # Taper multiply: (chunk, winsize, 1) * (1, winsize, K) -> (chunk, winsize, K)
+        tapered = batch[:, :, None] * dpss_tapers_T[None, :, :]
+
+        # Batched multithreaded rfft along the time axis
+        fft_data = scipy_rfft(tapered, n=nfft, axis=1, workers=-1)
+
+        # Magnitude squared (Tier 2a form)
+        spower = fft_data.real ** 2 + fft_data.imag ** 2  # (chunk, nfreq_full, K)
+
+        # Taper-weighted mean
+        if weighting == 'unity':
+            mt = spower.mean(axis=2)
+        else:  # 'eigen'
+            mt = np.squeeze(spower @ wt, axis=-1)
+
+        # Apply frequency-range mask and zero-segment override
+        mt_filtered = mt[:, freq_inds]
+        if np.any(zero_mask):
+            mt_filtered[zero_mask, :] = 0
+
+        out[start:end] = mt_filtered
+
+    return out

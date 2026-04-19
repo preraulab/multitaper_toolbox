@@ -1,0 +1,43 @@
+[package]
+name = "multitaper_rs"
+version = "0.1.0"
+edition = "2021"
+
+# Dual-target crate:
+#   - `lib` (cdylib + rlib) so PyO3 can load it as a Python extension AND the
+#     binary can link against it.
+#   - `bin` (src/main.rs) for the standalone CLI.
+[lib]
+name = "multitaper_rs"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "multitaper_rs"
+path = "src/main.rs"
+
+[features]
+# `python` feature enables PyO3 bindings (cdylib Python extension).
+# NOT default because pyo3's `extension-module` setting means the cdylib
+# expects libpython to be provided by the Python interpreter at load time,
+# which breaks `cargo build --bin` linking. Maturin's pyproject.toml opts
+# into the feature explicitly. Plain `cargo build --release` produces just
+# the CLI binary, as before.
+default = []
+python = ["dep:pyo3", "dep:numpy"]
+
+[dependencies]
+ndarray = { version = "0.16", features = ["rayon"] }
+ndarray-npy = "0.9"
+realfft = "3"
+rayon = "1"
+clap = { version = "4", features = ["derive"] }
+
+# PyO3 / numpy — optional, gated behind the `python` feature.
+# abi3-py38 gives us a stable-ABI build that works on Python 3.8+.
+pyo3 = { version = "0.22", features = ["extension-module", "abi3-py38"], optional = true }
+numpy = { version = "0.22", optional = true }
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1

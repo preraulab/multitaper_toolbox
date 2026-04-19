@@ -1,0 +1,12 @@
+# Build artifacts
+target/
+
+# Backup files
+*.rs.bk
+
+# IDE
+.idea/
+.vscode/
+
+# macOS
+.DS_Store

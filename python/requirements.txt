@@ -1,5 +1,6 @@
 joblib
-librosa
 matplotlib
 numpy
+Pillow
+pyedflib
 scipy

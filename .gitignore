@@ -2,9 +2,10 @@
 *.log #ignore all logs
 
 #compiled codes
-.o
-.pyc
-.class
+*.o
+*.pyc
+*.class
+__pycache__/
 
 #hidden system file
 .DS_Store
