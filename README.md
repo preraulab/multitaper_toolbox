@@ -15,21 +15,16 @@
 * [Citations](#citations)
 * [Contact](#contact)
 
-<br/>
-
 ## General Information 
 This repository contains Matlab, Python, and R implementations of the multitaper spectrogram analysis described in the paper ["Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"](https://prerau.bwh.harvard.edu/publications/Physiology_Bethesda_2017_Prerau.pdf)<sup>1</sup>. Multitaper spectral estimation was developed in the early 1980s by David Thomson<sup>2</sup> and has been shown to have superior statistical properties compared with single-taper spectral estimates<sup>3,4</sup>. The multitaper method works by averaging together multiple independent spectra estimated from a single segment of data. The innovation of the multitaper method is that, instead of using a single-taper function to compute the spectrum, it uses multiple taper functions called discrete prolate spheroidal sequences (DPSS). Because DPSS tapers are uncorrelated with each other, they can be averaged together as if they were independent trials of the same condition, producing a spectrum with reduced variance compared to periodogram and single-taper estimation. 
 
 Find videos describing the theory of spectral estimation and demonstrating how multitaper spectral estimation works at [http://sleepeeg.org/multitaper](http://sleepeeg.org/multitaper) on the Prerau Lab website. 
 
-<br/>
 
 ![alt text](https://prerau.bwh.harvard.edu/images/multitaper_diagram.png)
 
 <sup><sub>Prerau MJ, Bianchi MT, Brown RE, Ellenbogen JM, Patrick PL. Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis. Physiology (Bethesda). 2017 Jan;32(1):60-92. Review. PubMed PMID: 27927806. </sup></sub>
 
-<br/>
-<br/>
 
 ## Matlab Implementation
 * **multitaper_spectrogram.m**: baseline parallelized implementation in Matlab 
