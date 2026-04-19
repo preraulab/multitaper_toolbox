@@ -1,5 +1,6 @@
 # Analysis Imports
 import math
+import sys
 import numpy as np
 from scipy.signal.windows import dpss
 from scipy.signal import detrend
@@ -11,11 +12,40 @@ from joblib import Parallel, delayed, cpu_count
 # Visualization imports
 import matplotlib.pyplot as plt
 
+# Optional Rust backend. If the compiled extension is unavailable we fall
+# back transparently to the pure-Python path. This import must never fail
+# the module load on machines without the Rust extension installed.
+try:
+    from multitaper_rs import compute_spectrogram as _rust_compute
+    _HAS_RUST = True
+except ImportError:
+    _rust_compute = None
+    _HAS_RUST = False
+
+# Guard so the "which backend" banner only prints once per process.
+_BACKEND_BANNER_PRINTED = False
+
+
+def _announce_backend(using_rust):
+    """Print a one-time banner to stderr indicating which backend is in use."""
+    global _BACKEND_BANNER_PRINTED
+    if _BACKEND_BANNER_PRINTED:
+        return
+    _BACKEND_BANNER_PRINTED = True
+    if using_rust:
+        print("multitaper: using Rust backend", file=sys.stderr)
+    elif _HAS_RUST:
+        print("multitaper: Rust backend available but disabled, using pure Python",
+              file=sys.stderr)
+    else:
+        print("multitaper: Rust backend unavailable, using pure Python",
+              file=sys.stderr)
+
 
 # MULTITAPER SPECTROGRAM #
 def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num_tapers=None, window_params=None,
                            min_nfft=0, detrend_opt='linear', multiprocess=False, n_jobs=None, weighting='unity',
-                           plot_on=True, clim_scale=True, verbose=True, xyflip=False):
+                           plot_on=True, clim_scale=True, verbose=True, xyflip=False, use_rust=None):
     """ Compute multitaper spectrogram of timeseries data
     Usage:
     mt_spectrogram, stimes, sfreqs = multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5,
@@ -135,6 +165,90 @@ def multitaper_spectrogram(data, fs, frequency_range=None, time_bandwidth=5, num
 
     # Precompute transpose of tapers (used every segment) - Tier 1a
     dpss_tapers_T = dpss_tapers.T
+
+    # Decide whether to use the Rust backend. 'adapt' weighting is not yet
+    # implemented in Rust so it always falls back. use_rust=False forces the
+    # pure-Python path (for A/B testing / equivalence checks).
+    if use_rust is None:
+        use_rust_resolved = _HAS_RUST and weighting in ('unity', 'eigen')
+    elif use_rust:
+        if not _HAS_RUST:
+            raise RuntimeError("use_rust=True was requested but the multitaper_rs "
+                               "extension is not installed. Build it with "
+                               "`cd multitaper/rust && maturin develop --release`.")
+        if weighting == 'adapt':
+            raise NotImplementedError("Rust backend does not support weighting='adapt'. "
+                                      "Use use_rust=False or weighting='unity'/'eigen'.")
+        use_rust_resolved = True
+    else:
+        use_rust_resolved = False
+
+    _announce_backend(use_rust_resolved)
+
+    if use_rust_resolved:
+        # Rust path: pass the raw signal + tapers; Rust does the windowing,
+        # detrend, FFT, taper-weighted power sum, and one-sided PSD scaling.
+        # (DPSS itself is still computed by scipy above because porting the
+        # Slepian eigensolver to Rust would require pulling in LAPACK.)
+        winsize_samples_py = int(window_params[0] * fs) if window_params is not None else int(5 * fs)
+        # Recover actual window_params in seconds that Rust expects. We trust
+        # the (possibly adjusted) winsize_samples from process_input.
+        winsize_s = dpss_tapers.shape[1] / fs
+        # winstep in seconds = winstep_samples / fs; recover from window_start spacing.
+        if len(window_start) >= 2:
+            winstep_s = (window_start[1] - window_start[0]) / fs
+        elif window_params is not None:
+            winstep_s = window_params[1]
+        else:
+            winstep_s = 1.0
+
+        eigen_arr = None
+        if weighting == 'eigen':
+            eigen_arr = np.ascontiguousarray(dpss_eigen.reshape(-1), dtype=np.float64)
+
+        data_c = np.ascontiguousarray(data, dtype=np.float64)
+        tapers_c = np.ascontiguousarray(dpss_tapers, dtype=np.float64)
+
+        mt_spectrogram, stimes_rs, sfreqs_rs = _rust_compute(
+            data_c,
+            tapers_c,
+            float(fs),
+            (float(frequency_range[0]), float(frequency_range[1])),
+            (float(winsize_s), float(winstep_s)),
+            int(nfft),
+            detrend_opt,
+            weighting,
+            eigen_arr,
+        )
+        # Rust already applies one-sided PSD scaling and returns
+        # (nfreq_out, num_windows). Replace the Python-computed stimes/sfreqs
+        # with Rust's (they are algorithmically identical but keep alignment).
+        stimes = stimes_rs
+        sfreqs = sfreqs_rs
+
+        if xyflip:
+            mt_spectrogram = mt_spectrogram.T
+
+        toc = timeit.default_timer()
+        if verbose:
+            print("\n Multitaper compute time (Rust): " + "%.2f" % (toc - tic) + " seconds")
+
+        if plot_on:
+            spect_data = mt_spectrogram
+            clim = np.percentile(spect_data, [5, 95])
+            plt.figure(1, figsize=(10, 5))
+            plt.pcolormesh(stimes, sfreqs, nanpow2db(mt_spectrogram), shading='auto', cmap='jet')
+            plt.colorbar(label='Power (dB)')
+            plt.xlabel("Time (s)")
+            plt.ylabel("Frequency (Hz)")
+            if clim_scale:
+                plt.clim(clim)
+            plt.show()
+
+        if np.all(mt_spectrogram.flatten() == 0):
+            print("\n Data was all zeros, no output")
+
+        return mt_spectrogram, stimes, sfreqs
 
     # Set up calc_mts_segment() input arguments
     mts_params = (dpss_tapers, dpss_tapers_T, nfft, freq_inds, detrend_opt, num_tapers, dpss_eigen, weighting, wt)
