@@ -1,3 +1,4 @@
+colorcet
 joblib
 matplotlib
 numpy
