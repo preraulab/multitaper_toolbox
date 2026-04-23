@@ -6,8 +6,8 @@
 * [General Information](#general-information)
 * [Matlab Implementation](#matlab-implementation)
 * [Python Implementation](#python-implementation)
+* [Rust Implementation](#rust-implementation)
 * [R Implementation](#r-implementation)
-* [Rust Backend (optional acceleration for Python)](#rust-backend-optional-acceleration-for-python)
 * [Parameters](#parameters)
 * [Numerical Differences Between Implementations](#numerical-differences-between-implementations)
 * [Status](#status)
@@ -16,7 +16,7 @@
 * [Contact](#contact)
 
 ## General Information 
-This repository contains Matlab, Python, and R implementations of the multitaper spectrogram analysis described in the paper ["Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"](https://prerau.bwh.harvard.edu/publications/Physiology_Bethesda_2017_Prerau.pdf)<sup>1</sup>. Multitaper spectral estimation was developed in the early 1980s by David Thomson<sup>2</sup> and has been shown to have superior statistical properties compared with single-taper spectral estimates<sup>3,4</sup>. The multitaper method works by averaging together multiple independent spectra estimated from a single segment of data. The innovation of the multitaper method is that, instead of using a single-taper function to compute the spectrum, it uses multiple taper functions called discrete prolate spheroidal sequences (DPSS). Because DPSS tapers are uncorrelated with each other, they can be averaged together as if they were independent trials of the same condition, producing a spectrum with reduced variance compared to periodogram and single-taper estimation. 
+This repository contains Matlab, Python, Rust, and R implementations of the multitaper spectrogram analysis described in the paper ["Sleep Neurophysiological Dynamics Through the Lens of Multitaper Spectral Analysis"](https://prerau.bwh.harvard.edu/publications/Physiology_Bethesda_2017_Prerau.pdf)<sup>1</sup>. Multitaper spectral estimation was developed in the early 1980s by David Thomson<sup>2</sup> and has been shown to have superior statistical properties compared with single-taper spectral estimates<sup>3,4</sup>. The multitaper method works by averaging together multiple independent spectra estimated from a single segment of data. The innovation of the multitaper method is that, instead of using a single-taper function to compute the spectrum, it uses multiple taper functions called discrete prolate spheroidal sequences (DPSS). Because DPSS tapers are uncorrelated with each other, they can be averaged together as if they were independent trials of the same condition, producing a spectrum with reduced variance compared to periodogram and single-taper estimation. 
 
 Find videos describing the theory of spectral estimation and demonstrating how multitaper spectral estimation works at [http://sleepeeg.org/multitaper](http://sleepeeg.org/multitaper) on the Prerau Lab website. 
 
@@ -33,52 +33,36 @@ Find videos describing the theory of spectral estimation and demonstrating how m
 <br/>
 
 ## Python Implementation
-* **multitaper_spectrogram_python.py**: optimized implementation in Python with batched `scipy.fft.rfft` (multi-threaded via `workers=-1`), optional multiprocessing, and transparent acceleration via a Rust backend when installed.
+* **multitaper_spectrogram_python.py**: optimized implementation in Python with batched `scipy.fft.rfft` (multi-threaded via `workers=-1`), optional multiprocessing, and transparent acceleration via the Rust implementation when installed as a Python extension (`use_rust` kwarg).
 * **requirements.txt**: contains names and versions of non-standard library Python packages required to run multitaper_spectrogram_python.py
 * See [the python implementation folder](./python/README.md) for usage information and the `use_rust` kwarg.
 
 <br/>
 
-## R Implementation
-* **multitaper_spectrogram_R.R**: baseline implementation in R with option for multiprocessing
-* See [the R implementation folder](https://github.com/preraulab/multitaper_toolbox/tree/master/R) for usage information and other details of the Matlab implementation
+## Rust Implementation
+* **multitaper_rs**: a Rust crate (`rust/src/lib.rs`) + CLI binary (`rust/src/main.rs`) implementing the core multitaper compute loop — per-window detrend, taper multiply, zero-padded rFFT (`realfft` / pocketfft), weighted power averaging across tapers, and one-sided PSD scaling. `rayon` parallelism over windows. `'unity'` and `'eigen'` taper weightings are implemented; `'adapt'` is not.
+* **Two use modes**, sharing the same compiled core:
+  1. **Standalone CLI** — `cargo build --release` then `target/release/multitaper_rs --data data.npy --tapers tapers.npy --fs 200 ...`. Reads / writes `.npy`, prints a `TIMING` line. DPSS tapers must be pre-computed (e.g. with `scipy.signal.windows.dpss`) and passed via `.npy`.
+  2. **Python extension** — the same crate exposes a PyO3 module. Install with `cd rust && maturin develop --release`; afterwards `multitaper_spectrogram(data, fs, use_rust=None)` transparently routes through Rust, falling back to pure Python when the extension is missing. Force with `use_rust=True`/`False`. A one-time banner to stderr announces the active backend.
+* **Speedup (x86_64 Python 3.9, numpy 1.26 under Rosetta):**
+
+  | Duration | Python (s) | Rust (s) | Speedup |
+  |---:|---:|---:|---:|
+  | 1 h  | 0.60  | 0.03 | 19× |
+  | 4 h  | 2.52  | 0.12 | 21× |
+  | 10 h | 6.60  | 0.68 | 10× |
+  | 24 h | 17.76 | 1.63 | 11× |
+
+  On native arm64 Python 3.11 (numpy 2.4 with Apple Accelerate) the pure-Python path is already much faster, so the Rust speedup is smaller (≈5–9× across the same durations) but still substantial.
+* **Equivalence:** across three parameter sets the Rust and pure-Python outputs agree to a max absolute difference of 1.67e-16 (bit-identical to f64 round-off).
+* **Limitations:** `weighting='adapt'` is not yet implemented (Python wrapper falls back automatically). DPSS tapers are not generated by the Rust crate — they must be pre-computed by the caller (Python: `scipy.signal.windows.dpss`; MATLAB: `dpss`).
+* See [the rust implementation folder](./rust/README.md) for build instructions, CLI flags, and API details.
 
 <br/>
 
-## Rust Backend (optional acceleration for Python)
-
-The Python module ships with an optional Rust backend that transparently accelerates the core compute loop (per-window detrend, taper multiply, zero-padded rFFT, weighted power sum, and one-sided PSD scaling). Callers do not need to change anything: if the compiled extension is importable, `multitaper_spectrogram(...)` uses it; if not, it falls back to the pure-Python path automatically. A one-time banner is printed to stderr announcing which backend is active.
-
-**Install:**
-```
-cd multitaper/rust
-pip install maturin
-maturin develop --release
-```
-
-**Opt in / out:**
-```python
-multitaper_spectrogram(data, fs, use_rust=None)   # auto (default)
-multitaper_spectrogram(data, fs, use_rust=True)   # force Rust (error if not installed)
-multitaper_spectrogram(data, fs, use_rust=False)  # force pure Python
-```
-
-**Speedup (x86_64 Python 3.9, numpy 1.26 under Rosetta):**
-
-| Duration | Python (s) | Rust (s) | Speedup |
-|---:|---:|---:|---:|
-| 1 h  | 0.60  | 0.03 | 19× |
-| 4 h  | 2.52  | 0.12 | 21× |
-| 10 h | 6.60  | 0.68 | 10× |
-| 24 h | 17.76 | 1.63 | 11× |
-
-On native arm64 Python 3.11 (numpy 2.4 with Apple Accelerate) the pure-Python path is already much faster, so the Rust speedup is smaller (≈5–9× across the same durations) but still substantial.
-
-**Equivalence:** across three parameter sets the Rust and pure-Python outputs agree to a max absolute difference of 1.67e-16 (bit-identical to f64 round-off).
-
-**Limitations:** `weighting='adapt'` is not yet implemented in Rust; the wrapper falls back automatically. DPSS tapers are still computed by `scipy.signal.windows.dpss` and passed into Rust.
-
-See [python/README.md](./python/README.md) and [rust/README.md](./rust/README.md) for details.
+## R Implementation
+* **multitaper_spectrogram_R.R**: baseline implementation in R with option for multiprocessing
+* See [the R implementation folder](https://github.com/preraulab/multitaper_toolbox/tree/master/R) for usage information and other details of the R implementation
 
 <br/>
 
@@ -97,6 +81,7 @@ The spectral parameters used in all implementations of the multitaper spectrogra
 
 ## Numerical Differences Between Implementations
 * In data point comparisons Matlab and Python implementation results tend to agree on average with precision on the order of at most 10^-13 with SD of at most 10^-10.
+* Rust and Python implementations agree to 1.67e-16 max abs-diff (f64 round-off — effectively bit-identical) across the validated parameter sets.
 * In data point comparisons R and Python implementation results tend to agree on average with precision on the order of at most 10^-11 with SD of at most 10^-9.
 
 <br/>
