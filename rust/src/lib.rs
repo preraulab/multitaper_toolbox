@@ -8,9 +8,22 @@
 // the CLI binary (`src/main.rs`) and the optional PyO3 bindings (behind the
 // `python` feature, enabled by default when building the cdylib).
 
+// Allow stylistic lints across the crate — index-based loops are clearer
+// than iterator chains for numerical code with multiple parallel arrays, and
+// the manual abs/multiple-of patterns mirror the reference implementations.
+#![allow(
+    clippy::manual_abs_diff,
+    clippy::manual_is_multiple_of,
+    clippy::manual_memcpy,
+    clippy::needless_range_loop,
+)]
+
 use ndarray::{s, Array1, Array2, ArrayView1, ArrayView2, Axis};
 use rayon::prelude::*;
 use realfft::RealFftPlanner;
+
+pub mod dpss;
+pub use dpss::{dpss, DpssError};
 
 #[cfg(feature = "python")]
 use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray1};
@@ -96,9 +109,11 @@ pub fn detrend_constant(row: &mut [f64]) {
 
 // -------- DPSS --------
 //
-// Python's scipy.signal.windows.dpss uses a tridiagonal eigenvalue solve to
-// compute the Slepian sequences; reimplementing that in Rust is out of scope
-// for this port. We accept tapers as an input (shape `(K, winsize)`).
+// Native Rust DPSS solver in `dpss.rs` (pure-Rust port of
+// `scipy.signal.windows.dpss(N, NW, K, return_ratios=True)`, validated
+// against MATLAB R2025a `dpss(N, NW, K)` to <=1e-9). `compute_spectrogram`
+// still accepts pre-computed `tapers` as input (shape `(K, winsize)`) for
+// callers that already have them; new code can call `dpss::dpss(...)`.
 
 /// Parameters controlling the compute.
 #[derive(Clone, Debug)]
