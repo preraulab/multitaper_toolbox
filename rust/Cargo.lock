@@ -358,6 +358,7 @@ dependencies = [
  "pyo3",
  "rayon",
  "realfft",
+ "thiserror",
 ]
 
 [[package]]
