@@ -127,7 +127,14 @@ fn dpss_compute(n: usize, nw: f64, k: usize) -> Result<(Array2<f64>, Array1<f64>
 
     // 2. faer self-adjoint tridiagonal eigendecomposition. Eigenvalues land
     //    in `s` in non-decreasing order; eigenvectors land in columns of `u`.
-    let par = Par::rayon(0);
+    //
+    // We deliberately run faer single-threaded (`Par::Seq`) — its `rayon`
+    // feature drags in `spindle`/`atomic-wait`, which doesn't compile on
+    // `wasm32-unknown-unknown`. The eigensolver's SIMD inner kernels are
+    // fast enough single-threaded that N=3000, K=29 still lands in
+    // roughly 1–2 s cold, dwarfed by the FFT pass that follows, and
+    // caching makes repeated calls free.
+    let par = Par::Seq;
     let params: Spec<SelfAdjointEvdParams, f64> = Spec::default();
     // `tridiagonal_self_adjoint_evd` re-uses the general self-adjoint
     // scratch (it allocates the same temporaries internally), so sizing

@@ -33,9 +33,18 @@ rayon = "1"
 clap = { version = "4", features = ["derive"] }
 thiserror = "2"
 # Symmetric-tridiagonal eigendecomposition for DPSS. faer's
-# `tridiagonal_self_adjoint_evd` is SIMD/cache-tuned and parallelises
-# via rayon — ~50× faster than the hand-rolled QL it replaced.
-faer = "0.24"
+# `tridiagonal_self_adjoint_evd` is SIMD/cache-tuned — even single-
+# threaded it's ~30× faster than the hand-rolled QL it replaced.
+#
+# We deliberately disable faer's default features and pick only `std`.
+# Reasons:
+#   * `rayon` → `spindle` → `atomic-wait`, which doesn't compile on
+#     `wasm32-unknown-unknown`. Single-thread faer keeps the door
+#     open for browser-side builds without forking the crate.
+#   * `rand` / `rand_distr` aren't needed for the deterministic
+#     tridiagonal eigensolver and drag in `getrandom`.
+#   * `npy`, `sparse-linalg` are unused.
+faer = { version = "0.24", default-features = false, features = ["std"] }
 # Workspace allocator that faer's eigensolver expects (we hand it a
 # `MemStack`). Pinned to the version faer 0.24 depends on.
 dyn-stack = "0.13"
