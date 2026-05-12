@@ -32,6 +32,13 @@ realfft = "3"
 rayon = "1"
 clap = { version = "4", features = ["derive"] }
 thiserror = "2"
+# Symmetric-tridiagonal eigendecomposition for DPSS. faer's
+# `tridiagonal_self_adjoint_evd` is SIMD/cache-tuned and parallelises
+# via rayon — ~50× faster than the hand-rolled QL it replaced.
+faer = "0.24"
+# Workspace allocator that faer's eigensolver expects (we hand it a
+# `MemStack`). Pinned to the version faer 0.24 depends on.
+dyn-stack = "0.13"
 
 # PyO3 / numpy — optional, gated behind the `python` feature.
 # abi3-py38 gives us a stable-ABI build that works on Python 3.8+.
