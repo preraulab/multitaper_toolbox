@@ -670,6 +670,16 @@ def calc_mts_batch(data_segments, dpss_tapers_T, nfft, freq_inds, detrend_opt,
     for start in range(0, W, batch_size):
         end = min(start + batch_size, W)
         batch = data_segments[start:end]  # (chunk, winsize)
+        chunk_out = out[start:end]
+
+        # Match the single-window and MATLAB behavior: any NaN invalidates
+        # the whole window, which must not be passed to scipy.signal.detrend.
+        valid_mask = ~np.any(np.isnan(batch), axis=1)
+        if not np.all(valid_mask):
+            chunk_out.fill(np.nan)
+            if not np.any(valid_mask):
+                continue
+            batch = batch[valid_mask]
 
         # All-zero segment mask (captured before detrend, which cannot change all-zeros)
         zero_mask = ~np.any(batch, axis=1)
@@ -698,6 +708,6 @@ def calc_mts_batch(data_segments, dpss_tapers_T, nfft, freq_inds, detrend_opt,
         if np.any(zero_mask):
             mt_filtered[zero_mask, :] = 0
 
-        out[start:end] = mt_filtered
+        chunk_out[valid_mask] = mt_filtered
 
     return out
