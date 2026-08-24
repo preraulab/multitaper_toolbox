@@ -24,10 +24,9 @@
 //!
 //! Delegates to [`faer::linalg::evd::tridiagonal_self_adjoint_evd`] (faer
 //! 0.24+). faer's tridiagonal eigensolver is SIMD/cache-tuned and
-//! parallelises via rayon — for N ≈ 3000 it's roughly two orders of
-//! magnitude faster than the hand-rolled implicit-shift QL that previously
-//! lived here, and stays within ~10× of MATLAB's LAPACK `DSTEBZ + DSTEIN`
-//! top-K path for the same window size while remaining pure-Rust.
+//! parallelises via rayon; for N ≈ 3000 it stays within ~10× of MATLAB's
+//! LAPACK `DSTEBZ + DSTEIN` top-K path for the same window size while
+//! remaining pure-Rust.
 //!
 //! Results are memoised by `(N, NW, K)` so repeated calls in the same
 //! process — e.g. across batch jobs that all use the same window — pay
@@ -41,7 +40,7 @@
 //!   magnitude exceeds `max(1e-7, 1/N)` is negative.
 
 use std::collections::HashMap;
-use std::sync::{Mutex, OnceLock};
+use std::sync::{Arc, Mutex, OnceLock};
 
 use dyn_stack::{MemBuffer, MemStack};
 use faer::linalg::evd::{
@@ -59,17 +58,80 @@ pub enum DpssError {
     EigenFailed(String),
 }
 
-/// Compute K DPSS tapers of length N with time-half-bandwidth NW.
+/// Compute K DPSS tapers of length N with time-half-bandwidth NW, **without**
+/// their concentration ratios.
+///
+/// Returns `tapers` of shape `(K, N)`; rows are unit-L²-norm Slepian
+/// sequences, byte-for-byte identical to the `.0` element of [`dpss`]'s return
+/// value. This is the taper-only entry point used throughout the DYNAM-O
+/// pipeline, which always uses unity taper weighting and so never consumes the
+/// eigenvalues. It skips the O(K·N²) concentration-ratio quadrature that
+/// [`dpss`] performs — a real saving at the large window sizes used for the
+/// summary spectrogram (N up to ~7680) where that quadrature costs seconds.
+///
+/// Results are memoised by `(N, NW.to_bits(), K)` for the lifetime of the
+/// process so repeated calls — common in batch pipelines that re-use the
+/// same window across many recordings — return instantly.
+pub fn dpss_tapers(n: usize, nw: f64, k: usize) -> Result<Array2<f64>, DpssError> {
+    validate_params(n, nw, k)?;
+
+    let key = (n, nw.to_bits(), k);
+    {
+        let cache = taper_cache().lock().unwrap();
+        if let Some(tapers) = cache.get(&key) {
+            return Ok(tapers.clone());
+        }
+    }
+
+    // Serialize the solve per key. A batch launches many workers that all miss
+    // the same (N, NW, K) at cold start; without this each redoes the full
+    // eigensolve. Holding a per-key lock (not the cache lock) lets misses for
+    // different keys still run concurrently while duplicate work for one key
+    // collapses to a single computation the others wait on.
+    let compute_lock = compute_lock_for(key);
+    let _compute_guard = compute_lock.lock().unwrap();
+    {
+        let cache = taper_cache().lock().unwrap();
+        if let Some(tapers) = cache.get(&key) {
+            return Ok(tapers.clone());
+        }
+    }
+
+    let tapers = compute_tapers(n, nw, k)?;
+    taper_cache().lock().unwrap().insert(key, tapers.clone());
+    Ok(tapers)
+}
+
+/// Compute K DPSS tapers of length N with time-half-bandwidth NW, together with
+/// their concentration ratios.
 ///
 /// Returns `(tapers, ratios)` where:
 /// - `tapers` has shape `(K, N)`; rows are unit-L²-norm Slepian sequences.
 /// - `ratios` has shape `(K,)`; entries are concentration ratios in `(0, 1]`,
 ///   monotonically decreasing.
 ///
-/// Results are memoised by `(N, NW.to_bits(), K)` for the lifetime of the
-/// process so repeated calls — common in batch pipelines that re-use the
-/// same window across many recordings — return instantly.
+/// Only callers that use eigen taper weighting (the standalone tool, the
+/// MATLAB FFI bridge, tests) need the ratios; the DYNAM-O pipeline uses
+/// [`dpss_tapers`]. Tapers are shared with — and cached alongside —
+/// [`dpss_tapers`]; the ratios are memoised separately, so this call pays the
+/// ratio quadrature at most once per `(N, NW, K)`.
 pub fn dpss(n: usize, nw: f64, k: usize) -> Result<(Array2<f64>, Array1<f64>), DpssError> {
+    let tapers = dpss_tapers(n, nw, k)?;
+
+    let key = (n, nw.to_bits(), k);
+    {
+        let cache = ratio_cache().lock().unwrap();
+        if let Some(ratios) = cache.get(&key) {
+            return Ok((tapers, ratios.clone()));
+        }
+    }
+
+    let ratios = concentration_ratios(&tapers, nw);
+    ratio_cache().lock().unwrap().insert(key, ratios.clone());
+    Ok((tapers, ratios))
+}
+
+fn validate_params(n: usize, nw: f64, k: usize) -> Result<(), DpssError> {
     if n < 2 {
         return Err(DpssError::InvalidParams(format!("N must be >= 2, got {}", n)));
     }
@@ -83,30 +145,31 @@ pub fn dpss(n: usize, nw: f64, k: usize) -> Result<(Array2<f64>, Array1<f64>), D
             "NW must be in (0, N/2), got NW={} for N={}", nw, n
         )));
     }
-
-    let key = (n, nw.to_bits(), k);
-    {
-        let cache = dpss_cache().lock().unwrap();
-        if let Some((tapers, ratios)) = cache.get(&key) {
-            return Ok((tapers.clone(), ratios.clone()));
-        }
-    }
-
-    let (tapers, ratios) = dpss_compute(n, nw, k)?;
-    dpss_cache()
-        .lock()
-        .unwrap()
-        .insert(key, (tapers.clone(), ratios.clone()));
-    Ok((tapers, ratios))
+    Ok(())
 }
 
-fn dpss_cache() -> &'static Mutex<HashMap<(usize, u64, usize), (Array2<f64>, Array1<f64>)>> {
-    static CACHE: OnceLock<Mutex<HashMap<(usize, u64, usize), (Array2<f64>, Array1<f64>)>>> =
-        OnceLock::new();
+fn taper_cache() -> &'static Mutex<HashMap<(usize, u64, usize), Array2<f64>>> {
+    static CACHE: OnceLock<Mutex<HashMap<(usize, u64, usize), Array2<f64>>>> = OnceLock::new();
     CACHE.get_or_init(|| Mutex::new(HashMap::new()))
 }
 
-fn dpss_compute(n: usize, nw: f64, k: usize) -> Result<(Array2<f64>, Array1<f64>), DpssError> {
+/// Per-key computation lock, so only one thread solves a given `(N, NW, K)`
+/// while others block and then read the cached result. Keyed identically to
+/// the taper cache; the map itself grows by one small entry per distinct key
+/// (a handful per run).
+fn compute_lock_for(key: (usize, u64, usize)) -> Arc<Mutex<()>> {
+    static LOCKS: OnceLock<Mutex<HashMap<(usize, u64, usize), Arc<Mutex<()>>>>> = OnceLock::new();
+    let map = LOCKS.get_or_init(|| Mutex::new(HashMap::new()));
+    let mut guard = map.lock().unwrap();
+    guard.entry(key).or_insert_with(|| Arc::new(Mutex::new(()))).clone()
+}
+
+fn ratio_cache() -> &'static Mutex<HashMap<(usize, u64, usize), Array1<f64>>> {
+    static CACHE: OnceLock<Mutex<HashMap<(usize, u64, usize), Array1<f64>>>> = OnceLock::new();
+    CACHE.get_or_init(|| Mutex::new(HashMap::new()))
+}
+
+fn compute_tapers(n: usize, nw: f64, k: usize) -> Result<Array2<f64>, DpssError> {
     // 1. Build the tridiagonal prolate matrix T (Slepian 1978).
     let nf = n as f64;
     let cw = (2.0 * std::f64::consts::PI * nw / nf).cos();
@@ -172,10 +235,7 @@ fn dpss_compute(n: usize, nw: f64, k: usize) -> Result<(Array2<f64>, Array1<f64>
     // 4. scipy-compatible sign convention.
     apply_sign_convention(&mut tapers);
 
-    // 5. Concentration ratios via direct quadrature against the sinc kernel.
-    let ratios = concentration_ratios(&tapers, nw);
-
-    Ok((tapers, ratios))
+    Ok(tapers)
 }
 
 /// scipy-compatible sign normalization. Rows of `tapers` (shape (K, N)) are

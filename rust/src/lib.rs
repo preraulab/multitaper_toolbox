@@ -250,13 +250,21 @@ pub fn compute_spectrogram(
                     let in_buf = f.make_input_vec();
                     let out_buf = f.make_output_vec();
                     let scratch = f.make_scratch_vec();
-                    (f, in_buf, out_buf, scratch)
+                    // Per-window scratch reused across every window this thread
+                    // handles: `seg` is cleared + refilled and `power_accum` is
+                    // zeroed each iteration, so results are identical to fresh
+                    // allocations — this just spares the allocator millions of
+                    // short-lived Vecs in the hottest loop.
+                    let seg: Vec<f64> = Vec::with_capacity(winsize_samples);
+                    let power_accum: Vec<f64> = vec![0.0; nfreq_full];
+                    (f, in_buf, out_buf, scratch, seg, power_accum)
                 },
-                |(f, in_buf, out_buf, scratch), (i_in_chunk, mut out_row)| {
+                |(f, in_buf, out_buf, scratch, seg, power_accum), (i_in_chunk, mut out_row)| {
                     let w = chunk_start + i_in_chunk;
                     let start_idx = window_starts[w];
                     let seg_slice = data.slice(s![start_idx..start_idx + winsize_samples]);
-                    let mut seg: Vec<f64> = seg_slice.to_vec();
+                    seg.clear();
+                    seg.extend(seg_slice.iter().copied());
 
                     let all_zero = seg.iter().all(|&v| v == 0.0);
                     if all_zero {
@@ -264,12 +272,12 @@ pub fn compute_spectrogram(
                     }
 
                     match detrend_mode {
-                        DetrendMode::Linear => detrend_linear(&mut seg),
-                        DetrendMode::Constant => detrend_constant(&mut seg),
+                        DetrendMode::Linear => detrend_linear(seg),
+                        DetrendMode::Constant => detrend_constant(seg),
                         DetrendMode::Off => {}
                     }
 
-                    let mut power_accum: Vec<f64> = vec![0.0; nfreq_full];
+                    power_accum.fill(0.0);
                     for k in 0..num_tapers {
                         for t in 0..winsize_samples {
                             in_buf[t] = seg[t] * tapers_t_view[[t, k]];
@@ -310,6 +318,51 @@ pub fn compute_spectrogram(
         stimes,
         sfreqs: sfreqs_out,
     })
+}
+
+/// High-level multitaper-spectrogram entry point. Mirrors MATLAB's
+/// `multitaper_spectrogram_dynamo.m`: takes raw signal + parameters and
+/// internally computes DPSS tapers and `nfft`. Callers should prefer this
+/// over `compute_spectrogram` so the (NW,K)-vs-window-vs-nfft contract is
+/// in one place.
+///
+/// `nfft` follows MATLAB: `max(2^nextpow2(winN), 256)`. Setting it any
+/// smaller than `winN` panics inside `compute_spectrogram`.
+pub fn multitaper_spectrogram_dynamo(
+    data: ArrayView1<f64>,
+    fs: f64,
+    frequency_range: (f64, f64),
+    nw: f64,
+    n_tapers: usize,
+    window_s: f64,
+    step_s: f64,
+    detrend: DetrendMode,
+    weighting: Weighting,
+) -> Result<SpectrogramOutput, String> {
+    let win_samples = (window_s * fs).round() as usize;
+    if win_samples == 0 {
+        return Err("window_s * fs rounds to 0 samples".into());
+    }
+    let mut nfft: usize = 1;
+    while nfft < win_samples { nfft <<= 1; }
+    if nfft < 256 { nfft = 256; }
+
+    let (tapers, eigen) = dpss::dpss(win_samples, nw, n_tapers)
+        .map_err(|e| format!("dpss({},{},{}): {:?}", win_samples, nw, n_tapers, e))?;
+
+    compute_spectrogram(
+        data,
+        tapers.view(),
+        Some(eigen.view()),
+        &SpectrogramParams {
+            fs,
+            frequency_range,
+            window_params: (window_s, step_s),
+            nfft,
+            detrend,
+            weighting,
+        },
+    )
 }
 
 // -------- DPSS via linalg (Slepian sequences) --------
